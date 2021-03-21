@@ -49,15 +49,16 @@ void RegistrationDialog::setupConnections()
     QObject::connect(&mSearchTimer, &QTimer::timeout,
                      this, &RegistrationDialog::searchTimerTimeout);
     QObject::connect(ui->searchLineEdit, &QLineEdit::textEdited,
-                     this, &RegistrationDialog::issueComboBoxEditTextChanged);
+                     this, &RegistrationDialog::searchLineEditTextChanged);
     QObject::connect(&mJiraClient, &JiraClient::searchFinished,
                      this, &RegistrationDialog::jiraClientSearchFinished);
     QObject::connect(ui->searchResultsListView->selectionModel(), &QItemSelectionModel::selectionChanged,
                      this, &RegistrationDialog::listViewIndexesMoved);
 }
 
-void RegistrationDialog::issueComboBoxEditTextChanged(const QString &text)
+void RegistrationDialog::searchLineEditTextChanged(const QString &text)
 {
+    Q_UNUSED(text);
     mSearchTimer.start(1000);
 }
 
@@ -81,6 +82,7 @@ void RegistrationDialog::jiraClientSearchFinished(QList<QSharedPointer<JiraIssue
 
 void RegistrationDialog::listViewIndexesMoved(const QItemSelection &selected, const QItemSelection &deselected)
 {
+    Q_UNUSED(deselected);
     // Top index of first selection
     if (selected.length() == 0) {
         mJiraIssue = 0;

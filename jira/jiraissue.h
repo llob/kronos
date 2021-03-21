@@ -6,6 +6,7 @@
 #include <QVariantList>
 #include <QVariantMap>
 #include <QVariant>
+#include <QDebug>
 #include "jiraobject.h"
 
 class JiraIssue : public JiraObject
