@@ -3,8 +3,6 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QNetworkRequest>
-#include "jira/jiraresponsesearch.h"
-#include "jira/jiraresponseworklog.h"
 
 JiraClient::JiraClient()
 {
