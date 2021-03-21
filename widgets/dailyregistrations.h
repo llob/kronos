@@ -5,7 +5,6 @@
 #include <QSharedPointer>
 #include <QTime>
 #include <QDate>
-#include "models/registration.h"
 #include "dailyregistrationsmodel.h"
 #include "registrationdialog.h"
 #include "deleteconfirmationdialog.h"

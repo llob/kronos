@@ -2,6 +2,11 @@
 #define JIRAISSUE_H
 
 #include <QString>
+#include <QSharedPointer>
+#include <QVariantList>
+#include <QVariantMap>
+#include <QVariant>
+#include <QDebug>
 #include "jiraobject.h"
 
 class JiraIssue : public JiraObject

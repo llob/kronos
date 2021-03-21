@@ -1,0 +1,22 @@
+name: Build and run unit tests for Kronos
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install qt
+      run: sudo apt-get install qt5-default
+    - name: Run qmake for Kronos
+      run: qmake
+    - name: Build Kronos
+      run: make
+

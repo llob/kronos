@@ -100,7 +100,6 @@ QPoint DailyRegistrations::posFromTime(QTime time)
 void DailyRegistrations::drawTimes(QPaintEvent *event) {
     Q_UNUSED(event);
     QPainter painter(this);
-    int currentHeight = height();
     int currentWidth = width();
     int currentPixelsPerHour = pixelsPerHour();
     // Make room for all 24 hours

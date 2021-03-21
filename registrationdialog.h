@@ -40,7 +40,7 @@ private:
     JiraClient mJiraClient;
     void setupConnections();
 private slots:
-    void issueComboBoxEditTextChanged(const QString &text);
+    void searchLineEditTextChanged(const QString &text);
     void searchTimerTimeout();
     void jiraClientSearchFinished(QList<QSharedPointer<JiraIssue>> issues);
     void listViewIndexesMoved(const QItemSelection &selected, const QItemSelection &deselected);

@@ -4,6 +4,8 @@
 #include <QString>
 #include <QDateTime>
 #include <QVariant>
+#include <QDebug>
+#include <QSharedPointer>
 #include "jiraobject.h"
 
 class JiraWorklog : public JiraObject

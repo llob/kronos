@@ -8,6 +8,13 @@ CONFIG += c++11
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+win32-g++ {
+   QMAKE_CXXFLAGS += -Werror
+}
+win32-msvc*{
+   QMAKE_CXXFLAGS += /WX
+}
+
 SOURCES +=  $$PWD/main.cpp \
             $$PWD/mainwindow.cpp \
             $$PWD/registrationdialog.cpp \

@@ -92,5 +92,7 @@ void DailyRegistrationsModel::addWorklogFinished(QSharedPointer<JiraWorklog> wor
 
 void DailyRegistrationsModel::deleteWorklogFinished(bool success)
 {
+    // FIXME Handle errors
+    Q_UNUSED(success);
     setCurrentDate(mCurrentDate); // Force refresh of loaded worklogs
 }

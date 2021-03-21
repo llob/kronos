@@ -7,7 +7,6 @@
 #include <QNetworkAccessManager>
 #include <QJsonObject>
 #include "utils/condition.h"
-#include "models/registration.h"
 #include "jira/jiraissue.h"
 #include "jira/jiraworklog.h"
 #include "jira/jirauser.h"
@@ -20,7 +19,6 @@ class JiraClient : public QObject
 private:
     QString mUsername;
     QString mToken;
-    QList<QSharedPointer<Registration>> worklogsToRegistrations(QList<QJsonObject> jsonWorklog);
     QNetworkReply *get(QUrl url);
     QNetworkReply *post(QUrl url, QByteArray data);
     QUrl url(QString path, QString query);

@@ -3,6 +3,7 @@
 
 #include <QByteArray>
 #include <QJsonObject>
+#include <QVariantMap>
 
 class JiraObject
 {
