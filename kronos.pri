@@ -6,7 +6,6 @@ SOURCES += \
     $$PWD/jira/jirauser.cpp \
     $$PWD/jira/jirautils.cpp \
     $$PWD/jira/jiraworklog.cpp \
-    $$PWD/models/registration.cpp \
     $$PWD/settings/settings.cpp \
     $$PWD/settings/settingsprivate.cpp \
     $$PWD/widgets/dailyregistrations.cpp \
@@ -20,7 +19,6 @@ HEADERS += \
     $$PWD/jira/jirauser.h \
     $$PWD/jira/jirautils.h \
     $$PWD/jira/jiraworklog.h \
-    $$PWD/models/registration.h \
     $$PWD/settings/settings.h \
     $$PWD/settings/settingsprivate.h \
     $$PWD/utils/condition.h \

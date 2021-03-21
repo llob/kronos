@@ -2,7 +2,6 @@
 #define DAILYREGISTRATIONSMODEL_H
 
 #include <QObject>
-#include "models/registration.h"
 #include "jira/jiraclient.h"
 #include "jira/jiraworklog.h"
 #include "utils/condition.h"
