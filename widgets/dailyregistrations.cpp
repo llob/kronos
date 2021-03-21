@@ -58,11 +58,22 @@ void DailyRegistrations::drawRegistrationRect(QPaintEvent *event, QPoint topLeft
     painter.drawText(rect.adjusted(5, 5, -5, -5), Qt::AlignLeft|Qt::AlignTop, text);
 }
 
+QTime DailyRegistrations::round(const QTime time) {
+    int pastRounding = time.minute() % 15;
+    if (time.minute() % 15 > 7) {
+        return time.addSecs(60 * (15 - pastRounding));
+    } else {
+        return time.addSecs(60 * -pastRounding);
+    }
+}
+
 void DailyRegistrations::drawRegistrationInProgress(QPaintEvent *event) {
     if (registrationInProgress()) {
+        QPoint roundStartPos = posFromTime(round(timeFromPos(mRegistrationInProgressStartPos)));
+        QPoint roundEndPos = posFromTime(round(timeFromPos(mCurrentMousePos)));
         drawRegistrationRect(event,
-                             QPoint(50, mRegistrationInProgressStartPos.y()),
-                             QPoint(width(), mCurrentMousePos.y()));
+                             QPoint(50, roundStartPos.y()),
+                             QPoint(width(), roundEndPos.y()));
     }
 }
 
@@ -141,8 +152,10 @@ void DailyRegistrations::mousePressEvent(QMouseEvent *event)
 {
     // Check if mouse was pressed inside an existing worklog
     if (event->button() == Qt::LeftButton) {
-        qDebug() << "Starting reg at" << timeFromPos(event->pos());
-        mRegistrationInProgressStartPos = event->pos();
+        if (!worklogFromPos(event->pos())) {
+            qDebug() << "Starting reg at" << timeFromPos(event->pos());
+            mRegistrationInProgressStartPos = event->pos();
+        }
     }
 }
 
@@ -171,8 +184,9 @@ void DailyRegistrations::mouseReleaseEvent(QMouseEvent *event)
         }
         mRegistrationInProgressStartPos = QPoint(); // Make a note that we are done with creating a new registration
         if (startTime.secsTo(endTime) > 0) {
-            mRegistrationDialog->setStartTime(startTime);
-            mRegistrationDialog->setEndTime(endTime);
+            mRegistrationDialog->setDate(mDate);
+            mRegistrationDialog->setStartTime(round(startTime));
+            mRegistrationDialog->setEndTime(round(endTime));
             mRegistrationDialog->show();
         }
     }

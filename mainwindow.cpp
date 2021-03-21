@@ -20,6 +20,8 @@ MainWindow::MainWindow(MainController *mainController, QWidget *parent)
     setupConnections();
     setupCalendar();
     setupCredentials();
+    mWeeklyTotalCalculator.update();
+    mMonthlyTotalCalculator.update();
 }
 
 void MainWindow::setupCalendar()
@@ -77,6 +79,10 @@ void MainWindow::setupConnections()
                      [this] {
                          this->setCurrentDate(this->ui->calendarWidget->selectedDate());
                      });
+    QObject::connect(&mMonthlyTotalCalculator, &MonthlyTotalCalculator::updated,
+                     this, &MainWindow::monthlyTotalCalculatorUpdated);
+    QObject::connect(&mWeeklyTotalCalculator, &WeeklyTotalCalculator::updated,
+                     this, &MainWindow::weeklyTotalCalculatorUpdated);
 
 }
 
@@ -84,6 +90,21 @@ void MainWindow::setCurrentDate(QDate currentDate)
 {
     mCurrentDate = currentDate;
     dailyRegistrations->setCurrentDate(mCurrentDate);
+    mWeeklyTotalCalculator.update();
+}
+
+void MainWindow::monthlyTotalCalculatorUpdated(int seconds)
+{
+    int hours = seconds / 3600;
+    int minutes = (seconds % 3600) / 60;
+    ui->monthlyTotalLabel->setText(QString("Current monthly total: %1 hours %2 minutes").arg(hours).arg(minutes));
+}
+
+void MainWindow::weeklyTotalCalculatorUpdated(int seconds)
+{
+    int hours = seconds / 3600;
+    int minutes = (seconds % 3600) / 60;
+    ui->weeklyTotalLabel->setText(QString("Current weekly total: %1 hours %2 minutes").arg(hours).arg(minutes));
 }
 
 void MainWindow::setupDailyRegistrations()
@@ -94,4 +115,11 @@ void MainWindow::setupDailyRegistrations()
         QDate::currentDate(),
         this);
     ui->scrollArea->setWidget(dailyRegistrations);
+}
+
+void MainWindow::updateTotals() {
+    // and worklogAuthor = 557058:60fd2325-a1cb-4aab-8867-9fd89cb3a52a
+//
+    mMonthlyTotalCalculator.update();
+    mWeeklyTotalCalculator.update();
 }
