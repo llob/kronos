@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: Build and run unit tests for Kronos
 
 on:
   push:
@@ -13,8 +13,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Run qmake for kronos
+    - name: Install qt
+      run: sudo apt-get install qtchooser
+    - name: Run qmake for Kronos
       run: qmake
-    - name: Build kronos
+    - name: Build Kronos
       run: make
-      
+
