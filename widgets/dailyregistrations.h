@@ -30,6 +30,7 @@ private:
     void drawRegistrations(QPaintEvent *event);
     void drawRegistrationRect(QPaintEvent *event, QPoint topLeft, QPoint bottomRight, QString text);
     QSharedPointer<JiraWorklog> worklogFromPos(QPoint pos);
+    QTime round(const QTime time);
 public:
     explicit DailyRegistrations(DailyRegistrationsModel *model, QDate date, QWidget *parent = nullptr);
     void setCurrentDate(const QDate date);

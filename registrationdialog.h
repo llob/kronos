@@ -27,6 +27,7 @@ public:
     void setStartTime(const QTime startTime);
     QTime endTime() const;
     void setEndTime(const QTime endTime);
+    void setDate(const QDate date);
     QSharedPointer<JiraIssue> jiraIssue();
 
 private:
@@ -34,11 +35,13 @@ private:
     QTimer mSearchTimer;
     QTime mStartTime;
     QTime mEndTime;
+    QDate mDate;
     QList<QSharedPointer<JiraIssue>> mJiraIssues;
     QSharedPointer<JiraIssue> mJiraIssue;
     QStringListModel mModel;
     JiraClient mJiraClient;
     void setupConnections();
+    void setupWorklogInformationLabel();
 private slots:
     void searchLineEditTextChanged(const QString &text);
     void searchTimerTimeout();

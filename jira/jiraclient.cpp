@@ -80,9 +80,16 @@ void JiraClient::deleteWorklog(QSharedPointer<JiraWorklog> worklog)
 void JiraClient::search(const QString query, int startAt, int maxResults)
 {
     qDebug() << "[JiraClient] search()";
-    QUrl u = url("/rest/api/latest/search", QString("jql=%1&startAt=%2&maxResults=%3").arg(query).arg(startAt).arg(maxResults));
+    QUrl u = url("/rest/api/latest/search");
+//, QString("jql=%1&startAt=%2&maxResults=%3").arg(query).arg(startAt).arg(maxResults));
 //                 QString("jql=worklogDate = %1 and worklogAuthor = 557058:60fd2325-a1cb-4aab-8867-9fd89cb3a52a order by created DESC").arg(jqlDate(date)));
-    auto reply = get(u);
+    QVariantMap json;
+    json.insert("jql", query);
+    json.insert("startAt", startAt);
+    json.insert("maxResults", maxResults);
+    QByteArray j = QJsonDocument::fromVariant(json).toJson();
+    auto reply = post(u, j);
+
 
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {

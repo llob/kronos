@@ -6,6 +6,8 @@
 #include "jira/jiraclient.h"
 #include "settings/settings.h"
 #include "maincontroller.h"
+#include "utils/weeklytotalcalculator.h"
+#include "utils/monthlytotalcalculator.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,12 +28,17 @@ private:
     JiraClient *mJiraClient;
     Settings mSettings;
     MainController *mMainController;
+    MonthlyTotalCalculator mMonthlyTotalCalculator;
+    WeeklyTotalCalculator mWeeklyTotalCalculator;
     void setupDailyRegistrations();
     void setupConnections();
     void setupCalendar();
     void setupCredentials();
     void setAvatar(QPixmap pixmap);
+    void updateTotals();
 private slots:
     void setCurrentDate(QDate currentDate);
+    void monthlyTotalCalculatorUpdated(int seconds);
+    void weeklyTotalCalculatorUpdated(int seconds);
 };
 #endif // MAINWINDOW_H

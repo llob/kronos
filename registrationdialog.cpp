@@ -37,6 +37,13 @@ QTime RegistrationDialog::endTime() const
 void RegistrationDialog::setEndTime(const QTime endTime)
 {
     mEndTime = endTime;
+    setupWorklogInformationLabel();
+}
+
+void RegistrationDialog::setDate(const QDate date)
+{
+    mDate = date;
+    setupWorklogInformationLabel();
 }
 
 QSharedPointer<JiraIssue> RegistrationDialog::jiraIssue()
@@ -54,6 +61,10 @@ void RegistrationDialog::setupConnections()
                      this, &RegistrationDialog::jiraClientSearchFinished);
     QObject::connect(ui->searchResultsListView->selectionModel(), &QItemSelectionModel::selectionChanged,
                      this, &RegistrationDialog::listViewIndexesMoved);
+}
+
+void RegistrationDialog::setupWorklogInformationLabel() {
+    ui->worklogInfoLabel->setText(QString("New worklog from %2 to %3").arg(mStartTime.toString(), mEndTime.toString()));
 }
 
 void RegistrationDialog::searchLineEditTextChanged(const QString &text)

@@ -15,6 +15,8 @@ win32-msvc*{
    QMAKE_CXXFLAGS += /WX
 }
 
+RC_ICONS = kronos.ico
+
 SOURCES +=  $$PWD/main.cpp \
             $$PWD/mainwindow.cpp \
             $$PWD/registrationdialog.cpp \
