@@ -2,6 +2,7 @@
 #include "ui_registrationdialog.h"
 #include <QLineEdit>
 #include <QPushButton>
+#include <QRegularExpression>
 
 RegistrationDialog::RegistrationDialog(QWidget *parent) :
     QDialog(parent),
@@ -51,6 +52,24 @@ QSharedPointer<JiraIssue> RegistrationDialog::jiraIssue()
     return mJiraIssue;
 }
 
+void RegistrationDialog::populateModel() {
+    mModel.setStringList({});
+    QStringList issueStrs;
+    foreach (QSharedPointer<JiraIssue> issue, mRecentIssues) {
+        issueStrs.append(issueToString(issue));
+    }
+    foreach (QSharedPointer<JiraIssue> issue, mJiraIssues) {
+        issueStrs.append(issueToString(issue));
+    }
+    mModel.setStringList(issueStrs);
+}
+
+void RegistrationDialog::setRecentIssues(QList<QSharedPointer<JiraIssue> > issues)
+{
+    mRecentIssues = issues;
+    populateModel();
+}
+
 void RegistrationDialog::setupConnections()
 {
     QObject::connect(&mSearchTimer, &QTimer::timeout,
@@ -76,19 +95,33 @@ void RegistrationDialog::searchLineEditTextChanged(const QString &text)
 void RegistrationDialog::searchTimerTimeout()
 {
     ui->searchLineEdit->setEnabled(false);
-    mJiraClient.search(QString("text ~ \"%1\"").arg(ui->searchLineEdit->text()));
+    QString terms = ui->searchLineEdit->text();
+    QString query;
+    QRegularExpression issueKeyRegExp("^[A-Za-z]{2,4}\\-[0-9]{1,10}$");
+    if (issueKeyRegExp.match(terms).hasMatch()) {
+        query = QString("issuekey = \"%1\"").arg(terms);
+    } else {
+        query = QString("text ~ \"%1\"").arg(terms);
+    }
+    mJiraClient.search(query);
     mModel.setStringList({});
 }
 
 void RegistrationDialog::jiraClientSearchFinished(QList<QSharedPointer<JiraIssue> > issues)
 {
-    ui->searchLineEdit->setDisabled(false);
-    QStringList issueKeys;
-    foreach (QSharedPointer<JiraIssue> issue, issues) {
-        issueKeys.append(QString("%1 %2").arg(issue->key(), issue->summary()));
-    }
+    ui->searchLineEdit->setDisabled(false);    
     mJiraIssues = issues;
-    mModel.setStringList(issueKeys);
+    populateModel();
+}
+
+QSharedPointer<JiraIssue> RegistrationDialog::issueByModelIndex(int index) {
+    if (index < mRecentIssues.length()) {
+        return mRecentIssues.at(index);
+    }
+    if (index < mRecentIssues.length() + mJiraIssues.length()) {
+        return mJiraIssues.at(index);
+    }
+    return nullptr;
 }
 
 void RegistrationDialog::listViewIndexesMoved(const QItemSelection &selected, const QItemSelection &deselected)
@@ -96,11 +129,20 @@ void RegistrationDialog::listViewIndexesMoved(const QItemSelection &selected, co
     Q_UNUSED(deselected);
     // Top index of first selection
     if (selected.length() == 0) {
-        mJiraIssue = 0;
+        mJiraIssue = nullptr;
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     } else {
-        mJiraIssue = mJiraIssues.at(selected.first().top());
+        int index = selected.first().top();
+        mJiraIssue = issueByModelIndex(index);
+        if (mJiraIssue.isNull()) {
+            qWarning() << "[RegistrationDialog] Failed to look up issue at index" << index;
+        }
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
     }
+}
+
+QString RegistrationDialog::issueToString(QSharedPointer<JiraIssue> issue)
+{
+    return QString("%1 %2").arg(issue->key(), issue->summary());
 }
 

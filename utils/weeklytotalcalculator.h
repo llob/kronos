@@ -7,6 +7,7 @@
 #include "jira/jiraclient.h"
 #include "jira/jiraworklog.h"
 #include "jira/jiraissue.h"
+#include "settings/settings.h"
 
 class WeeklyTotalCalculator : public QObject
 {
@@ -14,6 +15,8 @@ class WeeklyTotalCalculator : public QObject
 private:
     JiraClient mJiraClient;
     int mTotal;
+    QDate firstWeekDay();
+    Settings mSettings;
 public:
     explicit WeeklyTotalCalculator(QObject *parent = nullptr);
     void update();

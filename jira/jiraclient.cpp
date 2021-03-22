@@ -16,7 +16,6 @@ JiraClient::JiraClient()
 
 void JiraClient::setUsername(const QString username)
 {
-    qDebug() << "[JiraClient] Setting username to" << username;
     mUsername = username;
 }
 
@@ -70,7 +69,7 @@ void JiraClient::deleteWorklog(QSharedPointer<JiraWorklog> worklog)
     auto reply = delete_request(u, worklog->toJson());
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {
-                         qDebug() << reply->readAll();
+                         Q_UNUSED(reply)
                          //QSharedPointer<JiraWorklog> j = QSharedPointer<JiraWorklog>(new JiraWorklog(reply->readAll()));
                          //emit this->addWorklogFinished(j); FIXME
                          emit this->deleteWorklogFinished(true);
@@ -79,10 +78,7 @@ void JiraClient::deleteWorklog(QSharedPointer<JiraWorklog> worklog)
 
 void JiraClient::search(const QString query, int startAt, int maxResults)
 {
-    qDebug() << "[JiraClient] search()";
     QUrl u = url("/rest/api/latest/search");
-//, QString("jql=%1&startAt=%2&maxResults=%3").arg(query).arg(startAt).arg(maxResults));
-//                 QString("jql=worklogDate = %1 and worklogAuthor = 557058:60fd2325-a1cb-4aab-8867-9fd89cb3a52a order by created DESC").arg(jqlDate(date)));
     QVariantMap json;
     json.insert("jql", query);
     json.insert("startAt", startAt);
@@ -93,7 +89,6 @@ void JiraClient::search(const QString query, int startAt, int maxResults)
 
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {
-                         qDebug() << "[JiraClient] Reply received";
                          QByteArray response = reply->readAll();
                          auto jsonDocument = QJsonDocument::fromJson(response).toVariant();
                          QVariantMap root = jsonDocument.toMap();
@@ -103,7 +98,6 @@ void JiraClient::search(const QString query, int startAt, int maxResults)
                          QVariant issuesNode = root.value("issues");
                          QVariantList issuesList = issuesNode.toList();
                          QList<QSharedPointer<JiraIssue>> issues = JiraIssue::fromJsonList(issuesList);
-                         qDebug() << "[JiraClient] Found" << issues.length() << "issues";
                          emit this->searchFinished(issues);
                      });
 
@@ -122,12 +116,10 @@ void JiraClient::issueWorklogs(QSharedPointer<JiraIssue> issue)
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {
                         QByteArray response = reply->readAll();
-                        qDebug() << response;
                         QVariant json = QJsonDocument::fromJson(response).toVariant();
                         QVariantMap root = json.toMap();
                         QVariantList worklogsNode = root.value("worklogs").toList();
                         auto jws = JiraWorklog::fromJsonList(worklogsNode);
-                        qDebug() << "[JiraClient] Worklog count is" << jws.length();
                         emit this->issueWorklogsFinished(jws);
                      });
 }
@@ -141,7 +133,6 @@ QNetworkReply* JiraClient::delete_request(QUrl url, QByteArray data) {
     req.setRawHeader("Accept", "application/json");
     req.setRawHeader("Authorization", authorization);
 
-    qDebug() << "[JiraClient] DELETE'ing" << data << "to" << url;
     QNetworkReply *reply = mNam->deleteResource(req);
 
     return reply;
@@ -155,7 +146,6 @@ QNetworkReply* JiraClient::post(QUrl url, QByteArray data) {
     req.setRawHeader("Accept", "application/json");
     req.setRawHeader("Authorization", authorization);
 
-    qDebug() << "[JiraClient] POST'ing" << data << "to" << url;
     QNetworkReply *reply = mNam->post(req, data);
 
     return reply;
@@ -168,7 +158,6 @@ QNetworkReply* JiraClient::get(QUrl url) {
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     req.setRawHeader("Authorization", authorization);
 
-    qDebug() << "[JiraClient] GET'ing" << url;
     QNetworkReply *reply = mNam->get(req);
 
     return reply;

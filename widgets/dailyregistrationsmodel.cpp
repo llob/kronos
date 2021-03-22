@@ -29,8 +29,15 @@ QSharedPointer<JiraIssue> DailyRegistrationsModel::issueById(const QString issue
     return nullptr;
 }
 
+QList<QSharedPointer<JiraIssue> > DailyRegistrationsModel::recentIssues() const
+{
+    return mRecentIssues.issues();
+}
+
 void DailyRegistrationsModel::createRegistration(QTime startTime, QTime endTime, QSharedPointer<JiraIssue> issue)
 {
+    mRecentIssues.addIssue(issue);
+
     QSharedPointer<JiraWorklog> jwl = QSharedPointer<JiraWorklog>(new JiraWorklog());
     jwl->setAccountId(mSettings.jiraAccountId());
     jwl->setEmailAddress(mSettings.jiraUsername());
@@ -56,22 +63,24 @@ void DailyRegistrationsModel::setCurrentDate(const QDate date)
     emit updated();
 
     // Get the list of issues with worklogs for the current date
-    QString query = QString("worklogDate = %1 and worklogAuthor = 557058:60fd2325-a1cb-4aab-8867-9fd89cb3a52a order by created DESC")
-        .arg(JiraClient::jqlDate(date));
+    QString query = QString("worklogDate = %1 and worklogAuthor = %2 order by created DESC")
+        .arg(JiraClient::jqlDate(date))
+        .arg(mSettings.jiraAccountId());
     mJiraClient->search(query);
 }
 
 void DailyRegistrationsModel::issueWorklogsFinished(QList<QSharedPointer<JiraWorklog>> worklogs)
 {
     QString accountId = mSettings.jiraAccountId();
-    qDebug() << "[DailyRegistrationModel] Found" << worklogs.length() << "work logs for" << mCurrentDate;
     foreach (QSharedPointer<JiraWorklog> worklog, worklogs) {
         if (worklog->accountId() != accountId) {
             continue;
         }
+        if (worklog->started().date() != mCurrentDate) {
+            continue;
+        }
         mWorklogs.append(worklog);
     }
-    qDebug() << "[DailyRegistrationModel] Kept" << mWorklogs.length() << "work logs associated with account" << accountId;
     emit updated();
 }
 
@@ -79,7 +88,6 @@ void DailyRegistrationsModel::searchFinished(QList<QSharedPointer<JiraIssue> > i
 {
     mIssues = issues;
     foreach (QSharedPointer<JiraIssue> issue, mIssues) {
-        qDebug() << "Fetching worklogs for issue with id" << issue->id();
         mJiraClient->issueWorklogs(issue);
     }
 }

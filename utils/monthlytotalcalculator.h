@@ -7,6 +7,7 @@
 #include "jira/jiraclient.h"
 #include "jira/jiraworklog.h"
 #include "jira/jiraissue.h"
+#include "settings/settings.h"
 
 class MonthlyTotalCalculator : public QObject
 {
@@ -14,6 +15,8 @@ class MonthlyTotalCalculator : public QObject
 private:
     JiraClient mJiraClient;
     int mTotal;
+    Settings mSettings;
+    QDate firstMonthDay() const;
 public:
     explicit MonthlyTotalCalculator(QObject *parent = nullptr);
     void update();
