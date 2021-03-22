@@ -1,5 +1,11 @@
 #include "monthlytotalcalculator.h"
 
+QDate MonthlyTotalCalculator::firstMonthDay() const
+{
+    auto today = QDate::currentDate();
+    return today.addDays(-1 * (today.day() - 1));
+}
+
 MonthlyTotalCalculator::MonthlyTotalCalculator(QObject *parent) : QObject(parent)
 {
     mTotal = 0;
@@ -12,9 +18,8 @@ MonthlyTotalCalculator::MonthlyTotalCalculator(QObject *parent) : QObject(parent
 void MonthlyTotalCalculator::update()
 {
     mTotal = 0;
-    auto today = QDate::currentDate();
-    auto firstDayOfMonth = today.addDays(-1 * (today.day() - 1));
-    mJiraClient.search(QString("worklogDate = %1 ORDER BY created DESC")
+    auto firstDayOfMonth = firstMonthDay();
+    mJiraClient.search(QString("worklogDate >= %1 ORDER BY created DESC")
                            .arg(JiraClient::jqlDate(firstDayOfMonth)));
 }
 
@@ -27,7 +32,15 @@ void MonthlyTotalCalculator::jiraClientSearchFinished(QList<QSharedPointer<JiraI
 
 void MonthlyTotalCalculator::jiraClientIssueWorklogsFinished(QList<QSharedPointer<JiraWorklog> > worklogs)
 {
+    QDate d = firstMonthDay();
+    QString jiraAccountId = mSettings.jiraAccountId();
     foreach (QSharedPointer<JiraWorklog> worklog, worklogs) {
+        if (worklog->accountId() != jiraAccountId) {
+            continue;
+        }
+        if (worklog->started().date() < d) {
+            continue;
+        }
         mTotal += worklog->timeSpentSeconds();
     }
     emit updated(mTotal);

@@ -9,11 +9,15 @@ WeeklyTotalCalculator::WeeklyTotalCalculator(QObject *parent) : QObject(parent)
                      this, &WeeklyTotalCalculator::jiraClientIssueWorklogsFinished);
 }
 
+QDate WeeklyTotalCalculator::firstWeekDay() {
+    auto today = QDate::currentDate();
+    return today.addDays(-1 * (today.dayOfWeek() - 1));
+}
+
 void WeeklyTotalCalculator::update()
 {
     mTotal = 0;
-    auto today = QDate::currentDate();
-    auto firstDayOfWeek = today.addDays(-1 * (today.dayOfWeek() - 1));
+    auto firstDayOfWeek = firstWeekDay();
     mJiraClient.search(QString("worklogDate = %1 ORDER BY created DESC")
                            .arg(JiraClient::jqlDate(firstDayOfWeek)));
 }
@@ -27,7 +31,15 @@ void WeeklyTotalCalculator::jiraClientSearchFinished(QList<QSharedPointer<JiraIs
 
 void WeeklyTotalCalculator::jiraClientIssueWorklogsFinished(QList<QSharedPointer<JiraWorklog> > worklogs)
 {
+    QDate d = firstWeekDay();
+    QString jiraAccountId = mSettings.jiraAccountId();
     foreach (QSharedPointer<JiraWorklog> worklog, worklogs) {
+        if (worklog->accountId() != jiraAccountId) {
+            continue;
+        }
+        if (worklog->started().date() < d) {
+            continue;
+        }
         mTotal += worklog->timeSpentSeconds();
     }
     emit updated(mTotal);

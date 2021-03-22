@@ -1,9 +1,11 @@
 #include "dailyregistrations.h"
 #include <QPainter>
+#include <QPainterPath>
 #include <QMouseEvent>
 #include <QSizePolicy>
 #include <QRect>
 #include <QDateTime>
+#include <QScrollArea>
 #include <QTime>
 #include "jira/jiraworklog.h"
 #include "registrationdialog.h"
@@ -54,7 +56,17 @@ void DailyRegistrations::drawRegistrationRect(QPaintEvent *event, QPoint topLeft
     Q_UNUSED(event);
     QPainter painter(this);
     QRect rect(topLeft, bottomRight);
-    painter.fillRect(rect, QBrush(QColor(Qt::red)));
+    painter.setRenderHint(QPainter::Antialiasing);
+    QPainterPath path;
+    path.addRoundedRect(rect, 10, 10);
+    QPen pen(Qt::black, 1);
+    painter.setPen(pen);
+    painter.setOpacity(1.0);
+    painter.fillPath(path, Qt::green);
+    painter.drawPath(path);
+
+    painter.setPen(Qt::black);
+    painter.setOpacity(1.0);
     painter.drawText(rect.adjusted(5, 5, -5, -5), Qt::AlignLeft|Qt::AlignTop, text);
 }
 
@@ -73,7 +85,7 @@ void DailyRegistrations::drawRegistrationInProgress(QPaintEvent *event) {
         QPoint roundEndPos = posFromTime(round(timeFromPos(mCurrentMousePos)));
         drawRegistrationRect(event,
                              QPoint(50, roundStartPos.y()),
-                             QPoint(width(), roundEndPos.y()));
+                             QPoint(width() - 10, roundEndPos.y()));
     }
 }
 
@@ -136,7 +148,7 @@ void DailyRegistrations::drawRegistrations(QPaintEvent *event)
         }
         startedPos.setX(50);
         QPoint endedPos = posFromTime(ended.time());
-        endedPos.setX(width());
+        endedPos.setX(width() - 10);
         drawRegistrationRect(event, startedPos, endedPos, issue->toString());
     }
 }
@@ -184,6 +196,7 @@ void DailyRegistrations::mouseReleaseEvent(QMouseEvent *event)
         }
         mRegistrationInProgressStartPos = QPoint(); // Make a note that we are done with creating a new registration
         if (startTime.secsTo(endTime) > 0) {
+            mRegistrationDialog->setRecentIssues(mModel->recentIssues());
             mRegistrationDialog->setDate(mDate);
             mRegistrationDialog->setStartTime(round(startTime));
             mRegistrationDialog->setEndTime(round(endTime));

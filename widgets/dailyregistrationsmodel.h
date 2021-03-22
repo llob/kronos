@@ -6,6 +6,7 @@
 #include "jira/jiraworklog.h"
 #include "utils/condition.h"
 #include "settings/settings.h"
+#include "utils/recentissues.h"
 
 class DailyRegistrationsModel : public QObject
 {
@@ -16,10 +17,12 @@ private:
     QList<QSharedPointer<JiraIssue>> mIssues;
     QDate mCurrentDate;
     Settings mSettings;
+    RecentIssues mRecentIssues;
 public:
     DailyRegistrationsModel(JiraClient *jiraClient);
     QList<QSharedPointer<JiraWorklog>> worklogs() const;
     QSharedPointer<JiraIssue> issueById(const QString issueId) const;
+    QList<QSharedPointer<JiraIssue>> recentIssues() const;
 public slots:
     void createRegistration(QTime startTime, QTime endTime, QSharedPointer<JiraIssue> issue);
     void deleteRegistration(QSharedPointer<JiraWorklog> worklog);

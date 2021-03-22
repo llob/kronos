@@ -16,11 +16,9 @@ MainController::MainController(QObject *parent) : QObject(parent)
 
 void MainController::jiraClientMyselfFinished(QSharedPointer<JiraUser> myself)
 {
-    qDebug() << __FUNCTION__;
     mSettings.setJiraDisplayName(myself->displayName());
     mSettings.setJiraAccountId(myself->accountId());
     if (!myself->avatarUrls().isEmpty()) {
-        qDebug() << "Got avatars";
         auto reply = mNam.get(QNetworkRequest(QUrl(myself->avatarUrls().last())));
         QObject::connect(reply, &QNetworkReply::finished,
                          [this, reply] {

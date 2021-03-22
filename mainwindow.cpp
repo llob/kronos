@@ -91,6 +91,8 @@ void MainWindow::setCurrentDate(QDate currentDate)
     mCurrentDate = currentDate;
     dailyRegistrations->setCurrentDate(mCurrentDate);
     mWeeklyTotalCalculator.update();
+    mMonthlyTotalCalculator.update();
+    ui->scrollArea->ensureVisible(0, 700); // Scroll to around start of work day
 }
 
 void MainWindow::monthlyTotalCalculatorUpdated(int seconds)
@@ -113,8 +115,9 @@ void MainWindow::setupDailyRegistrations()
     this->dailyRegistrations = new DailyRegistrations(
         dailyRegistrationsModel,
         QDate::currentDate(),
-        this);
+        ui->scrollArea);
     ui->scrollArea->setWidget(dailyRegistrations);
+    ui->scrollArea->ensureVisible(0, 300);
 }
 
 void MainWindow::updateTotals() {

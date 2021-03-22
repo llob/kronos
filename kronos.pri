@@ -9,6 +9,7 @@ SOURCES += \
     $$PWD/settings/settings.cpp \
     $$PWD/settings/settingsprivate.cpp \
     $$PWD/utils/monthlytotalcalculator.cpp \
+    $$PWD/utils/recentissues.cpp \
     $$PWD/utils/weeklytotalcalculator.cpp \
     $$PWD/widgets/dailyregistrations.cpp \
     $$PWD/widgets/dailyregistrationsmodel.cpp
@@ -25,6 +26,7 @@ HEADERS += \
     $$PWD/settings/settingsprivate.h \
     $$PWD/utils/condition.h \
     $$PWD/utils/monthlytotalcalculator.h \
+    $$PWD/utils/recentissues.h \
     $$PWD/utils/weeklytotalcalculator.h \
     $$PWD/widgets/dailyregistrations.h \
     $$PWD/widgets/dailyregistrationsmodel.h
