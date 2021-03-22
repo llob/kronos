@@ -50,7 +50,6 @@ void DailyRegistrationsModel::createRegistration(QTime startTime, QTime endTime,
 
 void DailyRegistrationsModel::deleteRegistration(QSharedPointer<JiraWorklog> worklog)
 {
-    qDebug() << "Deleting registration" << worklog->id();
     mJiraClient->deleteWorklog(worklog);
 }
 

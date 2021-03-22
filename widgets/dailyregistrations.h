@@ -22,6 +22,7 @@ private:
     DailyRegistrationsModel *mModel;
     RegistrationDialog *mRegistrationDialog;
     DeleteConfirmationDialog *mDeleteConfirmationDialog;
+    bool mWorking;
 
     QTime timeFromPos(QPoint pos);
     QPoint posFromTime(QTime time);
@@ -31,10 +32,12 @@ private:
     void drawRegistrationRect(QPaintEvent *event, QPoint topLeft, QPoint bottomRight, QString text);
     QSharedPointer<JiraWorklog> worklogFromPos(QPoint pos);
     QTime round(const QTime time);
+    void drawWorkingOverlay(QPaintEvent *event);
 public:
     explicit DailyRegistrations(DailyRegistrationsModel *model, QDate date, QWidget *parent = nullptr);
     void setCurrentDate(const QDate date);
     QDate currentDate() const;
+    void setWorking(bool working);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
