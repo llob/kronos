@@ -74,24 +74,10 @@
          </item>
          <item>
           <layout class="QGridLayout" name="gridLayout">
-           <item row="0" column="0">
-            <widget class="QLabel" name="jiraUsernameLabel">
-             <property name="text">
-              <string>Jira username</string>
-             </property>
-            </widget>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="jiraUsernameLineEdit"/>
            </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="jiraTokenLabel">
-             <property name="text">
-              <string>Jira token</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="jiraTokenLineEdit"/>
-           </item>
-           <item row="3" column="1">
+           <item row="5" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
               <spacer name="horizontalSpacer">
@@ -115,8 +101,32 @@
              </item>
             </layout>
            </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="jiraTokenLineEdit"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="jiraTokenLabel">
+             <property name="text">
+              <string>Jira token</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="jiraUsernameLabel">
+             <property name="text">
+              <string>Jira username</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Jira hostname</string>
+             </property>
+            </widget>
+           </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="jiraUsernameLineEdit"/>
+            <widget class="QLineEdit" name="jiraHostnameLineEdit"/>
            </item>
           </layout>
          </item>
@@ -142,7 +152,7 @@
          <x>0</x>
          <y>0</y>
          <width>431</width>
-         <height>403</height>
+         <height>377</height>
         </rect>
        </property>
       </widget>
@@ -185,6 +195,14 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>jiraHostnameLineEdit</tabstop>
+  <tabstop>jiraUsernameLineEdit</tabstop>
+  <tabstop>jiraTokenLineEdit</tabstop>
+  <tabstop>savePushButton</tabstop>
+  <tabstop>calendarWidget</tabstop>
+  <tabstop>scrollArea</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

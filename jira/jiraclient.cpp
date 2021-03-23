@@ -6,8 +6,6 @@
 
 JiraClient::JiraClient()
 {
-    // worklogDate >= startOfMonth() and worklogAuthor = 557058:60fd2325-a1cb-4aab-8867-9fd89cb3a52a order by created DESC
-    // https://combatstroke.atlassian.net/rest/api/latest/issue/PD-5328/worklog
     mNam = new QNetworkAccessManager();
     settingsUpdated(); // Read settings
     QObject::connect(&mSettings, &Settings::updated,
@@ -27,10 +25,15 @@ void JiraClient::setToken(const QString token)
 QUrl JiraClient::url(QString path, QString query=QString()) {
     QUrl result;
     result.setScheme("https");
-    result.setHost("combatstroke.atlassian.net");
+    result.setHost(mSettings.jiraHostname());
     result.setPath(path);
     result.setQuery(query);
     return result;
+}
+
+int JiraClient::httpCode(const QNetworkReply *reply)
+{
+    return reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
 }
 
 QString JiraClient::jqlDate(QDate date) {
@@ -43,6 +46,12 @@ void JiraClient::myself()
     auto reply = get(u);
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {
+
+                         if (!hasHttpCode(reply, {200})) {
+                             emit this->myselfFailed(httpCode(reply), reply->error(), reply->errorString());
+                             return;
+                         }
+
                          QSharedPointer<JiraUser> j = QSharedPointer<JiraUser>(new JiraUser(reply->readAll()));
                          emit this->myselfFinished(j);
                      });
@@ -56,6 +65,12 @@ void JiraClient::addWorklog(QSharedPointer<JiraWorklog> worklog)
     auto reply = post(u, worklog->toJson());
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {
+
+                         if (!hasHttpCode(reply, {200})) {
+                             emit this->addWorklogFailed(httpCode(reply), reply->error(), reply->errorString());
+                             return;
+                         }
+
                          QSharedPointer<JiraWorklog> j = QSharedPointer<JiraWorklog>(new JiraWorklog(reply->readAll()));
                          emit this->addWorklogFinished(j);
                      });
@@ -69,11 +84,18 @@ void JiraClient::deleteWorklog(QSharedPointer<JiraWorklog> worklog)
     auto reply = delete_request(u, worklog->toJson());
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {
-                         Q_UNUSED(reply)
-                         //QSharedPointer<JiraWorklog> j = QSharedPointer<JiraWorklog>(new JiraWorklog(reply->readAll()));
-                         //emit this->addWorklogFinished(j); FIXME
+
+                         if (!hasHttpCode(reply, {200})) {
+                             emit this->deleteWorklogFailed(httpCode(reply), reply->error(), reply->errorString());
+                             return;
+                         }
+
                          emit this->deleteWorklogFinished(true);
                      });
+}
+
+bool JiraClient::hasHttpCode(QNetworkReply *reply, QList<int> httpCodes) {
+    return httpCodes.contains(httpCode(reply));
 }
 
 void JiraClient::search(const QString query, int startAt, int maxResults)
@@ -89,12 +111,21 @@ void JiraClient::search(const QString query, int startAt, int maxResults)
 
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {
+
+                         if (!hasHttpCode(reply, {200})) {
+                             emit this->searchFailed(httpCode(reply), reply->error(), reply->errorString());
+                             return;
+                         }
+
                          QByteArray response = reply->readAll();
                          auto jsonDocument = QJsonDocument::fromJson(response).toVariant();
                          QVariantMap root = jsonDocument.toMap();
                          QVariant expandNode = root.value("expand");
+                         Q_UNUSED(expandNode);
                          QVariant startAtNode = root.value("startAt");
+                         Q_UNUSED(startAtNode);
                          QVariant maxResultsNode = root.value("maxResults");
+                         Q_UNUSED(maxResultsNode);
                          QVariant issuesNode = root.value("issues");
                          QVariantList issuesList = issuesNode.toList();
                          QList<QSharedPointer<JiraIssue>> issues = JiraIssue::fromJsonList(issuesList);
@@ -115,6 +146,12 @@ void JiraClient::issueWorklogs(QSharedPointer<JiraIssue> issue)
     auto reply = get(u);
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {
+
+                        if (!hasHttpCode(reply, {200})) {
+                            emit this->issueWorklogsFailed(httpCode(reply), reply->error(), reply->errorString());
+                            return;
+                        }
+
                         QByteArray response = reply->readAll();
                         QVariant json = QJsonDocument::fromJson(response).toVariant();
                         QVariantMap root = json.toMap();

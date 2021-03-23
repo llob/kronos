@@ -1,4 +1,6 @@
 SOURCES += \
+    $$PWD/authentication/authenticationstate.cpp \
+    $$PWD/authentication/authenticationstateprivate.cpp \
     $$PWD/jira/jiraclient.cpp \
     $$PWD/jira/jiraissue.cpp \
     $$PWD/jira/jiraobject.cpp \
@@ -15,6 +17,8 @@ SOURCES += \
     $$PWD/widgets/dailyregistrationsmodel.cpp
 
 HEADERS += \
+    $$PWD/authentication/authenticationstate.h \
+    $$PWD/authentication/authenticationstateprivate.h \
     $$PWD/jira/jiraclient.h \
     $$PWD/jira/jiraissue.h \
     $$PWD/jira/jiraobject.h \

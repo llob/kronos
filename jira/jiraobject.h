@@ -13,6 +13,7 @@ public:
     JiraObject(const QByteArray json);
     JiraObject(const QVariantMap json);
     virtual QByteArray toJson() const = 0;
+    virtual QVariant toVariant() const = 0;
     bool valid() const;
 protected:
     void setValid(bool valid);

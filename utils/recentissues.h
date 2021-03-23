@@ -5,6 +5,7 @@
 #include <QSharedPointer>
 #include <QMap>
 #include <QList>
+#include "settings/settings.h"
 #include "jira/jiraissue.h"
 
 class RecentIssues : public QObject
@@ -13,6 +14,7 @@ class RecentIssues : public QObject
 private:
     static const int mMaxIssueCount;
     QList<QSharedPointer<JiraIssue>> mIssues;
+    Settings mSettings;
 public:
     explicit RecentIssues(QObject *parent = nullptr);
     void addIssue(QSharedPointer<JiraIssue> issue);

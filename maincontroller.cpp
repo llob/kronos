@@ -11,11 +11,12 @@ void MainController::setupConnections()
 MainController::MainController(QObject *parent) : QObject(parent)
 {
     setupConnections();
-    mJiraClient.myself();
+//    mJiraClient.myself();
 }
 
 void MainController::jiraClientMyselfFinished(QSharedPointer<JiraUser> myself)
 {
+    /*
     mSettings.setJiraDisplayName(myself->displayName());
     mSettings.setJiraAccountId(myself->accountId());
     if (!myself->avatarUrls().isEmpty()) {
@@ -26,6 +27,6 @@ void MainController::jiraClientMyselfFinished(QSharedPointer<JiraUser> myself)
                              this->mSettings.setJiraAvatar(QImage::fromData(bytes));
                          });
     }
-
+    */
 
 }

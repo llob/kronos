@@ -6,6 +6,7 @@
 #include <QList>
 #include <QNetworkAccessManager>
 #include <QJsonObject>
+#include <QNetworkReply>
 #include "utils/condition.h"
 #include "jira/jiraissue.h"
 #include "jira/jiraworklog.h"
@@ -25,6 +26,14 @@ private:
     QNetworkAccessManager *mNam;
     Settings mSettings;
 
+    /**
+     * @brief httpCode Get the HTTP code from the network reply
+     * @param reply The QNetworkReply
+     * @return the HTTP code or 0 if no valid code could be found
+     */
+    static int httpCode(const QNetworkReply *reply);
+
+    bool hasHttpCode(QNetworkReply *reply, QList<int> httpCodes);
 public:
     JiraClient();
     static QString jqlDate(QDate date);
@@ -39,14 +48,20 @@ public:
     QNetworkReply *delete_request(QUrl url, QByteArray data);
 signals:
     void searchFinished(QList<QSharedPointer<JiraIssue>> issues);
-
-    void sessionFinished(QSharedPointer<JiraSession> session);
+    void searchFailed(int httpCode, QNetworkReply::NetworkError error, QString errorMessage);
 
     void myselfFinished(QSharedPointer<JiraUser> myself);
+    void myselfFailed(int httpCode, QNetworkReply::NetworkError error, QString errorMessage);
 
     void addWorklogFinished(QSharedPointer<JiraWorklog> worklogs);
+    void addWorklogFailed(int httpCode, QNetworkReply::NetworkError error, QString errorMessage);
+
     void deleteWorklogFinished(bool result);
+    void deleteWorklogFailed(int httpCode, QNetworkReply::NetworkError error, QString errorMessage);
+
     void issueWorklogsFinished(QList<QSharedPointer<JiraWorklog>> worklogs);
+    void issueWorklogsFailed(int httpCode, QNetworkReply::NetworkError error, QString errorMessage);
+
 private slots:
     void settingsUpdated();
 };
