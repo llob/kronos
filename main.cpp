@@ -12,7 +12,6 @@
  * - Label issues as "recent" or "search result" in registration dialog list
  * - Double clicking an issue should accept the registration dialog
  * - Typing "Enter" should perform search immediately in registration dialog
- * - Styling
  * - Annoying tray icon which nags about logging work
  * - Optional: Collapse authentication widgets
  * - Optional: Persist window size and location across restarts

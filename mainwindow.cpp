@@ -19,6 +19,8 @@ MainWindow::MainWindow(MainController *mainController, QWidget *parent)
     ui->avatarLabel->setStyleSheet("background-color: rgba(0,0,0,0%)");
     ui->avatarLabel->setAutoFillBackground(false);
 
+    ui->menubar->setVisible(false);
+
     mAuthenticationStatusLabel = new QLabel();
     ui->statusbar->addPermanentWidget(mAuthenticationStatusLabel);
 

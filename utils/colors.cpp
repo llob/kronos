@@ -7,30 +7,30 @@ Colors::Colors()
 
 QColor Colors::color1()
 {
-    // Sky blue creola
-    return QColor::fromRgb(81, 229, 255);
+    // Khaki web
+    return QColor::fromRgb(183, 173, 153);
 }
 
 QColor Colors::color2()
 {
-    // Indigo
-    return QColor::fromRgb(68, 3, 129);
+    // Radical red
+    return QColor::fromRgb(255, 67, 101);
 }
 
 QColor Colors::color3()
 {
-    // Magenta process
-    return QColor::fromRgb(236, 54, 141);
+    // Rich black
+    return QColor::fromRgb(3, 3, 1);
 }
 
 QColor Colors::color4()
 {
-    // Light pink
-    return QColor::fromRgb(255, 165, 165);
+    // Turquise
+    return QColor::fromRgb(0, 217, 192);
 }
 
 QColor Colors::color5()
 {
-    // Unbleached silk
-    return QColor::fromRgb(255, 214, 192);
+    // Ivory
+    return QColor::fromRgb(255, 255, 243);
 }
