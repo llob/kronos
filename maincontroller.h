@@ -7,19 +7,17 @@
 #include "jira/jiraclient.h"
 #include "jira/jirauser.h"
 #include "settings/settings.h"
+#include "tray/trayiconcontroller.h"
 
 class MainController : public QObject
 {
     Q_OBJECT
 private:
-    JiraClient mJiraClient;
     Settings mSettings;
-    QNetworkAccessManager mNam;
+    TrayIconController mTrayIconController;
     void setupConnections();
 public:
     explicit MainController(QObject *parent = nullptr);
-private slots:
-    void jiraClientMyselfFinished(QSharedPointer<JiraUser> mysefl);
 signals:
 
 };

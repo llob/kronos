@@ -28,6 +28,7 @@ public:
     QString summary() const;
     QByteArray toJson() const;
     QString toString() const;
+    QVariant toVariant() const override;
 protected:
     bool fromJson(const QVariantMap json);
 };

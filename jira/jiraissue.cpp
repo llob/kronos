@@ -65,7 +65,18 @@ QString JiraIssue::summary() const
 
 QByteArray JiraIssue::toJson() const
 {
-    return "";
+    return ""; // FIXME Not yet implemented
+}
+
+QVariant JiraIssue::toVariant() const
+{
+    QVariantMap result;
+    QVariantMap fields;
+    fields.insert("summary", mSummary);
+    result.insert("fields", fields);
+    result.insert("key", mKey);
+    result.insert("id", mId);
+    return result;
 }
 
 QString JiraIssue::toString() const

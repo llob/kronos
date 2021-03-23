@@ -19,8 +19,9 @@ void MonthlyTotalCalculator::update()
 {
     mTotal = 0;
     auto firstDayOfMonth = firstMonthDay();
-    mJiraClient.search(QString("worklogDate >= %1 ORDER BY created DESC")
-                           .arg(JiraClient::jqlDate(firstDayOfMonth)));
+    mJiraClient.search(QString("worklogDate >= %1 and worklogAuthor = %2 ORDER BY created DESC")
+                           .arg(JiraClient::jqlDate(firstDayOfMonth))
+                           .arg(mSettings.jiraAccountId()));
 }
 
 void MonthlyTotalCalculator::jiraClientSearchFinished(QList<QSharedPointer<JiraIssue> > issues)

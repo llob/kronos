@@ -7,6 +7,7 @@
 #include <QDateTime>
 #include <QScrollArea>
 #include <QTime>
+#include "utils/colors.h"
 #include "jira/jiraworklog.h"
 #include "registrationdialog.h"
 
@@ -48,6 +49,12 @@ QDate DailyRegistrations::currentDate() const
     return mDate;
 }
 
+void DailyRegistrations::setWorking(bool working)
+{
+    mWorking = working;
+    repaint();
+}
+
 int DailyRegistrations::pixelsPerHour() {
     return height()/24;
 }
@@ -56,16 +63,16 @@ void DailyRegistrations::drawRegistrationRect(QPaintEvent *event, QPoint topLeft
     Q_UNUSED(event);
     QPainter painter(this);
     QRect rect(topLeft, bottomRight);
-    painter.setRenderHint(QPainter::Antialiasing);
+//    painter.setRenderHint(QPainter::Antialiasing);
     QPainterPath path;
     path.addRoundedRect(rect, 10, 10);
-    QPen pen(Qt::black, 1);
+    QPen pen(Colors::color1(), 1);
     painter.setPen(pen);
     painter.setOpacity(1.0);
-    painter.fillPath(path, Qt::green);
+    painter.fillPath(path, Colors::color2());
     painter.drawPath(path);
 
-    painter.setPen(Qt::black);
+    painter.setPen(Colors::color5());
     painter.setOpacity(1.0);
     painter.drawText(rect.adjusted(5, 5, -5, -5), Qt::AlignLeft|Qt::AlignTop, text);
 }
@@ -153,11 +160,32 @@ void DailyRegistrations::drawRegistrations(QPaintEvent *event)
     }
 }
 
+void DailyRegistrations::drawWorkingOverlay(QPaintEvent *event) {
+    Q_UNUSED(event);
+    return;
+    if (!mWorking) {
+        return;
+    }
+    QPainter painter(this);
+    painter.setOpacity(0.8);
+    painter.fillRect(rect(), Qt::black);
+    QPen pen;
+    pen.setColor(Qt::white);
+    pen.setWidth(5);
+    painter.setPen(pen);
+    painter.drawEllipse(100, 100, 100, 100);
+
+    pen.setColor(Qt::black);
+    painter.setPen(pen);
+    painter.drawArc(100, 100, 100, 100, 0, 320);
+}
+
 void DailyRegistrations::paintEvent(QPaintEvent *event)
 {
     drawTimes(event);
     drawRegistrationInProgress(event);
     drawRegistrations(event);
+    drawWorkingOverlay(event);
 }
 
 void DailyRegistrations::mousePressEvent(QMouseEvent *event)
@@ -182,6 +210,9 @@ void DailyRegistrations::mouseReleaseEvent(QMouseEvent *event)
             mDeleteConfirmationDialog->show();
         }
     } else if (event->button() == Qt::LeftButton) {
+        if (mRegistrationInProgressStartPos.isNull()) {
+            return;
+        }
         QPoint registrationInProgressEndPos = event->pos();
         QTime startTime;
         QTime endTime;

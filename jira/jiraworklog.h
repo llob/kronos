@@ -38,6 +38,7 @@ public:
     QString emailAddress() const;
     void setEmailAddress(const QString emailAddress);
     QByteArray toJson() const override;
+    QVariant toVariant() const override;
     bool contains(QDateTime dateTime);
 
 };
