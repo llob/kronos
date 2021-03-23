@@ -193,7 +193,6 @@ void DailyRegistrations::mousePressEvent(QMouseEvent *event)
     // Check if mouse was pressed inside an existing worklog
     if (event->button() == Qt::LeftButton) {
         if (!worklogFromPos(event->pos())) {
-            qDebug() << "Starting reg at" << timeFromPos(event->pos());
             mRegistrationInProgressStartPos = event->pos();
         }
     }

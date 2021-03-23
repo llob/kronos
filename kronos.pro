@@ -21,12 +21,14 @@ SOURCES +=  $$PWD/main.cpp \
             $$PWD/mainwindow.cpp \
             $$PWD/registrationdialog.cpp \
             $$PWD/deleteconfirmationdialog.cpp \
-            $$PWD/maincontroller.cpp
+            $$PWD/maincontroller.cpp \
+            registrationdialoglistvievitemdelegate.cpp
 
 HEADERS +=  $$PWD/mainwindow.h \
             $$PWD/registrationdialog.h \
             $$PWD/deleteconfirmationdialog.h \
-            $$PWD/maincontroller.h
+            $$PWD/maincontroller.h \
+            registrationdialoglistvievitemdelegate.h
 
 FORMS += \
     $$PWD/mainwindow.ui \

@@ -10,7 +10,10 @@ RegistrationDialog::RegistrationDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    mModel.setParent(ui->searchResultsListView);
     ui->searchResultsListView->setModel(&mModel);
+    mItemDelegate = new RegistrationDialogListVievItemDelegate();
+    ui->searchResultsListView->setItemDelegate(mItemDelegate);
     mSearchTimer.setSingleShot(true);
     setupConnections();
 }
@@ -53,7 +56,10 @@ QSharedPointer<JiraIssue> RegistrationDialog::jiraIssue()
 }
 
 void RegistrationDialog::populateModel() {
-    mModel.setStringList({});
+    mModel.clear();
+    mModel.setRecentIssues(mRecentIssues);
+    mModel.setSearchIssues(mJiraIssues);
+    /*
     QStringList issueStrs;
     foreach (QSharedPointer<JiraIssue> issue, mRecentIssues) {
         issueStrs.append(issueToString(issue));
@@ -62,6 +68,7 @@ void RegistrationDialog::populateModel() {
         issueStrs.append(issueToString(issue));
     }
     mModel.setStringList(issueStrs);
+*/
 }
 
 void RegistrationDialog::setRecentIssues(QList<QSharedPointer<JiraIssue> > issues)
@@ -104,7 +111,7 @@ void RegistrationDialog::searchTimerTimeout()
         query = QString("text ~ \"%1\" ORDER BY updated, created DESC").arg(terms);
     }
     mJiraClient.search(query);
-    mModel.setStringList({});
+    mModel.clear();
 }
 
 void RegistrationDialog::jiraClientSearchFinished(QList<QSharedPointer<JiraIssue> > issues)

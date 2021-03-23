@@ -7,9 +7,10 @@
 #include <QSharedPointer>
 #include <QItemSelection>
 #include <QItemSelectionModel>
-#include <QStringListModel>
+#include "registrationdialoglistmodel.h"
 #include "jira/jiraissue.h"
 #include "jira/jiraclient.h"
+#include "registrationdialoglistvievitemdelegate.h"
 
 namespace Ui {
 class RegistrationDialog;
@@ -40,8 +41,9 @@ private:
     QList<QSharedPointer<JiraIssue>> mJiraIssues;
     QList<QSharedPointer<JiraIssue>> mRecentIssues;
     QSharedPointer<JiraIssue> mJiraIssue;
-    QStringListModel mModel;
+    RegistrationDialogListModel mModel;
     JiraClient mJiraClient;
+    RegistrationDialogListVievItemDelegate *mItemDelegate;
     void setupConnections();
     void setupWorklogInformationLabel();
     void populateModel();
