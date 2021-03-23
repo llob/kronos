@@ -19,15 +19,11 @@ Kronos is a worklog tracker for Jira. It's a work in progress.
 - Disallow overlapping worklogs
 - "Working" overlay on DailyRegistrations
 - Label issues as "recent" or "search result" in registration dialog list
-- Scroll to start-of-work-day automatically, when rendering a new date.
 - Double clicking an issue should accept the registration dialog
-- Bug: Weekly and monthly totals look at all worklogs
-    not just those of current user
-- Bug: When adding the first registration for an issue, it cannot be located
-    in the list of cached issues, so nothing gets drawn until data for date
-    is reloaded from the server
-- Bug: Monthly total doesn't look correct at all times
-- Bug: Restart required to load profile image and stuff
+- Typing "Enter" should perform search immediately in registration dialog
+- Annoying tray icon which nags about logging work
+- Optional: Collapse authentication widgets
+- Optional: Persist window size and location across restarts
 - Optional: Keyboard shortcuts
 - Optional: Resize worklogs
 - Optional: Rebrand registrations as worklogs
