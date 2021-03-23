@@ -10,6 +10,7 @@ SOURCES += \
     $$PWD/jira/jiraworklog.cpp \
     $$PWD/settings/settings.cpp \
     $$PWD/settings/settingsprivate.cpp \
+    $$PWD/utils/colors.cpp \
     $$PWD/utils/monthlytotalcalculator.cpp \
     $$PWD/utils/recentissues.cpp \
     $$PWD/utils/weeklytotalcalculator.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     $$PWD/jira/jiraworklog.h \
     $$PWD/settings/settings.h \
     $$PWD/settings/settingsprivate.h \
+    $$PWD/utils/colors.h \
     $$PWD/utils/condition.h \
     $$PWD/utils/monthlytotalcalculator.h \
     $$PWD/utils/recentissues.h \
