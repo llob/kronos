@@ -61,7 +61,6 @@ void JiraClient::addWorklog(QSharedPointer<JiraWorklog> worklog)
 {
     QUrl u = url(QString("/rest/api/3/issue/%1/worklog")
                      .arg(worklog->issueId()));
-    qDebug() << worklog->toJson();
     auto reply = post(u, worklog->toJson());
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {

@@ -22,9 +22,11 @@ void TrayIconController::setupConnections()
 
 void TrayIconController::setupTimer()
 {
-    mNotificationTimer.setInterval(10000);
+    mNotificationTimer.setInterval(1000 * 600); // Every ten minutes
     QObject::connect(&mNotificationTimer, &QTimer::timeout,
                      [] {
 
                      });
+    mNotificationTimer.start();
+
 }
