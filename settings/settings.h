@@ -5,13 +5,16 @@
 #include <QPixmap>
 #include <QByteArray>
 #include <QBuffer>
+#include <QSharedPointer>
 #include "settingsprivate.h"
+
+class JiraIssue;
 
 class Settings : public QObject
 {
     Q_OBJECT
 private:
-    static SettingsPrivate *mSettings;
+    SettingsPrivate *mSettings;
 public:
     Settings();
     QString jiraUsername() const;
@@ -25,6 +28,10 @@ public:
     bool hasJiraAvatar() const;
     void setJiraDisplayName(const QString displayName);
     QString jiraDisplayName() const;
+    QString jiraHostname() const;
+    void setJiraHostname(QString jiraHostname);
+    QList<QSharedPointer<JiraIssue>> recentIssues() const;
+    void setRecentIssues(QList<QSharedPointer<JiraIssue>> issues);
 
 signals:
     void updated();

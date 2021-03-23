@@ -10,6 +10,124 @@
     <height>863</height>
    </rect>
   </property>
+  <property name="palette">
+   <palette>
+    <active>
+     <colorrole role="WindowText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>3</red>
+        <green>3</green>
+        <blue>1</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Highlight">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>0</red>
+        <green>217</green>
+        <blue>192</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </active>
+    <inactive>
+     <colorrole role="WindowText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>3</red>
+        <green>3</green>
+        <blue>1</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Highlight">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>0</red>
+        <green>217</green>
+        <blue>192</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </inactive>
+    <disabled>
+     <colorrole role="WindowText">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>120</red>
+        <green>120</green>
+        <blue>120</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Highlight">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>0</red>
+        <green>120</green>
+        <blue>215</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </disabled>
+   </palette>
+  </property>
   <property name="windowTitle">
    <string/>
   </property>
@@ -74,24 +192,10 @@
          </item>
          <item>
           <layout class="QGridLayout" name="gridLayout">
-           <item row="0" column="0">
-            <widget class="QLabel" name="jiraUsernameLabel">
-             <property name="text">
-              <string>Jira username</string>
-             </property>
-            </widget>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="jiraUsernameLineEdit"/>
            </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="jiraTokenLabel">
-             <property name="text">
-              <string>Jira token</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="jiraTokenLineEdit"/>
-           </item>
-           <item row="3" column="1">
+           <item row="5" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
               <spacer name="horizontalSpacer">
@@ -115,8 +219,36 @@
              </item>
             </layout>
            </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="jiraTokenLineEdit">
+             <property name="echoMode">
+              <enum>QLineEdit::PasswordEchoOnEdit</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="jiraTokenLabel">
+             <property name="text">
+              <string>Jira token</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="jiraUsernameLabel">
+             <property name="text">
+              <string>Jira username</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Jira hostname</string>
+             </property>
+            </widget>
+           </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="jiraUsernameLineEdit"/>
+            <widget class="QLineEdit" name="jiraHostnameLineEdit"/>
            </item>
           </layout>
          </item>
@@ -126,7 +258,25 @@
      </widget>
     </item>
     <item>
-     <widget class="QCalendarWidget" name="calendarWidget"/>
+     <widget class="QCalendarWidget" name="calendarWidget">
+      <property name="styleSheet">
+       <string notr="true">QCalendarWidget QWidget#qt_calendar_navigationbar {
+	background-color: rgb(255, 67, 101);
+}
+
+#qt_calendar_prevmonth {
+	background-color: rgb(255, 67, 101);
+    icon-size: 30px;
+    qproperty-icon: url(:/resources/chevron_left.svg);
+}
+#qt_calendar_nextmonth {
+	background-color: rgb(255, 67, 101);
+    icon-size: 30px;
+    qproperty-icon: url(:/resources/chevron_right.svg);
+}
+</string>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QScrollArea" name="scrollArea">
@@ -142,7 +292,7 @@
          <x>0</x>
          <y>0</y>
          <width>431</width>
-         <height>403</height>
+         <height>363</height>
         </rect>
        </property>
       </widget>
@@ -185,6 +335,14 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>jiraHostnameLineEdit</tabstop>
+  <tabstop>jiraUsernameLineEdit</tabstop>
+  <tabstop>jiraTokenLineEdit</tabstop>
+  <tabstop>savePushButton</tabstop>
+  <tabstop>calendarWidget</tabstop>
+  <tabstop>scrollArea</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

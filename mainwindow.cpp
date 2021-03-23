@@ -12,10 +12,18 @@ MainWindow::MainWindow(MainController *mainController, QWidget *parent)
 {
     mMainController = mainController;
     mJiraClient = new JiraClient();
+
     ui->setupUi(this);
+
     ui->avatarLabel->setAttribute(Qt::WA_TranslucentBackground, true);
     ui->avatarLabel->setStyleSheet("background-color: rgba(0,0,0,0%)");
     ui->avatarLabel->setAutoFillBackground(false);
+
+    ui->menubar->setVisible(false);
+
+    mAuthenticationStatusLabel = new QLabel();
+    ui->statusbar->addPermanentWidget(mAuthenticationStatusLabel);
+
     setupDailyRegistrations();
     setupConnections();
     setupCalendar();
@@ -33,6 +41,7 @@ void MainWindow::setupCredentials()
 {
     ui->jiraUsernameLineEdit->setText(mSettings.jiraUsername());
     ui->jiraTokenLineEdit->setText(mSettings.jiraToken());
+    ui->jiraHostnameLineEdit->setText(mSettings.jiraHostname());
     if (mSettings.hasJiraAvatar()) {
         this->setAvatar(mSettings.jiraAvatar());
     }
@@ -63,6 +72,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupConnections()
 {
+    QObject::connect(&mAuthenticationState, &AuthenticationState::stateChanged,
+                     this, &MainWindow::authenticationStateChanged);
     QObject::connect(&mSettings, &Settings::updated,
                      [this] {
                          if (mSettings.hasJiraAvatar()) {
@@ -74,6 +85,7 @@ void MainWindow::setupConnections()
                      [this] {
                          mSettings.setJiraUsername(this->ui->jiraUsernameLineEdit->text());
                          mSettings.setJiraToken(this->ui->jiraTokenLineEdit->text());
+                         mSettings.setJiraHostname(this->ui->jiraHostnameLineEdit->text());
                      });
     QObject::connect(ui->calendarWidget, &QCalendarWidget::selectionChanged,
                      [this] {
@@ -107,6 +119,16 @@ void MainWindow::weeklyTotalCalculatorUpdated(int seconds)
     int hours = seconds / 3600;
     int minutes = (seconds % 3600) / 60;
     ui->weeklyTotalLabel->setText(QString("Current weekly total: %1 hours %2 minutes").arg(hours).arg(minutes));
+}
+
+void MainWindow::authenticationStateChanged(AuthenticationState::State oldState, AuthenticationState::State newState)
+{
+    Q_UNUSED(oldState);
+    if (newState == AuthenticationState::AUTHENTICATED) {
+        mAuthenticationStatusLabel->setText("Authenticated");
+    } else {
+        mAuthenticationStatusLabel->setText("Not authenticated");
+    }
 }
 
 void MainWindow::setupDailyRegistrations()

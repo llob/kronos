@@ -30,6 +30,7 @@ public:
     bool active() const;
     void setActive(const bool active);
     QByteArray toJson() const;
+    QVariant toVariant() const override;
 
 protected:
     bool fromJson(const QVariantMap json);

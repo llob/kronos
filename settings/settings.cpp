@@ -1,11 +1,41 @@
 #include "settings.h"
-
-SettingsPrivate* Settings::mSettings = new SettingsPrivate();
+#include "jira/jiraissue.h"
 
 Settings::Settings()
 {
-    QObject::connect(Settings::mSettings, &SettingsPrivate::updated,
+    static SettingsPrivate* settings = new SettingsPrivate();
+    mSettings = settings;
+    QObject::connect(settings, &SettingsPrivate::updated,
                      this, &Settings::updated);
+}
+
+QString Settings::jiraHostname() const
+{
+    return mSettings->get("jiraHostname").toString();
+}
+
+void Settings::setJiraHostname(QString jiraHostname) {
+    mSettings->set("jiraHostname", jiraHostname);
+}
+
+QList<QSharedPointer<JiraIssue> > Settings::recentIssues() const
+{
+    QList<QSharedPointer<JiraIssue>> issues;
+    QVariantList variant = mSettings->get("recentIssues").toList();
+    foreach (QVariant issueVariant, variant) {
+        auto issue = QSharedPointer<JiraIssue>(new JiraIssue(issueVariant.toMap()));
+        issues.append(issue);
+    }
+    return issues;
+}
+
+void Settings::setRecentIssues(QList<QSharedPointer<JiraIssue> > issues)
+{
+    QVariantList variant;
+    foreach (QSharedPointer<JiraIssue> issue, issues) {
+        variant.append(issue->toVariant());
+    }
+    mSettings->set("recentIssues", variant);
 }
 
 QString Settings::jiraAccountId() const

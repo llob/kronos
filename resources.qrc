@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>resources/default-avatar.jpg</file>
+        <file>resources/chevron_left.svg</file>
+        <file>resources/chevron_right.svg</file>
+        <file>resources/watch.svg</file>
     </qresource>
 </RCC>

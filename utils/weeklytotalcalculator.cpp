@@ -18,8 +18,9 @@ void WeeklyTotalCalculator::update()
 {
     mTotal = 0;
     auto firstDayOfWeek = firstWeekDay();
-    mJiraClient.search(QString("worklogDate = %1 ORDER BY created DESC")
-                           .arg(JiraClient::jqlDate(firstDayOfWeek)));
+    mJiraClient.search(QString("worklogDate >= %1 and worklogAuthor = %2 ORDER BY created DESC")
+                           .arg(JiraClient::jqlDate(firstDayOfWeek))
+                           .arg(mSettings.jiraAccountId()));
 }
 
 void WeeklyTotalCalculator::jiraClientSearchFinished(QList<QSharedPointer<JiraIssue> > issues)

@@ -4,7 +4,7 @@ const int RecentIssues::mMaxIssueCount = 10;
 
 RecentIssues::RecentIssues(QObject *parent) : QObject(parent)
 {
-
+    mIssues = mSettings.recentIssues();
 }
 
 void RecentIssues::addIssue(QSharedPointer<JiraIssue> issue)
@@ -17,6 +17,7 @@ void RecentIssues::addIssue(QSharedPointer<JiraIssue> issue)
     foreach (QSharedPointer<JiraIssue> issue, mIssues) {
         qDebug() << "[RecentIssues]" << issue->key();
     }
+    mSettings.setRecentIssues(mIssues);
 }
 
 QList<QSharedPointer<JiraIssue> > RecentIssues::issues() const

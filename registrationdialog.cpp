@@ -101,7 +101,7 @@ void RegistrationDialog::searchTimerTimeout()
     if (issueKeyRegExp.match(terms).hasMatch()) {
         query = QString("issuekey = \"%1\"").arg(terms);
     } else {
-        query = QString("text ~ \"%1\"").arg(terms);
+        query = QString("text ~ \"%1\" ORDER BY updated, created DESC").arg(terms);
     }
     mJiraClient.search(query);
     mModel.setStringList({});

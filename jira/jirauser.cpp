@@ -84,6 +84,12 @@ QByteArray JiraUser::toJson() const
     return QJsonDocument::fromVariant(obj).toJson();
 }
 
+QVariant JiraUser::toVariant() const
+{
+    // FIXME Not yet implemented
+    return QVariant();
+}
+
 bool JiraUser::fromJson(const QVariantMap json)
 {
     setAccountId(json.value("accountId").toString());

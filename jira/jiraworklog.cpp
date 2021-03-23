@@ -123,6 +123,12 @@ QByteArray JiraWorklog::toJson() const
     return QJsonDocument::fromVariant(obj).toJson();
 }
 
+QVariant JiraWorklog::toVariant() const
+{
+    // FIXME Not yet implemented
+    return QVariant();
+}
+
 bool JiraWorklog::contains(QDateTime dateTime)
 {
     QDateTime endTime = mStarted.addSecs(mTimeSpentSeconds);
