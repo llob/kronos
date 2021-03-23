@@ -9,7 +9,7 @@ Kronos is a worklog tracker for Jira. It's a work in progress.
 - Happy color scheme to brighten your day
 
 # Screenshot
-![Kronos screenshot](kronos-screenshot.jpg)
+![Kronos screenshot](kronos-screenshot.png)
 
 # Build status
 ![Unit-test workflow](https://github.com/llob/kronos/actions/workflows/unit-tests.yml/badge.svg)
