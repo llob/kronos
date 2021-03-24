@@ -5,12 +5,27 @@ DailyRegistrationsModel::DailyRegistrationsModel(JiraClient *jiraClient)
     mJiraClient = jiraClient;
     QObject::connect(mJiraClient, &JiraClient::searchFinished,
                      this, &DailyRegistrationsModel::searchFinished);
+    QObject::connect(mJiraClient, &JiraClient::searchFailed,
+                     this, &DailyRegistrationsModel::searchFailed);
+
     QObject::connect(mJiraClient, &JiraClient::issueWorklogsFinished,
                      this, &DailyRegistrationsModel::issueWorklogsFinished);
+    QObject::connect(mJiraClient, &JiraClient::issueWorklogsFailed,
+                     this, &DailyRegistrationsModel::issueWorklogsFailed);
+
     QObject::connect(mJiraClient, &JiraClient::addWorklogFinished,
                      this, &DailyRegistrationsModel::addWorklogFinished);
+    QObject::connect(mJiraClient, &JiraClient::addWorklogFailed,
+                     this, &DailyRegistrationsModel::addWorklogFailed);
+
+
     QObject::connect(mJiraClient, &JiraClient::deleteWorklogFinished,
                      this, &DailyRegistrationsModel::deleteWorklogFinished);
+    QObject::connect(mJiraClient, &JiraClient::deleteWorklogFailed,
+                     this, &DailyRegistrationsModel::deleteWorklogFailed);
+
+
+
     setCurrentDate(QDate::currentDate());
 }
 
@@ -83,6 +98,11 @@ void DailyRegistrationsModel::issueWorklogsFinished(QList<QSharedPointer<JiraWor
     emit updated();
 }
 
+void DailyRegistrationsModel::issueWorklogsFailed(int httpCode, QNetworkReply::NetworkError error, QString message)
+{
+    qDebug() << __FUNCTION__ << httpCode << error << message;
+}
+
 void DailyRegistrationsModel::searchFinished(QList<QSharedPointer<JiraIssue> > issues)
 {
     mIssues = issues;
@@ -91,15 +111,32 @@ void DailyRegistrationsModel::searchFinished(QList<QSharedPointer<JiraIssue> > i
     }
 }
 
+void DailyRegistrationsModel::searchFailed(int httpCode, QNetworkReply::NetworkError error, QString message)
+{
+    qDebug() << __FUNCTION__ << httpCode << error << message;
+}
+
 void DailyRegistrationsModel::addWorklogFinished(QSharedPointer<JiraWorklog> worklog)
 {
+    qDebug() << "Add worklog finished";
     mWorklogs.append(worklog);
     emit updated();
 }
 
+void DailyRegistrationsModel::addWorklogFailed(int httpCode, QNetworkReply::NetworkError error, QString message)
+{
+    qDebug() << __FUNCTION__ << httpCode << error << message;
+}
+
 void DailyRegistrationsModel::deleteWorklogFinished(bool success)
 {
+    qDebug() << "Delete worklog finished";
     // FIXME Handle errors
     Q_UNUSED(success);
     setCurrentDate(mCurrentDate); // Force refresh of loaded worklogs
+}
+
+void DailyRegistrationsModel::deleteWorklogFailed(int httpCode, QNetworkReply::NetworkError error, QString message)
+{
+    qDebug() << __FUNCTION__ << httpCode << error << message;
 }
