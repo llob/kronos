@@ -17,6 +17,8 @@ Kronos is a worklog tracker for Jira. It's a work in progress.
 
 # Todos
 - Disallow overlapping worklogs
+- Prefer jira issues assigned to current user in search result
+- Prefer jira issues in current sprint in search result
 - "Working" overlay on DailyRegistrations
 - Label issues as "recent" or "search result" in registration dialog list
 - Double clicking an issue should accept the registration dialog

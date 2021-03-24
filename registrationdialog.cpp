@@ -59,16 +59,6 @@ void RegistrationDialog::populateModel() {
     mModel.clear();
     mModel.setRecentIssues(mRecentIssues);
     mModel.setSearchIssues(mJiraIssues);
-    /*
-    QStringList issueStrs;
-    foreach (QSharedPointer<JiraIssue> issue, mRecentIssues) {
-        issueStrs.append(issueToString(issue));
-    }
-    foreach (QSharedPointer<JiraIssue> issue, mJiraIssues) {
-        issueStrs.append(issueToString(issue));
-    }
-    mModel.setStringList(issueStrs);
-*/
 }
 
 void RegistrationDialog::setRecentIssues(QList<QSharedPointer<JiraIssue> > issues)
@@ -112,6 +102,7 @@ void RegistrationDialog::searchTimerTimeout()
     }
     mJiraClient.search(query);
     mModel.clear();
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
 void RegistrationDialog::jiraClientSearchFinished(QList<QSharedPointer<JiraIssue> > issues)
@@ -126,7 +117,7 @@ QSharedPointer<JiraIssue> RegistrationDialog::issueByModelIndex(int index) {
         return mRecentIssues.at(index);
     }
     if (index < mRecentIssues.length() + mJiraIssues.length()) {
-        return mJiraIssues.at(index);
+        return mJiraIssues.at(index - mRecentIssues.length());
     }
     return nullptr;
 }
