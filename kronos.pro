@@ -22,13 +22,13 @@ SOURCES +=  $$PWD/main.cpp \
             $$PWD/registrationdialog.cpp \
             $$PWD/deleteconfirmationdialog.cpp \
             $$PWD/maincontroller.cpp \
-            registrationdialoglistvievitemdelegate.cpp
+            $$PWD/registrationdialoglistvievitemdelegate.cpp
 
 HEADERS +=  $$PWD/mainwindow.h \
             $$PWD/registrationdialog.h \
             $$PWD/deleteconfirmationdialog.h \
             $$PWD/maincontroller.h \
-            registrationdialoglistvievitemdelegate.h
+            $$PWD/registrationdialoglistvievitemdelegate.h
 
 FORMS += \
     $$PWD/mainwindow.ui \
