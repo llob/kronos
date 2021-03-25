@@ -6,7 +6,7 @@
 #include <QVariant>
 #include <QDebug>
 #include <QSharedPointer>
-#include "jiraobject.h"
+#include "abstractmodels/jiraobject.h"
 
 class JiraWorklog : public JiraObject
 {

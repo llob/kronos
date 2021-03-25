@@ -1,27 +1,27 @@
 #include "dailyregistrationsmodel.h"
 
-DailyRegistrationsModel::DailyRegistrationsModel(JiraClient *jiraClient)
+DailyRegistrationsModel::DailyRegistrationsModel(QSharedPointer<JiraClient> jiraClient)
 {
     mJiraClient = jiraClient;
-    QObject::connect(mJiraClient, &JiraClient::searchFinished,
+    QObject::connect(mJiraClient.data(), &JiraClient::searchFinished,
                      this, &DailyRegistrationsModel::searchFinished);
-    QObject::connect(mJiraClient, &JiraClient::searchFailed,
+    QObject::connect(mJiraClient.data(), &JiraClient::searchFailed,
                      this, &DailyRegistrationsModel::searchFailed);
 
-    QObject::connect(mJiraClient, &JiraClient::issueWorklogsFinished,
+    QObject::connect(mJiraClient.data(), &JiraClient::issueWorklogsFinished,
                      this, &DailyRegistrationsModel::issueWorklogsFinished);
-    QObject::connect(mJiraClient, &JiraClient::issueWorklogsFailed,
+    QObject::connect(mJiraClient.data(), &JiraClient::issueWorklogsFailed,
                      this, &DailyRegistrationsModel::issueWorklogsFailed);
 
-    QObject::connect(mJiraClient, &JiraClient::addWorklogFinished,
+    QObject::connect(mJiraClient.data(), &JiraClient::addWorklogFinished,
                      this, &DailyRegistrationsModel::addWorklogFinished);
-    QObject::connect(mJiraClient, &JiraClient::addWorklogFailed,
+    QObject::connect(mJiraClient.data(), &JiraClient::addWorklogFailed,
                      this, &DailyRegistrationsModel::addWorklogFailed);
 
 
-    QObject::connect(mJiraClient, &JiraClient::deleteWorklogFinished,
+    QObject::connect(mJiraClient.data(), &JiraClient::deleteWorklogFinished,
                      this, &DailyRegistrationsModel::deleteWorklogFinished);
-    QObject::connect(mJiraClient, &JiraClient::deleteWorklogFailed,
+    QObject::connect(mJiraClient.data(), &JiraClient::deleteWorklogFailed,
                      this, &DailyRegistrationsModel::deleteWorklogFailed);
 
 
@@ -130,8 +130,6 @@ void DailyRegistrationsModel::addWorklogFailed(int httpCode, QNetworkReply::Netw
 
 void DailyRegistrationsModel::deleteWorklogFinished(bool success)
 {
-    qDebug() << "Delete worklog finished";
-    // FIXME Handle errors
     Q_UNUSED(success);
     setCurrentDate(mCurrentDate); // Force refresh of loaded worklogs
 }

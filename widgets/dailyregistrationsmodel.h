@@ -12,14 +12,14 @@ class DailyRegistrationsModel : public QObject
 {
     Q_OBJECT
 private:
-    JiraClient *mJiraClient;
+    QSharedPointer<JiraClient> mJiraClient;
     QList<QSharedPointer<JiraWorklog>> mWorklogs;
     QList<QSharedPointer<JiraIssue>> mIssues;
     QDate mCurrentDate;
     Settings mSettings;
     RecentIssues mRecentIssues;
 public:
-    DailyRegistrationsModel(JiraClient *jiraClient);
+    DailyRegistrationsModel(QSharedPointer<JiraClient> jiraClient);
     QList<QSharedPointer<JiraWorklog>> worklogs() const;
     QSharedPointer<JiraIssue> issueById(const QString issueId) const;
     QList<QSharedPointer<JiraIssue>> recentIssues() const;

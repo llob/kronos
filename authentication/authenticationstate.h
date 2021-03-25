@@ -2,6 +2,7 @@
 #define AUTHENTICATIONSTATE_H
 
 #include <QObject>
+#include <QSharedPointer>
 
 class AuthenticationStatePrivate;
 
@@ -19,7 +20,7 @@ public:
     State state() const;
     bool authenticated() const;
 private:
-    AuthenticationStatePrivate *mAuthenticationStatePrivate;
+    QSharedPointer<AuthenticationStatePrivate> mAuthenticationStatePrivate;
 signals:
     void stateChanged(AuthenticationState::State oldState, AuthenticationState::State newState);
 };

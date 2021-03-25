@@ -24,7 +24,6 @@ Kronos is a worklog tracker for Jira. It's a work in progress.
 - Typing "Enter" should perform search immediately in registration dialog
 - Annoying tray icon which nags about logging work
 - Increased test coverage
-- Review for memory leaks
 - Inline documentation
 - Optional: Collapse authentication widgets
 - Optional: Persist window size and location across restarts

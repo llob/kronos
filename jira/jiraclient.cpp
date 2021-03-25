@@ -6,7 +6,7 @@
 
 JiraClient::JiraClient()
 {
-    mNam = new QNetworkAccessManager();
+    mNam = QSharedPointer<QNetworkAccessManager>(new QNetworkAccessManager());
     settingsUpdated(); // Read settings
     QObject::connect(&mSettings, &Settings::updated,
                      this, &JiraClient::settingsUpdated);

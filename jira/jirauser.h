@@ -1,7 +1,7 @@
 #ifndef JIRAUSER_H
 #define JIRAUSER_H
 
-#include "jiraobject.h"
+#include "abstractmodels/jiraobject.h"
 
 class JiraUser : public JiraObject
 {

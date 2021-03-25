@@ -4,7 +4,7 @@
 
 SettingsPrivate::SettingsPrivate()
 {
-    mSettings = new QSettings("fork.dk", "kronos");
+    mSettings = QSharedPointer<QSettings>(new QSettings("fork.dk", "kronos"));
 }
 
 QVariant SettingsPrivate::get(QString key) {

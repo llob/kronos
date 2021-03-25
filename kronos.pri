@@ -1,10 +1,9 @@
 SOURCES += \
     $$PWD/authentication/authenticationstate.cpp \
     $$PWD/authentication/authenticationstateprivate.cpp \
+    $$PWD/abstractmodels/jiraobject.cpp \
     $$PWD/jira/jiraclient.cpp \
     $$PWD/jira/jiraissue.cpp \
-    $$PWD/jira/jiraobject.cpp \
-    $$PWD/jira/jirasession.cpp \
     $$PWD/jira/jirauser.cpp \
     $$PWD/jira/jirautils.cpp \
     $$PWD/jira/jiraworklog.cpp \
@@ -22,10 +21,9 @@ SOURCES += \
 HEADERS += \
     $$PWD/authentication/authenticationstate.h \
     $$PWD/authentication/authenticationstateprivate.h \
+    $$PWD/abstractmodels/jiraobject.h \
     $$PWD/jira/jiraclient.h \
     $$PWD/jira/jiraissue.h \
-    $$PWD/jira/jiraobject.h \
-    $$PWD/jira/jirasession.h \
     $$PWD/jira/jirauser.h \
     $$PWD/jira/jirautils.h \
     $$PWD/jira/jiraworklog.h \

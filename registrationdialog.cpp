@@ -98,9 +98,9 @@ void RegistrationDialog::searchTimerTimeout()
     if (issueKeyRegExp.match(terms).hasMatch()) {
         query = QString("issuekey = \"%1\"").arg(terms);
     } else {
-        query = QString("text ~ \"%1\" ORDER BY updated, created DESC").arg(terms);
+        query = QString("text ~ \"%1\" AND statusCategory in (\"In Progress\", \"To Do\") ORDER BY updated, created DESC").arg(terms);
     }
-    mJiraClient.search(query);
+    mJiraClient.search(query, 0, 50);
     mModel.clear();
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }

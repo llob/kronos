@@ -14,9 +14,6 @@ void RecentIssues::addIssue(QSharedPointer<JiraIssue> issue)
     if (mIssues.length() > mMaxIssueCount) {
         mIssues.removeLast();
     }
-    foreach (QSharedPointer<JiraIssue> issue, mIssues) {
-        qDebug() << "[RecentIssues]" << issue->key();
-    }
     mSettings.setRecentIssues(mIssues);
 }
 

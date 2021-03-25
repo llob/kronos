@@ -7,7 +7,7 @@
 #include <QVariantMap>
 #include <QVariant>
 #include <QDebug>
-#include "jiraobject.h"
+#include "abstractmodels/jiraobject.h"
 
 class JiraIssue : public JiraObject
 {

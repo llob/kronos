@@ -11,7 +11,6 @@
 #include "jira/jiraissue.h"
 #include "jira/jiraworklog.h"
 #include "jira/jirauser.h"
-#include "jira/jirasession.h"
 #include "settings/settings.h"
 
 class JiraClient : public QObject
@@ -23,7 +22,7 @@ private:
     QNetworkReply *get(QUrl url);
     QNetworkReply *post(QUrl url, QByteArray data);
     QUrl url(QString path, QString query);
-    QNetworkAccessManager *mNam;
+    QSharedPointer<QNetworkAccessManager> mNam;
     Settings mSettings;
 
     /**
