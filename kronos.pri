@@ -1,7 +1,12 @@
+QT += network gui widgets
+
 SOURCES += \
+    $$PWD/abstractmodels/abstractissue.cpp \
+    $$PWD/abstractmodels/abstractuser.cpp \
+    $$PWD/abstractmodels/abstractworklog.cpp \
+    $$PWD/abstractmodels/modelobject.cpp \
     $$PWD/authentication/authenticationstate.cpp \
     $$PWD/authentication/authenticationstateprivate.cpp \
-    $$PWD/abstractmodels/jiraobject.cpp \
     $$PWD/jira/jiraclient.cpp \
     $$PWD/jira/jiraissue.cpp \
     $$PWD/jira/jirauser.cpp \
@@ -15,13 +20,15 @@ SOURCES += \
     $$PWD/utils/monthlytotalcalculator.cpp \
     $$PWD/utils/recentissues.cpp \
     $$PWD/utils/weeklytotalcalculator.cpp \
-    $$PWD/widgets/dailyregistrations.cpp \
     $$PWD/widgets/dailyregistrationsmodel.cpp
 
 HEADERS += \
+    $$PWD/abstractmodels/abstractissue.h \
+    $$PWD/abstractmodels/abstractuser.h \
+    $$PWD/abstractmodels/abstractworklog.h \
+    $$PWD/abstractmodels/modelobject.h \
     $$PWD/authentication/authenticationstate.h \
     $$PWD/authentication/authenticationstateprivate.h \
-    $$PWD/abstractmodels/jiraobject.h \
     $$PWD/jira/jiraclient.h \
     $$PWD/jira/jiraissue.h \
     $$PWD/jira/jirauser.h \
@@ -36,7 +43,6 @@ HEADERS += \
     $$PWD/utils/monthlytotalcalculator.h \
     $$PWD/utils/recentissues.h \
     $$PWD/utils/weeklytotalcalculator.h \
-    $$PWD/widgets/dailyregistrations.h \
     $$PWD/widgets/dailyregistrationsmodel.h
 
 INCLUDEPATH += $$PWD

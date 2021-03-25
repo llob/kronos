@@ -22,7 +22,7 @@ QList<QSharedPointer<JiraIssue> > JiraIssue::fromJsonList(const QVariantList lis
     QList<QSharedPointer<JiraIssue>> issues;
     foreach (QVariant issueNode, list) {
         // Loop over each issue which is itself a map
-        if (!issueNode.canConvert(QMetaType::QVariantMap)) {
+        if (!issueNode.canConvert<QVariantMap>()) {
             qWarning() << "[JiraResponseSearch] Failed to convert issue to map";
             continue;
         }
@@ -31,41 +31,6 @@ QList<QSharedPointer<JiraIssue> > JiraIssue::fromJsonList(const QVariantList lis
         issues.append(ji);
     }
     return issues;
-}
-
-void JiraIssue::setKey(const QString key)
-{
-    mKey = key;
-}
-
-QString JiraIssue::key() const
-{
-    return mKey;
-}
-
-void JiraIssue::setId(const QString id)
-{
-    mId = id;
-}
-
-QString JiraIssue::id() const
-{
-    return mId;
-}
-
-void JiraIssue::setSummary(const QString summary)
-{
-    mSummary = summary;
-}
-
-QString JiraIssue::summary() const
-{
-    return mSummary;
-}
-
-QByteArray JiraIssue::toJson() const
-{
-    return ""; // FIXME Not yet implemented
 }
 
 QVariant JiraIssue::toVariant() const

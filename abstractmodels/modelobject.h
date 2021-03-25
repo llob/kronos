@@ -1,17 +1,18 @@
-#ifndef JIRAOBJECT_H
-#define JIRAOBJECT_H
+#ifndef MODELOBJECT_H
+#define MODELOBJECT_H
 
 #include <QByteArray>
 #include <QJsonObject>
 #include <QVariantMap>
+#include <QSharedPointer>
 
-class JiraObject
+class ModelObject
 {
     bool mValid = false;
 public:
-    JiraObject();
-    JiraObject(const QByteArray json);
-    JiraObject(const QVariantMap json);
+    ModelObject();
+    ModelObject(const QByteArray json);
+    ModelObject(const QVariantMap json);
     virtual QByteArray toJson() const = 0;
     virtual QVariant toVariant() const = 0;
     bool valid() const;
@@ -20,4 +21,4 @@ protected:
     bool fromJson(const QVariantMap json);
 };
 
-#endif // JIRAOBJECT_H
+#endif // MODELOBJECT_H

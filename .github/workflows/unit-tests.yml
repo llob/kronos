@@ -19,4 +19,6 @@ jobs:
       run: qmake
     - name: Build Kronos
       run: make -j8
+    - name: Build unit tests
+      run: cd tests && make -j8
 

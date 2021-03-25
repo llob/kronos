@@ -7,26 +7,17 @@
 #include <QVariantMap>
 #include <QVariant>
 #include <QDebug>
-#include "abstractmodels/jiraobject.h"
+#include "abstractmodels/abstractissue.h"
 
-class JiraIssue : public JiraObject
+class JiraIssue : public AbstractIssue
 {
 private:
-    QString mKey;
-    QString mSummary;
-    QString mId;
+
 public:
     JiraIssue();
     JiraIssue(const QVariantMap json);
     JiraIssue(const QByteArray json);
     static QList<QSharedPointer<JiraIssue>> fromJsonList(const QVariantList list);
-    void setKey(const QString key);
-    QString key() const;
-    void setId(const QString id);
-    QString id() const;
-    void setSummary(const QString summary);
-    QString summary() const;
-    QByteArray toJson() const;
     QString toString() const;
     QVariant toVariant() const override;
 protected:
