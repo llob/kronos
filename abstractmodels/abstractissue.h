@@ -1,6 +1,8 @@
 #ifndef ABSTRACTISSUE_H
 #define ABSTRACTISSUE_H
 
+#include <QByteArray>
+#include <QString>
 #include "modelobject.h"
 
 class AbstractIssue : public ModelObject

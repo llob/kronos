@@ -1,6 +1,10 @@
 #ifndef ABSTRACTWORKLOG_H
 #define ABSTRACTWORKLOG_H
 
+#include <QString>
+#include <QDateTime>
+#include <QVariantMap>
+#include <QByteArray>
 #include "modelobject.h"
 
 class AbstractWorklog : public ModelObject

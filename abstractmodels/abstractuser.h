@@ -1,6 +1,7 @@
 #ifndef ABSTRACTUSER_H
 #define ABSTRACTUSER_H
 
+#include <QString>
 #include "modelobject.h"
 
 class AbstractUser : public ModelObject
