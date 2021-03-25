@@ -27,7 +27,7 @@ private:
     Ui::MainWindow *ui;
     DailyRegistrations *dailyRegistrations;
     QDate mCurrentDate;
-    JiraClient *mJiraClient;
+    QSharedPointer<JiraClient> mJiraClient;
     Settings mSettings;
     MainController *mMainController;
     MonthlyTotalCalculator mMonthlyTotalCalculator;

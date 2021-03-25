@@ -18,66 +18,6 @@ JiraUser::JiraUser(const QVariantMap json)
     fromJson(json);
 }
 
-QString JiraUser::accountId() const
-{
-    return mAccountId;
-}
-
-void JiraUser::setAccountId(const QString accountId)
-{
-    mAccountId = accountId;
-}
-
-QString JiraUser::name() const
-{
-    return mName;
-}
-
-void JiraUser::setName(const QString name)
-{
-    mName = name;
-}
-
-QString JiraUser::emailAddress() const
-{
-    return mEmailAddress;
-}
-
-void JiraUser::setEmailAddress(const QString emailAddress)
-{
-    mEmailAddress = emailAddress;
-}
-
-QStringList JiraUser::avatarUrls() const
-{
-    return mAvatarUrls;
-}
-
-void JiraUser::setAvatarUrls(const QStringList avatarUrls)
-{
-    mAvatarUrls = avatarUrls;
-}
-
-QString JiraUser::displayName() const
-{
-    return mDisplayName;
-}
-
-void JiraUser::setDisplayName(const QString displayName)
-{
-    mDisplayName = displayName;
-}
-
-bool JiraUser::active() const
-{
-    return mActive;
-}
-
-void JiraUser::setActive(const bool active)
-{
-    mActive = active;
-}
-
 QByteArray JiraUser::toJson() const
 {
     QVariantMap obj;

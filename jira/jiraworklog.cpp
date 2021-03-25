@@ -13,7 +13,7 @@ bool JiraWorklog::fromJson(const QVariantMap json)
 
     // Parse the "author" object
     QVariant authorNode = json.value("author");
-    if (!authorNode.canConvert(QMetaType::QVariantMap)) {
+    if (!authorNode.canConvert<QVariantMap>()) {
         qDebug() << "[JiraResponseWorklog] Failed to convert author to map";
         return false;
     }
@@ -29,13 +29,13 @@ JiraWorklog::JiraWorklog()
 
 }
 
-JiraWorklog::JiraWorklog(const QByteArray json) : JiraObject(json)
+JiraWorklog::JiraWorklog(const QByteArray json) : AbstractWorklog(json)
 {
     auto jsonDocument = QJsonDocument::fromJson(json);
     fromJson(jsonDocument.toVariant().toMap());
 }
 
-JiraWorklog::JiraWorklog(const QVariantMap json) : JiraObject(json)
+JiraWorklog::JiraWorklog(const QVariantMap json) : AbstractWorklog(json)
 {
     fromJson(json);
 }
@@ -45,7 +45,7 @@ QList<QSharedPointer<JiraWorklog> > JiraWorklog::fromJsonList(const QVariantList
     QList<QSharedPointer<JiraWorklog>> worklogs;
     foreach (QVariant worklogNode, list) {
         // Loop over each issue which is itself a map
-        if (!worklogNode.canConvert(QMetaType::QVariantMap)) {
+        if (!worklogNode.canConvert<QVariantMap>()) {
             qWarning() << "[JiraResponseWorklog] Failed to convert issue to map";
         }
         QVariantMap worklog = worklogNode.toMap();
@@ -53,66 +53,6 @@ QList<QSharedPointer<JiraWorklog> > JiraWorklog::fromJsonList(const QVariantList
         worklogs.append(jw);
     }
     return worklogs;
-}
-
-QString JiraWorklog::id() const
-{
-    return mId;
-}
-
-void JiraWorklog::setId(const QString id)
-{
-    mId = id;
-}
-
-QString JiraWorklog::issueId() const
-{
-    return mIssueId;
-}
-
-void JiraWorklog::setIssueId(const QString issueId)
-{
-    mIssueId = issueId;
-}
-
-QDateTime JiraWorklog::started() const
-{
-    return mStarted;
-}
-
-void JiraWorklog::setStarted(const QDateTime started)
-{
-    mStarted = started;
-}
-
-int JiraWorklog::timeSpentSeconds() const
-{
-    return mTimeSpentSeconds;
-}
-
-void JiraWorklog::setTimeSpentSeconds(int timeSpentSeconds)
-{
-    mTimeSpentSeconds = timeSpentSeconds;
-}
-
-QString JiraWorklog::accountId() const
-{
-    return mAccountId;
-}
-
-void JiraWorklog::setAccountId(const QString accountId)
-{
-    mAccountId = accountId;
-}
-
-QString JiraWorklog::emailAddress() const
-{
-    return mEmailAddress;
-}
-
-void JiraWorklog::setEmailAddress(const QString emailAddress)
-{
-    mEmailAddress = emailAddress;
 }
 
 QByteArray JiraWorklog::toJson() const
@@ -127,10 +67,4 @@ QVariant JiraWorklog::toVariant() const
 {
     // FIXME Not yet implemented
     return QVariant();
-}
-
-bool JiraWorklog::contains(QDateTime dateTime)
-{
-    QDateTime endTime = mStarted.addSecs(mTimeSpentSeconds);
-    return (dateTime <= endTime && dateTime >= mStarted);
 }

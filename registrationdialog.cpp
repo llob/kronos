@@ -10,7 +10,10 @@ RegistrationDialog::RegistrationDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    mModel.setParent(ui->searchResultsListView);
     ui->searchResultsListView->setModel(&mModel);
+    mItemDelegate = new RegistrationDialogListVievItemDelegate();
+    ui->searchResultsListView->setItemDelegate(mItemDelegate);
     mSearchTimer.setSingleShot(true);
     setupConnections();
 }
@@ -53,15 +56,9 @@ QSharedPointer<JiraIssue> RegistrationDialog::jiraIssue()
 }
 
 void RegistrationDialog::populateModel() {
-    mModel.setStringList({});
-    QStringList issueStrs;
-    foreach (QSharedPointer<JiraIssue> issue, mRecentIssues) {
-        issueStrs.append(issueToString(issue));
-    }
-    foreach (QSharedPointer<JiraIssue> issue, mJiraIssues) {
-        issueStrs.append(issueToString(issue));
-    }
-    mModel.setStringList(issueStrs);
+    mModel.clear();
+    mModel.setRecentIssues(mRecentIssues);
+    mModel.setSearchIssues(mJiraIssues);
 }
 
 void RegistrationDialog::setRecentIssues(QList<QSharedPointer<JiraIssue> > issues)
@@ -101,10 +98,11 @@ void RegistrationDialog::searchTimerTimeout()
     if (issueKeyRegExp.match(terms).hasMatch()) {
         query = QString("issuekey = \"%1\"").arg(terms);
     } else {
-        query = QString("text ~ \"%1\" ORDER BY updated, created DESC").arg(terms);
+        query = QString("text ~ \"%1\" AND statusCategory in (\"In Progress\", \"To Do\") ORDER BY updated, created DESC").arg(terms);
     }
-    mJiraClient.search(query);
-    mModel.setStringList({});
+    mJiraClient.search(query, 0, 50);
+    mModel.clear();
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
 void RegistrationDialog::jiraClientSearchFinished(QList<QSharedPointer<JiraIssue> > issues)
@@ -119,7 +117,7 @@ QSharedPointer<JiraIssue> RegistrationDialog::issueByModelIndex(int index) {
         return mRecentIssues.at(index);
     }
     if (index < mRecentIssues.length() + mJiraIssues.length()) {
-        return mJiraIssues.at(index);
+        return mJiraIssues.at(index - mRecentIssues.length());
     }
     return nullptr;
 }

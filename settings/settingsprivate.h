@@ -4,12 +4,13 @@
 #include <QObject>
 #include <QSettings>
 #include <QMutex>
+#include <QSharedPointer>
 
 class SettingsPrivate : public QObject
 {
     Q_OBJECT
 private:
-    QSettings *mSettings;
+    QSharedPointer<QSettings> mSettings;
     QMutex mMutex;
 public:
     SettingsPrivate();

@@ -3,9 +3,9 @@
 
 AuthenticationState::AuthenticationState(QObject *parent) : QObject(parent)
 {
-    static AuthenticationStatePrivate* authenticationStatePrivate = new AuthenticationStatePrivate();
+    static QSharedPointer<AuthenticationStatePrivate> authenticationStatePrivate(new AuthenticationStatePrivate());
     mAuthenticationStatePrivate = authenticationStatePrivate;
-    QObject::connect(mAuthenticationStatePrivate, &AuthenticationStatePrivate::stateChanged,
+    QObject::connect(mAuthenticationStatePrivate.data(), &AuthenticationStatePrivate::stateChanged,
                      this, &AuthenticationState::stateChanged);
 }
 

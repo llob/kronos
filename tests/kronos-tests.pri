@@ -1,0 +1,1 @@
+DESTDIR = $$PWD/test-executables/

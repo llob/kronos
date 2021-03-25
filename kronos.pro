@@ -1,4 +1,4 @@
-QT       += core gui network
+QT       += core
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,12 +21,17 @@ SOURCES +=  $$PWD/main.cpp \
             $$PWD/mainwindow.cpp \
             $$PWD/registrationdialog.cpp \
             $$PWD/deleteconfirmationdialog.cpp \
-            $$PWD/maincontroller.cpp
+            $$PWD/maincontroller.cpp \
+            $$PWD/registrationdialoglistvievitemdelegate.cpp \
+            $$PWD/widgets/dailyregistrations.cpp
 
 HEADERS +=  $$PWD/mainwindow.h \
             $$PWD/registrationdialog.h \
             $$PWD/deleteconfirmationdialog.h \
-            $$PWD/maincontroller.h
+            $$PWD/maincontroller.h \
+            $$PWD/registrationdialoglistvievitemdelegate.h \
+            $$PWD/widgets/dailyregistrations.h
+
 
 FORMS += \
     $$PWD/mainwindow.ui \

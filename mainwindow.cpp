@@ -11,7 +11,7 @@ MainWindow::MainWindow(MainController *mainController, QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     mMainController = mainController;
-    mJiraClient = new JiraClient();
+    mJiraClient = QSharedPointer<JiraClient>(new JiraClient());
 
     ui->setupUi(this);
 

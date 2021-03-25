@@ -6,7 +6,7 @@
 
 JiraClient::JiraClient()
 {
-    mNam = new QNetworkAccessManager();
+    mNam = QSharedPointer<QNetworkAccessManager>(new QNetworkAccessManager());
     settingsUpdated(); // Read settings
     QObject::connect(&mSettings, &Settings::updated,
                      this, &JiraClient::settingsUpdated);
@@ -65,7 +65,7 @@ void JiraClient::addWorklog(QSharedPointer<JiraWorklog> worklog)
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {
 
-                         if (!hasHttpCode(reply, {200})) {
+                         if (!hasHttpCode(reply, {200, 201})) {
                              emit this->addWorklogFailed(httpCode(reply), reply->error(), reply->errorString());
                              return;
                          }
@@ -84,7 +84,7 @@ void JiraClient::deleteWorklog(QSharedPointer<JiraWorklog> worklog)
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {
 
-                         if (!hasHttpCode(reply, {200})) {
+                         if (!hasHttpCode(reply, {200, 204})) {
                              emit this->deleteWorklogFailed(httpCode(reply), reply->error(), reply->errorString());
                              return;
                          }
