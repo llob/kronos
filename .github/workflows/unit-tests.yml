@@ -20,5 +20,5 @@ jobs:
     - name: Build Kronos
       run: make -j8
     - name: Build unit tests
-      run: cd tests && make -j8
+      run: cd tests && qmake kronos-tests.pro && make -j8
 
