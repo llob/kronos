@@ -18,7 +18,7 @@ jobs:
     - name: Install multipass
       run: sudo snap install multipass
     - name: Build kronos and create snap
-      run: cd snap/kronos && sudo snapcraft
+      run: cd snap/kronos && sudo snapcraft --destructive-mode
     - name: Save resulting snap as artifact
       uses: actions/upload-artifact@v2
       with:
