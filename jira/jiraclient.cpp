@@ -80,7 +80,7 @@ void JiraClient::deleteWorklog(QSharedPointer<JiraWorklog> worklog)
     QUrl u = url(QString("/rest/api/3/issue/%1/worklog/%2")
                      .arg(worklog->issueId())
                      .arg(worklog->id()));
-    auto reply = delete_request(u, worklog->toJson());
+    auto reply = delete_request(u);
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {
 
@@ -161,7 +161,7 @@ void JiraClient::issueWorklogs(QSharedPointer<JiraIssue> issue)
 }
 
 
-QNetworkReply* JiraClient::delete_request(QUrl url, QByteArray data) {
+QNetworkReply* JiraClient::delete_request(QUrl url) {
     const QByteArray authorization = "Basic " + QString("%1:%2").arg(mUsername).arg(mToken).toUtf8().toBase64();
     QNetworkRequest req;
     req.setUrl(url);
