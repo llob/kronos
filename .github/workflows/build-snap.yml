@@ -1,0 +1,25 @@
+name: Create a snap from the Kronos binary
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install snapcraft
+      run: sudo snap install --classic snapcraft
+    - name: Build kronos and create snap
+      run: cd snap/kronos && snapcraft
+    - name: Save resulting snap as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: kronos-snap
+        path: snap/kronos/kronos_1.0_amd64.snap
+
