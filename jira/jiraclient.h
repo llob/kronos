@@ -44,7 +44,7 @@ public:
     void deleteWorklog(QSharedPointer<JiraWorklog> worklog);
     void issueWorklogs(QSharedPointer<JiraIssue> issue);
     void search(const QString query, int startAt = 0, int maxResults = 20);
-    QNetworkReply *delete_request(QUrl url, QByteArray data);
+    QNetworkReply *delete_request(QUrl url);
 signals:
     void searchFinished(QList<QSharedPointer<JiraIssue>> issues);
     void searchFailed(int httpCode, QNetworkReply::NetworkError error, QString errorMessage);
