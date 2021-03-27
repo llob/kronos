@@ -20,11 +20,9 @@ jobs:
     - name: Build Kronos
       shell: cmd
       run: |
-        dir Qt
-        dir Qt\Tools
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         qmake
-        jom -j8
+        D:\a\kronos\Qt\Tools\QtCreator\bin\jom.exe -j8
     - name: Build unit tests
       shell: cmd
       working-directory: tests
