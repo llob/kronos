@@ -40,6 +40,11 @@ JiraWorklog::JiraWorklog(const QVariantMap json) : AbstractWorklog(json)
     fromJson(json);
 }
 
+JiraWorklog::~JiraWorklog()
+{
+
+}
+
 QList<QSharedPointer<JiraWorklog> > JiraWorklog::fromJsonList(const QVariantList list)
 {
     QList<QSharedPointer<JiraWorklog>> worklogs;

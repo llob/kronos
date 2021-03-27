@@ -17,6 +17,11 @@ JiraIssue::JiraIssue(const QByteArray json)
     fromJson(jsonDocument.toVariant().toMap());
 }
 
+JiraIssue::~JiraIssue()
+{
+
+}
+
 QList<QSharedPointer<JiraIssue> > JiraIssue::fromJsonList(const QVariantList list)
 {
     QList<QSharedPointer<JiraIssue>> issues;

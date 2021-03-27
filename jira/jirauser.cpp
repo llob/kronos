@@ -18,6 +18,11 @@ JiraUser::JiraUser(const QVariantMap json)
     fromJson(json);
 }
 
+JiraUser::~JiraUser()
+{
+
+}
+
 QByteArray JiraUser::toJson() const
 {
     QVariantMap obj;

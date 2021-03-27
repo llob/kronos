@@ -11,6 +11,7 @@ public:
     JiraUser();
     JiraUser(const QByteArray json);
     JiraUser(const QVariantMap json);
+    virtual ~JiraUser();
     QByteArray toJson() const;
     QVariant toVariant() const override;
 
