@@ -26,9 +26,11 @@ jobs:
       shell: cmd
       run: dir "%IQTA_TOOLS%\QtInstallerFramework\4.0\bin\binarycreator.exe"
     - name: Get binarycreator version
+      shell: cmd
       run: |
         %IQTA_TOOLS%\QtInstallerFramework\4.0\bin\binarycreator.exe --version
     - name: Get windeployqt version
+      shell: cmd
       run: windeployqt --version
     - name: Build Kronos
       shell: cmd
