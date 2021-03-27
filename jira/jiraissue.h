@@ -17,6 +17,7 @@ public:
     JiraIssue();
     JiraIssue(const QVariantMap json);
     JiraIssue(const QByteArray json);
+    virtual ~JiraIssue();
     static QList<QSharedPointer<JiraIssue>> fromJsonList(const QVariantList list);
     QString toString() const;
     QVariant toVariant() const override;

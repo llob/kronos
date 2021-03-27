@@ -19,6 +19,7 @@ public:
     JiraWorklog();
     JiraWorklog(const QByteArray json);
     JiraWorklog(const QVariantMap json);
+    virtual ~JiraWorklog();
     static QList<QSharedPointer<JiraWorklog>> fromJsonList(const QVariantList list);
     QByteArray toJson() const override;
     QVariant toVariant() const override;

@@ -17,6 +17,8 @@ jobs:
         tools: 'tools_ifw,4.0,qt.tools.ifw.40 tools_qtcreator,4.13.2-0,qt.tools.qtcreator'
         arch: win64_mingw81
         version: '5.15.2'
+    - name: Get qmake version
+      run: qmake --version
     - name: Build Kronos
       shell: cmd
       run: |
