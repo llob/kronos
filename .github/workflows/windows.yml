@@ -14,7 +14,7 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
-        tools: 'tools_ifw,4.0,qt.tools.ifw.40'
+        tools: 'tools_ifw,4.0,qt.tools.ifw.40 tools_qtcreator,4.13.2-0,qt.tools.qtcreator'
         arch: win64_msvc2019_64
         version: '5.15.2'
     - name: Build Kronos
@@ -22,11 +22,11 @@ jobs:
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         qmake
-        make -j8
+        jom -j8
     - name: Build unit tests
       shell: cmd
       working-directory: tests
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         qmake kronos-tests.pro
-        make -j8
+        jom -j8
