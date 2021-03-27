@@ -22,20 +22,23 @@ jobs:
     - name: Get IQTA_TOOLS value
       shell: cmd
       run: echo %IQTA_TOOLS%
-    - name: Get binarycreator version
-      run: binarycreator --version
-    - name: Get windeployqt version
-      run: windeployqt --version
-    - name: Build Kronos
+    - name: List contents of
       shell: cmd
-      run: |
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        qmake
-        make
-    - name: Build unit tests
-      shell: cmd
-      working-directory: tests
-      run: |
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        qmake kronos-tests.pro
-        make
+      run: dir %IQTA_TOOLS%
+    # - name: Get binarycreator version
+    #   run: binarycreator --version
+    # - name: Get windeployqt version
+    #   run: windeployqt --version
+    # - name: Build Kronos
+    #   shell: cmd
+    #   run: |
+    #     call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+    #     qmake
+    #     make
+    # - name: Build unit tests
+    #   shell: cmd
+    #   working-directory: tests
+    #   run: |
+    #     call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+    #     qmake kronos-tests.pro
+    #     make
