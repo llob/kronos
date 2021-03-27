@@ -22,13 +22,6 @@ jobs:
     - name: Get IQTA_TOOLS value
       shell: cmd
       run: echo %IQTA_TOOLS%
-    - name: List contents of %IQTA_TOOLS%
-      shell: cmd
-      run: dir "%IQTA_TOOLS%\QtInstallerFramework\4.0\bin\binarycreator.exe"
-    - name: Get binarycreator version
-      shell: cmd
-      run: |
-        %IQTA_TOOLS%\QtInstallerFramework\4.0\bin\binarycreator.exe --version
     - name: Get windeployqt version
       shell: cmd
       run: windeployqt --version
@@ -49,4 +42,4 @@ jobs:
       working-directory: packages/windows-installer/kronos
       shell: cmd
       run: |
-        "%IQTA_TOOLS%\QtInstallerFramework\4.0\bin\binarycreator.exe" -c config\config.xml -p packages
+         %IQTA_TOOLS%\QtInstallerFramework\4.0\bin\binarycreator.exe -c config\config.xml -p packages
