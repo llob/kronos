@@ -34,4 +34,9 @@ jobs:
       working-directory: packages/windows-installer/kronos
       shell: cmd
       run: |
-         %IQTA_TOOLS%\QtInstallerFramework\4.0\bin\binarycreator.exe -c config\config.xml -p packages
+         %IQTA_TOOLS%\QtInstallerFramework\4.0\bin\binarycreator.exe -c config\config.xml -p packages ..\..\..\kronos-installer.exe
+    - name: Save installer as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: kronos-windows-installer
+        path: kronos-installer.exe
