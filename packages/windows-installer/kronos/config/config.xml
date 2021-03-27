@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>Kronos</Name>
+    <Version>1.0.0</Version>
+    <Title>Kronos</Title>
+    <Publisher>fork.dk</Publisher>
+    <StartMenuDir>Kronos</StartMenuDir>
+    <TargetDir>@ApplicationsDirUser@/kronos</TargetDir>
+</Installer>
