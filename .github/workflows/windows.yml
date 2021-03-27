@@ -24,7 +24,7 @@ jobs:
       run: echo %IQTA_TOOLS%
     - name: List contents of %IQTA_TOOLS%
       shell: cmd
-      run: dir "%IQTA_TOOLS%\QtInstallerFramework\bin"
+      run: dir "%IQTA_TOOLS%\QtInstallerFramework"
     # - name: Get binarycreator version
     #   run: binarycreator --version
     # - name: Get windeployqt version
