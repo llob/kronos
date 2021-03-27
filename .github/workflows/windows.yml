@@ -22,9 +22,9 @@ jobs:
     - name: Get IQTA_TOOLS value
       shell: cmd
       run: echo %IQTA_TOOLS%
-    - name: List contents of
+    - name: List contents of %IQTA_TOOLS%
       shell: cmd
-      run: dir %IQTA_TOOLS%
+      run: dir "%IQTA_TOOLS%"
     # - name: Get binarycreator version
     #   run: binarycreator --version
     # - name: Get windeployqt version
