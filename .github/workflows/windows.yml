@@ -19,6 +19,10 @@ jobs:
         version: '5.15.2'
     - name: Get qmake version
       run: qmake --version
+    - name: Get binarycreator version
+      run: binarycreator --version
+    - name: Get windeployqt version
+      run: windeployqt --version
     - name: Build Kronos
       shell: cmd
       run: |
