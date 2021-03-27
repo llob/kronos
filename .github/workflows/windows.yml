@@ -30,6 +30,14 @@ jobs:
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         qmake kronos-tests.pro
         make
+    - name: Copy binary into installer
+      shell: cmd
+      run: COPY release/kronos.exe packages/windows-installer/kronos/packages/dk.fork.kronos/data/
+    - name: Install installer dependencies
+      shell: cmd
+      working-directory: packages/windows-installer/kronos/packages/dk.fork.kronos/data
+      run: |
+        windeployqt kronos.exe
     - name: Generate installer
       working-directory: packages/windows-installer/kronos
       shell: cmd
