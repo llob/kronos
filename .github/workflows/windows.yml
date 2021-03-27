@@ -15,18 +15,17 @@ jobs:
       uses: jurplel/install-qt-action@v2
       with:
         tools: 'tools_ifw,4.0,qt.tools.ifw.40'
-    - name: Run qmake for Kronos
-      shell: cmd
-      run: |
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        qmake
+        arch: win64_msvc2017_64
     - name: Build Kronos
       shell: cmd
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        qmake
         make -j8
     - name: Build unit tests
       shell: cmd
+      working-directory: tests
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        cd tests&qmake kronos-tests.pro&make -j8
+        qmake kronos-tests.pro
+        make -j8
