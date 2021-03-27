@@ -1,4 +1,4 @@
-name: Build and run unit tests for Kronos
+name: Kronos for Latest Ubuntu
 
 on:
   push:

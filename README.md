@@ -12,8 +12,10 @@ Kronos is a worklog tracker for Jira. It's a work in progress.
 ![Kronos screenshot](kronos-screenshot.png)
 
 # Build status
-![Unit-test workflow](https://github.com/llob/kronos/actions/workflows/unit-tests.yml/badge.svg)
+![Ubuntu latest workflow](https://github.com/llob/kronos/actions/workflows/ubuntu-latest.yml/badge.svg)
+![Windows workflow](https://github.com/llob/kronos/actions/workflows/windows.yml/badge.svg)
 ![CodeQL workflow](https://github.com/llob/kronos/actions/workflows/codeql-analysis.yml/badge.svg)
+![Ubuntu 18.04 snap workflow](https://github.com/llob/kronos/actions/workflows/build-snap.yml/badge.svg)
 
 # Todos
 - Disallow overlapping worklogs
