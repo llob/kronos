@@ -29,4 +29,6 @@ public:
     void setActive(const bool active);
 };
 
+typedef QSharedPointer<AbstractUser> PAbstractUser;
+
 #endif // ABSTRACTUSER_H
