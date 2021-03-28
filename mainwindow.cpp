@@ -39,11 +39,11 @@ void MainWindow::setupCalendar()
 
 void MainWindow::setupCredentials()
 {
-    ui->jiraUsernameLineEdit->setText(mSettings.jiraUsername());
-    ui->jiraTokenLineEdit->setText(mSettings.jiraToken());
-    ui->jiraHostnameLineEdit->setText(mSettings.jiraHostname());
-    if (mSettings.hasJiraAvatar()) {
-        this->setAvatar(mSettings.jiraAvatar());
+    ui->jiraUsernameLineEdit->setText(mSettings.username());
+    ui->jiraTokenLineEdit->setText(mSettings.secret());
+    ui->jiraHostnameLineEdit->setText(mSettings.hostname());
+    if (mSettings.hasAvatar()) {
+        this->setAvatar(mSettings.avatar());
     }
 
 }
@@ -76,16 +76,16 @@ void MainWindow::setupConnections()
                      this, &MainWindow::authenticationStateChanged);
     QObject::connect(&mSettings, &Settings::updated,
                      [this] {
-                         if (mSettings.hasJiraAvatar()) {
-                             this->setAvatar(mSettings.jiraAvatar());
+                         if (mSettings.hasAvatar()) {
+                             this->setAvatar(mSettings.avatar());
                          }
-                         this->ui->jiraDisplayNameLabel->setText(mSettings.jiraDisplayName());
+                         this->ui->jiraDisplayNameLabel->setText(mSettings.displayName());
                      });
     QObject::connect(ui->savePushButton, &QPushButton::clicked,
                      [this] {
-                         mSettings.setJiraUsername(this->ui->jiraUsernameLineEdit->text());
-                         mSettings.setJiraToken(this->ui->jiraTokenLineEdit->text());
-                         mSettings.setJiraHostname(this->ui->jiraHostnameLineEdit->text());
+                         mSettings.setUsername(this->ui->jiraUsernameLineEdit->text());
+                         mSettings.setSecret(this->ui->jiraTokenLineEdit->text());
+                         mSettings.setHostname(this->ui->jiraHostnameLineEdit->text());
                      });
     QObject::connect(ui->calendarWidget, &QCalendarWidget::selectionChanged,
                      [this] {

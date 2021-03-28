@@ -1,6 +1,6 @@
 #include "authenticationstateprivate.h"
 
-AuthenticationStatePrivate::AuthenticationStatePrivate(QObject *parent) : QObject(parent)
+AuthenticationStatePrivate::AuthenticationStatePrivate()
 {
     mState = AuthenticationState::DEAUTHENTICATED;
     QObject::connect(&mSettings, &Settings::updated,
@@ -27,31 +27,32 @@ void AuthenticationStatePrivate::settingsUpdated()
     // Check whether anything changed in the settings
     // since we were last notified
     bool updateState = false;
-    updateState |= mOldJiraToken != mSettings.jiraToken();
-    updateState |= mOldJiraUsername != mSettings.jiraUsername();
-    updateState |= mOldJiraHostname != mSettings.jiraHostname();
+    updateState |= mOldJiraToken != mSettings.secret();
+    updateState |= mOldJiraUsername != mSettings.username();
+    updateState |= mOldJiraHostname != mSettings.hostname();
     if (updateState) {
         // One or more fields changed, so we need to update
         // our authenticated state.
-        mOldJiraHostname = mSettings.jiraHostname();
-        mOldJiraToken = mSettings.jiraToken();
-        mOldJiraUsername = mSettings.jiraUsername();
+        mOldJiraHostname = mSettings.hostname();
+        mOldJiraToken = mSettings.secret();
+        mOldJiraUsername = mSettings.username();
         update();
     }
 }
 
 void AuthenticationStatePrivate::jiraClientMyselfFinished(QSharedPointer<JiraUser> myself)
 {
+    auto oldState = mState;
     mState = AuthenticationState::AUTHENTICATED;
-    emit stateChanged(mState, mState);
-    mSettings.setJiraDisplayName(myself->displayName());
-    mSettings.setJiraAccountId(myself->accountId());
+    emit stateChanged(oldState, mState);
+    mSettings.setDisplayName(myself->displayName());
+    mSettings.setAccountId(myself->accountId());
     if (!myself->avatarUrls().isEmpty()) {
         auto reply = mNam.get(QNetworkRequest(QUrl(myself->avatarUrls().last())));
         QObject::connect(reply, &QNetworkReply::finished,
                          [this, reply] {
                              QByteArray bytes = reply->readAll();
-                             this->mSettings.setJiraAvatar(QImage::fromData(bytes));
+                             this->mSettings.setAvatar(QImage::fromData(bytes));
                          });
     }
 }
@@ -62,9 +63,10 @@ void AuthenticationStatePrivate::jiraClientMyselfFailed(int httpCode, QNetworkRe
     Q_UNUSED(error);
     Q_UNUSED(message);
     qWarning()  << "[AuthenticationStatePrivate] myself request failed with http code" << httpCode << ":" << error << message;
+    auto oldState = mState;
     mState = AuthenticationState::DEAUTHENTICATED;
-    mSettings.setJiraDisplayName("");
-    mSettings.setJiraAccountId("");
-    mSettings.setJiraAvatar(QImage());
-    emit stateChanged(mState, mState);
+    mSettings.setDisplayName("");
+    mSettings.setAccountId("");
+    mSettings.setAvatar(QImage());
+    emit stateChanged(oldState, mState);
 }

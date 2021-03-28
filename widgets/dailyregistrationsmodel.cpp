@@ -54,8 +54,8 @@ void DailyRegistrationsModel::createRegistration(QTime startTime, QTime endTime,
     mRecentIssues.addIssue(issue);
 
     QSharedPointer<JiraWorklog> jwl = QSharedPointer<JiraWorklog>(new JiraWorklog());
-    jwl->setAccountId(mSettings.jiraAccountId());
-    jwl->setEmailAddress(mSettings.jiraUsername());
+    jwl->setAccountId(mSettings.accountId());
+    jwl->setEmailAddress(mSettings.username());
     jwl->setIssueId(issue->id());
     jwl->setStarted(QDateTime(mCurrentDate, startTime));
     jwl->setTimeSpentSeconds(startTime.secsTo(endTime));
@@ -79,13 +79,13 @@ void DailyRegistrationsModel::setCurrentDate(const QDate date)
     // Get the list of issues with worklogs for the current date
     QString query = QString("worklogDate = %1 and worklogAuthor = %2 order by created DESC")
         .arg(JiraClient::jqlDate(date))
-        .arg(mSettings.jiraAccountId());
+        .arg(mSettings.accountId());
     mJiraClient->search(query);
 }
 
 void DailyRegistrationsModel::issueWorklogsFinished(QList<QSharedPointer<JiraWorklog>> worklogs)
 {
-    QString accountId = mSettings.jiraAccountId();
+    QString accountId = mSettings.accountId();
     foreach (QSharedPointer<JiraWorklog> worklog, worklogs) {
         if (worklog->accountId() != accountId) {
             continue;

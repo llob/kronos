@@ -62,14 +62,14 @@ QList<QSharedPointer<JiraWorklog> > JiraWorklog::fromJsonList(const QVariantList
 
 QByteArray JiraWorklog::toJson() const
 {
-    QVariantMap obj;
-    obj.insert("timeSpentSeconds", mTimeSpentSeconds);
-    obj.insert("started", JiraUtils::dateToString(mStarted));
+    QVariant obj = toVariant();
     return QJsonDocument::fromVariant(obj).toJson();
 }
 
 QVariant JiraWorklog::toVariant() const
 {
-    // FIXME Not yet implemented
-    return QVariant();
+    QVariantMap obj;
+    obj.insert("timeSpentSeconds", mTimeSpentSeconds);
+    obj.insert("started", JiraUtils::dateToString(mStarted));
+    return obj;
 }

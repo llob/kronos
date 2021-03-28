@@ -66,13 +66,13 @@ void DailyRegistrations::drawRegistrationRect(QPaintEvent *event, QPoint topLeft
 //    painter.setRenderHint(QPainter::Antialiasing);
     QPainterPath path;
     path.addRoundedRect(rect, 10, 10);
-    QPen pen(Colors::color1(), 1);
+    QPen pen(Colors::khakiWeb(), 1);
     painter.setPen(pen);
     painter.setOpacity(1.0);
-    painter.fillPath(path, Colors::color2());
+    painter.fillPath(path, Colors::radicalRed());
     painter.drawPath(path);
 
-    painter.setPen(Colors::color5());
+    painter.setPen(Colors::ivory());
     painter.setOpacity(1.0);
     painter.drawText(rect.adjusted(5, 5, -5, -5), Qt::AlignLeft|Qt::AlignTop, text);
 }

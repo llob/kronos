@@ -1,4 +1,5 @@
 #include "abstractissue.h"
+#include <QDebug>
 
 AbstractIssue::AbstractIssue()
 {
@@ -38,5 +39,6 @@ QString AbstractIssue::summary() const
 
 QByteArray AbstractIssue::toJson() const
 {
-    return ""; // FIXME Not yet implemented
+    qWarning() << "Invalid call to not implemented function" << __FUNCTION__;
+    return QByteArray();
 }

@@ -2,7 +2,7 @@
 
 const int RecentIssues::mMaxIssueCount = 10;
 
-RecentIssues::RecentIssues(QObject *parent) : QObject(parent)
+RecentIssues::RecentIssues() : QObject()
 {
     mIssues = mSettings.recentIssues();
 }

@@ -1,6 +1,7 @@
 #include "jirauser.h"
 #include <QByteArray>
 #include <QJsonDocument>
+#include <QDebug>
 
 JiraUser::JiraUser()
 {
@@ -31,7 +32,7 @@ QByteArray JiraUser::toJson() const
 
 QVariant JiraUser::toVariant() const
 {
-    // FIXME Not yet implemented
+    qWarning() << "Invalid call to unimplemented method" << __FUNCTION__;
     return QVariant();
 }
 
