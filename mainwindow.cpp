@@ -30,6 +30,17 @@ MainWindow::MainWindow(MainController *mainController, QWidget *parent)
     setupCredentials();
     mWeeklyTotalCalculator.update();
     mMonthlyTotalCalculator.update();
+
+
+    auto size = mSettings.windowSize();
+    if (size.isValid()) {
+        resize(size);
+    }
+    auto pos = mSettings.windowPosition();
+    if (!pos.isNull()) {
+        move(pos);
+    }
+
 }
 
 void MainWindow::setupCalendar()
@@ -95,7 +106,17 @@ void MainWindow::setupConnections()
                      this, &MainWindow::monthlyTotalCalculatorUpdated);
     QObject::connect(&mWeeklyTotalCalculator, &WeeklyTotalCalculator::updated,
                      this, &MainWindow::weeklyTotalCalculatorUpdated);
+}
 
+void MainWindow::resizeEvent(QResizeEvent* event)
+{
+    QMainWindow::resizeEvent(event);
+    mSettings.setWindowSize(event->size());
+}
+
+void MainWindow::moveEvent(QMoveEvent *event) {
+    QMainWindow::moveEvent(event);
+    mSettings.setWindowPosition(event->pos());
 }
 
 void MainWindow::setCurrentDate(QDate currentDate)
