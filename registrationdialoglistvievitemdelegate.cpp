@@ -16,6 +16,11 @@ void RegistrationDialogListVievItemDelegate::paint(QPainter *painter, const QSty
     Q_UNUSED(issueType);
     JiraIssue j(issueMap);
     QRect boundingRect = option.rect;
+    bool selected = option.state.testFlag(QStyle::State_Selected);
+    if (selected) {
+        // Draw background selected color
+        painter->fillRect(boundingRect, Colors::khakiWeb());
+    }
 
     QRect typeBoundingRect(boundingRect);
     typeBoundingRect.setRight(50);
