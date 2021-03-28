@@ -3,8 +3,8 @@
 
 Settings::Settings()
 {
-    static SettingsPrivate* settings = new SettingsPrivate();
-    mSettings = QSharedPointer<SettingsPrivate>(settings);
+    static QSharedPointer<SettingsPrivate> settings = QSharedPointer<SettingsPrivate>(new SettingsPrivate());
+    mSettings = settings;
     QObject::connect(mSettings.data(), &SettingsPrivate::updated,
                      this, &Settings::updated);
 }
@@ -36,6 +36,26 @@ void Settings::setRecentIssues(QList<QSharedPointer<JiraIssue> > issues)
         variant.append(issue->toVariant());
     }
     mSettings->set("recentIssues", variant);
+}
+
+void Settings::setWindowPosition(QPoint location)
+{
+    mSettings->set("windowLocation", location);
+}
+
+QPoint Settings::windowPosition() const
+{
+    return mSettings->get("windowLocation").toPoint();
+}
+
+void Settings::setWindowSize(QSize size)
+{
+    mSettings->set("windowSize", size);
+}
+
+QSize Settings::windowSize() const
+{
+    return mSettings->get("windowSize").toSize();
 }
 
 QString Settings::accountId() const

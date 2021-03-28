@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include <QResizeEvent>
+#include <QMoveEvent>
 #include "widgets/dailyregistrations.h"
 #include "jira/jiraclient.h"
 #include "settings/settings.h"
@@ -22,7 +24,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(MainController *mainController, QWidget *parent = nullptr);
     ~MainWindow();
-
+protected:
+    void resizeEvent(QResizeEvent *event);
+    void moveEvent(QMoveEvent *event);
 private:
     Ui::MainWindow *ui;
     DailyRegistrations *dailyRegistrations;
