@@ -50,7 +50,7 @@ private:
     QSharedPointer<JiraIssue> issueByModelIndex(int index);
 private slots:
     void searchLineEditTextChanged(const QString &text);
-    void searchTimerTimeout();
+    void search();
     void jiraClientSearchFinished(QList<QSharedPointer<JiraIssue>> issues);
     void listViewIndexesMoved(const QItemSelection &selected, const QItemSelection &deselected);
     QString issueToString(QSharedPointer<JiraIssue> issue);

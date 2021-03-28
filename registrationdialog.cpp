@@ -70,13 +70,15 @@ void RegistrationDialog::setRecentIssues(QList<QSharedPointer<JiraIssue> > issue
 void RegistrationDialog::setupConnections()
 {
     QObject::connect(&mSearchTimer, &QTimer::timeout,
-                     this, &RegistrationDialog::searchTimerTimeout);
+                     this, &RegistrationDialog::search);
     QObject::connect(ui->searchLineEdit, &QLineEdit::textEdited,
                      this, &RegistrationDialog::searchLineEditTextChanged);
     QObject::connect(&mJiraClient, &JiraClient::searchFinished,
                      this, &RegistrationDialog::jiraClientSearchFinished);
     QObject::connect(ui->searchResultsListView->selectionModel(), &QItemSelectionModel::selectionChanged,
                      this, &RegistrationDialog::listViewIndexesMoved);
+    QObject::connect(ui->searchLineEdit, &QLineEdit::returnPressed,
+                     this, &RegistrationDialog::search);
 }
 
 void RegistrationDialog::setupWorklogInformationLabel() {
@@ -89,8 +91,12 @@ void RegistrationDialog::searchLineEditTextChanged(const QString &text)
     mSearchTimer.start(1000);
 }
 
-void RegistrationDialog::searchTimerTimeout()
+void RegistrationDialog::search()
 {
+    // Ensure that we don't fire off another search, by
+    // unconditionally killing the search timer
+    mSearchTimer.stop();
+
     ui->searchLineEdit->setEnabled(false);
     QString terms = ui->searchLineEdit->text();
     QString query;
