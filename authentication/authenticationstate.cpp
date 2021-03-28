@@ -1,7 +1,7 @@
 #include "authenticationstate.h"
 #include "authenticationstateprivate.h"
 
-AuthenticationState::AuthenticationState(QObject *parent) : QObject(parent)
+AuthenticationState::AuthenticationState()
 {
     static QSharedPointer<AuthenticationStatePrivate> authenticationStatePrivate(new AuthenticationStatePrivate());
     mAuthenticationStatePrivate = authenticationStatePrivate;

@@ -1,4 +1,5 @@
 #include "abstractissue.h"
+#include <QDebug>
 
 AbstractIssue::AbstractIssue()
 {

@@ -20,14 +20,27 @@ private:
     QString mOldJiraToken;
     QString mOldJiraHostname;
 public:
-    explicit AuthenticationStatePrivate(QObject *parent = nullptr);
+    explicit AuthenticationStatePrivate();
+    /**
+     * @brief state Get the current authentication state
+     * @return
+     */
     AuthenticationState::State state() const;
+    /**
+     * @brief update Redetermine authentication state, by
+     *  contacting the backend.
+     */
     void update();
 private slots:
     void settingsUpdated();
     void jiraClientMyselfFinished(QSharedPointer<JiraUser> myself);
     void jiraClientMyselfFailed(int httpCode, QNetworkReply::NetworkError error, QString message);
 signals:
+    /**
+     * @brief stateChanged Emitted when the current authentication state changes
+     * @param oldState The previous state
+     * @param newState The new (current) state
+     */
     void stateChanged(AuthenticationState::State oldState, AuthenticationState::State newState);
 };
 

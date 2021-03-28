@@ -4,8 +4,8 @@
 Settings::Settings()
 {
     static SettingsPrivate* settings = new SettingsPrivate();
-    mSettings = settings;
-    QObject::connect(settings, &SettingsPrivate::updated,
+    mSettings = QSharedPointer<SettingsPrivate>(settings);
+    QObject::connect(mSettings.data(), &SettingsPrivate::updated,
                      this, &Settings::updated);
 }
 
@@ -80,12 +80,12 @@ QString Settings::jiraDisplayName() const
     return mSettings->get("jiraDisplayName").toString();
 }
 
-QString Settings::jiraUsername() const
+QString Settings::username() const
 {
     return mSettings->get("jiraUsername").toString();
 }
 
-void Settings::setJiraUsername(const QString username)
+void Settings::setUsername(const QString username)
 {
     mSettings->set("jiraUsername", username);
 }

@@ -10,15 +10,24 @@
 
 class JiraIssue;
 
+/**
+ * @brief The Settings class manages data which is persisted
+ *  between application restarts.
+ *  This includes user controllable settings as well as cached
+ *  data.
+ *
+ *  The Settings class relies on the platform independent
+ *  QSettings system for its heavy lifting.
+ */
 class Settings : public QObject
 {
     Q_OBJECT
 private:
-    SettingsPrivate *mSettings;
+    QSharedPointer<SettingsPrivate> mSettings;
 public:
     Settings();
-    QString jiraUsername() const;
-    void setJiraUsername(const QString username);
+    QString username() const;
+    void setUsername(const QString username);
     QString jiraToken() const;
     void setJiraToken(const QString token);
     QString jiraAccountId() const;

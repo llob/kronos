@@ -39,7 +39,7 @@ void MainWindow::setupCalendar()
 
 void MainWindow::setupCredentials()
 {
-    ui->jiraUsernameLineEdit->setText(mSettings.jiraUsername());
+    ui->jiraUsernameLineEdit->setText(mSettings.username());
     ui->jiraTokenLineEdit->setText(mSettings.jiraToken());
     ui->jiraHostnameLineEdit->setText(mSettings.jiraHostname());
     if (mSettings.hasJiraAvatar()) {
@@ -83,7 +83,7 @@ void MainWindow::setupConnections()
                      });
     QObject::connect(ui->savePushButton, &QPushButton::clicked,
                      [this] {
-                         mSettings.setJiraUsername(this->ui->jiraUsernameLineEdit->text());
+                         mSettings.setUsername(this->ui->jiraUsernameLineEdit->text());
                          mSettings.setJiraToken(this->ui->jiraTokenLineEdit->text());
                          mSettings.setJiraHostname(this->ui->jiraHostnameLineEdit->text());
                      });

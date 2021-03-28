@@ -1,6 +1,6 @@
 #include "authenticationstateprivate.h"
 
-AuthenticationStatePrivate::AuthenticationStatePrivate(QObject *parent) : QObject(parent)
+AuthenticationStatePrivate::AuthenticationStatePrivate()
 {
     mState = AuthenticationState::DEAUTHENTICATED;
     QObject::connect(&mSettings, &Settings::updated,
@@ -28,22 +28,23 @@ void AuthenticationStatePrivate::settingsUpdated()
     // since we were last notified
     bool updateState = false;
     updateState |= mOldJiraToken != mSettings.jiraToken();
-    updateState |= mOldJiraUsername != mSettings.jiraUsername();
+    updateState |= mOldJiraUsername != mSettings.username();
     updateState |= mOldJiraHostname != mSettings.jiraHostname();
     if (updateState) {
         // One or more fields changed, so we need to update
         // our authenticated state.
         mOldJiraHostname = mSettings.jiraHostname();
         mOldJiraToken = mSettings.jiraToken();
-        mOldJiraUsername = mSettings.jiraUsername();
+        mOldJiraUsername = mSettings.username();
         update();
     }
 }
 
 void AuthenticationStatePrivate::jiraClientMyselfFinished(QSharedPointer<JiraUser> myself)
 {
+    auto oldState = mState;
     mState = AuthenticationState::AUTHENTICATED;
-    emit stateChanged(mState, mState);
+    emit stateChanged(oldState, mState);
     mSettings.setJiraDisplayName(myself->displayName());
     mSettings.setJiraAccountId(myself->accountId());
     if (!myself->avatarUrls().isEmpty()) {
@@ -62,9 +63,10 @@ void AuthenticationStatePrivate::jiraClientMyselfFailed(int httpCode, QNetworkRe
     Q_UNUSED(error);
     Q_UNUSED(message);
     qWarning()  << "[AuthenticationStatePrivate] myself request failed with http code" << httpCode << ":" << error << message;
+    auto oldState = mState;
     mState = AuthenticationState::DEAUTHENTICATED;
     mSettings.setJiraDisplayName("");
     mSettings.setJiraAccountId("");
     mSettings.setJiraAvatar(QImage());
-    emit stateChanged(mState, mState);
+    emit stateChanged(oldState, mState);
 }

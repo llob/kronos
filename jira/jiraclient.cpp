@@ -135,7 +135,7 @@ void JiraClient::search(const QString query, int startAt, int maxResults)
 
 void JiraClient::settingsUpdated()
 {
-    setUsername(mSettings.jiraUsername());
+    setUsername(mSettings.username());
     setToken(mSettings.jiraToken());
 }
 
