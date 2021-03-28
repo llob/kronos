@@ -6,7 +6,7 @@ QDate MonthlyTotalCalculator::firstMonthDay() const
     return today.addDays(-1 * (today.day() - 1));
 }
 
-MonthlyTotalCalculator::MonthlyTotalCalculator(QObject *parent) : QObject(parent)
+MonthlyTotalCalculator::MonthlyTotalCalculator() : QObject()
 {
     mTotal = 0;
     QObject::connect(&mJiraClient, &JiraClient::searchFinished,

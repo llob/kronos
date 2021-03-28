@@ -1,6 +1,6 @@
 #include "weeklytotalcalculator.h"
 
-WeeklyTotalCalculator::WeeklyTotalCalculator(QObject *parent) : QObject(parent)
+WeeklyTotalCalculator::WeeklyTotalCalculator() : QObject()
 {
     mTotal = 0;
     QObject::connect(&mJiraClient, &JiraClient::searchFinished,
