@@ -105,7 +105,26 @@ public:
      * @param issues
      */
     void setRecentIssues(QList<QSharedPointer<JiraIssue>> issues);
-
+    /**
+     * @brief setWindowLocation Set the main window location
+     * @param location
+     */
+    void setWindowPosition(QPoint location);
+    /**
+     * @brief windowLocation Get the main window location
+     * @return
+     */
+    QPoint windowPosition() const;
+    /**
+     * @brief setWindowSize Set main window size
+     * @param size
+     */
+    void setWindowSize(QSize size);
+    /**
+     * @brief windowSize Get main window size
+     * @return
+     */
+    QSize windowSize() const;
 signals:
     /**
      * @brief updated Emitted whenever a settings value has changed
