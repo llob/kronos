@@ -9,12 +9,12 @@ Settings::Settings()
                      this, &Settings::updated);
 }
 
-QString Settings::jiraHostname() const
+QString Settings::hostname() const
 {
     return mSettings->get("jiraHostname").toString();
 }
 
-void Settings::setJiraHostname(QString jiraHostname) {
+void Settings::setHostname(QString jiraHostname) {
     mSettings->set("jiraHostname", jiraHostname);
 }
 
@@ -38,17 +38,17 @@ void Settings::setRecentIssues(QList<QSharedPointer<JiraIssue> > issues)
     mSettings->set("recentIssues", variant);
 }
 
-QString Settings::jiraAccountId() const
+QString Settings::accountId() const
 {
     return mSettings->get("accountId").toString();
 }
 
-void Settings::setJiraAccountId(const QString accountId) const
+void Settings::setAccountId(const QString accountId) const
 {
     return mSettings->set("accountId", accountId);
 }
 
-QPixmap Settings::jiraAvatar() const
+QPixmap Settings::avatar() const
 {
     QByteArray bArray = mSettings->get("jiraAvatar").toByteArray();
     QPixmap result;
@@ -56,7 +56,7 @@ QPixmap Settings::jiraAvatar() const
     return result;
 }
 
-void Settings::setJiraAvatar(const QImage avatar)
+void Settings::setAvatar(const QImage avatar)
 {
         QByteArray bArray;
         QBuffer buffer(&bArray);
@@ -65,17 +65,17 @@ void Settings::setJiraAvatar(const QImage avatar)
         mSettings->set("jiraAvatar", QVariant(bArray));
 }
 
-bool Settings::hasJiraAvatar() const
+bool Settings::hasAvatar() const
 {
-    return !jiraAvatar().isNull();
+    return !avatar().isNull();
 }
 
-void Settings::setJiraDisplayName(const QString displayName)
+void Settings::setDisplayName(const QString displayName)
 {
     return mSettings->set("jiraDisplayName", displayName);
 }
 
-QString Settings::jiraDisplayName() const
+QString Settings::displayName() const
 {
     return mSettings->get("jiraDisplayName").toString();
 }
@@ -90,12 +90,12 @@ void Settings::setUsername(const QString username)
     mSettings->set("jiraUsername", username);
 }
 
-QString Settings::jiraToken() const
+QString Settings::secret() const
 {
     return mSettings->get("jiraToken").toString();
 }
 
-void Settings::setJiraToken(const QString token)
+void Settings::setSecret(const QString token)
 {
     mSettings->set("jiraToken", token);
 }
