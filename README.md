@@ -1,3 +1,4 @@
+![Kronos top banner](https://github.com/llob/kronos/tree/main/resources/logo/facebook_cover_photo_1.png)
 # Kronos
 Kronos is a worklog tracker for Jira. It's a work in progress.
 
