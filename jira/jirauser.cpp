@@ -1,6 +1,7 @@
 #include "jirauser.h"
 #include <QByteArray>
 #include <QJsonDocument>
+#include <QDebug>
 
 JiraUser::JiraUser()
 {

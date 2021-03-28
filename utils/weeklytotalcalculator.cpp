@@ -20,7 +20,7 @@ void WeeklyTotalCalculator::update()
     auto firstDayOfWeek = firstWeekDay();
     mJiraClient.search(QString("worklogDate >= %1 and worklogAuthor = %2 ORDER BY created DESC")
                            .arg(JiraClient::jqlDate(firstDayOfWeek))
-                           .arg(mSettings.jiraAccountId()));
+                           .arg(mSettings.accountId()));
 }
 
 void WeeklyTotalCalculator::jiraClientSearchFinished(QList<QSharedPointer<JiraIssue> > issues)
@@ -33,7 +33,7 @@ void WeeklyTotalCalculator::jiraClientSearchFinished(QList<QSharedPointer<JiraIs
 void WeeklyTotalCalculator::jiraClientIssueWorklogsFinished(QList<QSharedPointer<JiraWorklog> > worklogs)
 {
     QDate d = firstWeekDay();
-    QString jiraAccountId = mSettings.jiraAccountId();
+    QString jiraAccountId = mSettings.accountId();
     foreach (QSharedPointer<JiraWorklog> worklog, worklogs) {
         if (worklog->accountId() != jiraAccountId) {
             continue;

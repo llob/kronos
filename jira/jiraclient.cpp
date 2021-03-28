@@ -25,7 +25,7 @@ void JiraClient::setToken(const QString token)
 QUrl JiraClient::url(QString path, QString query=QString()) {
     QUrl result;
     result.setScheme("https");
-    result.setHost(mSettings.jiraHostname());
+    result.setHost(mSettings.hostname());
     result.setPath(path);
     result.setQuery(query);
     return result;
@@ -136,7 +136,7 @@ void JiraClient::search(const QString query, int startAt, int maxResults)
 void JiraClient::settingsUpdated()
 {
     setUsername(mSettings.username());
-    setToken(mSettings.jiraToken());
+    setToken(mSettings.secret());
 }
 
 void JiraClient::issueWorklogs(QSharedPointer<JiraIssue> issue)

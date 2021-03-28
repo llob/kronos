@@ -21,7 +21,7 @@ void MonthlyTotalCalculator::update()
     auto firstDayOfMonth = firstMonthDay();
     mJiraClient.search(QString("worklogDate >= %1 and worklogAuthor = %2 ORDER BY created DESC")
                            .arg(JiraClient::jqlDate(firstDayOfMonth))
-                           .arg(mSettings.jiraAccountId()));
+                           .arg(mSettings.accountId()));
 }
 
 void MonthlyTotalCalculator::jiraClientSearchFinished(QList<QSharedPointer<JiraIssue> > issues)
@@ -34,7 +34,7 @@ void MonthlyTotalCalculator::jiraClientSearchFinished(QList<QSharedPointer<JiraI
 void MonthlyTotalCalculator::jiraClientIssueWorklogsFinished(QList<QSharedPointer<JiraWorklog> > worklogs)
 {
     QDate d = firstMonthDay();
-    QString jiraAccountId = mSettings.jiraAccountId();
+    QString jiraAccountId = mSettings.accountId();
     foreach (QSharedPointer<JiraWorklog> worklog, worklogs) {
         if (worklog->accountId() != jiraAccountId) {
             continue;
