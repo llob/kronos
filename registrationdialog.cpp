@@ -77,6 +77,8 @@ void RegistrationDialog::setupConnections()
                      this, &RegistrationDialog::jiraClientSearchFinished);
     QObject::connect(ui->searchResultsListView->selectionModel(), &QItemSelectionModel::selectionChanged,
                      this, &RegistrationDialog::listViewIndexesMoved);
+    QObject::connect(ui->searchResultsListView, &QListView::doubleClicked,
+                     this, &RegistrationDialog::listViewDoubleClicked);
     QObject::connect(ui->searchLineEdit, &QLineEdit::returnPressed,
                      this, &RegistrationDialog::search);
 }
@@ -143,6 +145,13 @@ void RegistrationDialog::listViewIndexesMoved(const QItemSelection &selected, co
         }
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
     }
+}
+
+void RegistrationDialog::listViewDoubleClicked(const QModelIndex &selected)
+{
+    mJiraIssue = issueByModelIndex(selected.row());
+    accept();
+
 }
 
 QString RegistrationDialog::issueToString(QSharedPointer<JiraIssue> issue)

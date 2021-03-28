@@ -7,6 +7,7 @@
 #include <QSharedPointer>
 #include <QItemSelection>
 #include <QItemSelectionModel>
+#include <QModelIndex>
 #include "registrationdialoglistmodel.h"
 #include "jira/jiraissue.h"
 #include "jira/jiraclient.h"
@@ -53,6 +54,7 @@ private slots:
     void search();
     void jiraClientSearchFinished(QList<QSharedPointer<JiraIssue>> issues);
     void listViewIndexesMoved(const QItemSelection &selected, const QItemSelection &deselected);
+    void listViewDoubleClicked(const QModelIndex &selected);
     QString issueToString(QSharedPointer<JiraIssue> issue);
 };
 
