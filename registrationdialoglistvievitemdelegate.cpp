@@ -29,10 +29,10 @@ void RegistrationDialogListVievItemDelegate::paint(QPainter *painter, const QSty
     QPen pen;
 
     if (issueType == 0) {
-        painter->fillPath(path, Colors::color2());
+        painter->fillPath(path, Colors::radicalRed());
         painter->drawText(typeBoundingRect, "Recent", QTextOption(Qt::AlignHCenter|Qt::AlignVCenter));
     } else {
-        painter->fillPath(path, Colors::color4());
+        painter->fillPath(path, Colors::turquise());
         painter->drawText(typeBoundingRect, "Search", QTextOption(Qt::AlignHCenter|Qt::AlignVCenter));
 
     }

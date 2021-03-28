@@ -11,15 +11,20 @@
  * https://github.com/google/material-design-icons
  *
  */
+
+/**
+ * @brief The Colors class Convenience class for retrieving
+ *  colors which are part of the Kronos color scheme
+ */
 class Colors
 {
 public:
     Colors();
-    static QColor color1();
-    static QColor color2();
-    static QColor color3();
-    static QColor color4();
-    static QColor color5();
+    static QColor khakiWeb();
+    static QColor radicalRed();
+    static QColor richBlack();
+    static QColor turquise();
+    static QColor ivory();
 };
 
 #endif // COLORS_H
