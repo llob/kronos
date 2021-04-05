@@ -51,7 +51,7 @@ jobs:
     # 📚 https://git.io/JvXDl
 
     - run: |
-       sudo apt install qt5-default
+       sudo apt install qt5-default libqt5svg5 libqt5svg5-dev
        qmake
        make -j8
 
