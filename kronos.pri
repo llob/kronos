@@ -19,8 +19,10 @@ SOURCES += \
     $$PWD/utils/colors.cpp \
     $$PWD/utils/monthlytotalcalculator.cpp \
     $$PWD/utils/recentissues.cpp \
+    $$PWD/utils/totalcalculatorprivate.cpp \
     $$PWD/utils/weeklytotalcalculator.cpp \
-    $$PWD/widgets/dailyregistrationsmodel.cpp
+    $$PWD/widgets/dailyregistrationsmodel.cpp \
+    $$PWD/utils/totalcalculator.cpp
 
 HEADERS += \
     $$PWD/abstractmodels/abstractissue.h \
@@ -42,8 +44,10 @@ HEADERS += \
     $$PWD/utils/condition.h \
     $$PWD/utils/monthlytotalcalculator.h \
     $$PWD/utils/recentissues.h \
+    $$PWD/utils/totalcalculatorprivate.h \
     $$PWD/utils/weeklytotalcalculator.h \
-    $$PWD/widgets/dailyregistrationsmodel.h
+    $$PWD/widgets/dailyregistrationsmodel.h \
+    $$PWD/utils/totalcalculator.h
 
 INCLUDEPATH += $$PWD
 
