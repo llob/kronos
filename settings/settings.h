@@ -115,6 +115,8 @@ public:
      * @return
      */
     QByteArray windowGeometry() const;
+    void setShowCredentials(bool show);
+    bool showCredentials() const;
 signals:
     /**
      * @brief updated Emitted whenever a settings value has changed

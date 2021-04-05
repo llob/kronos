@@ -1,15 +1,14 @@
 #include "settingsprivate.h"
 #include <QMutexLocker>
-#include <QMutex>
 
 SettingsPrivate::SettingsPrivate()
 {
     mSettings = QSharedPointer<QSettings>(new QSettings("fork.dk", "kronos"));
 }
 
-QVariant SettingsPrivate::get(QString key) {
+QVariant SettingsPrivate::get(QString key, QVariant fallback) {
     QMutexLocker lock(&mMutex);
-    return mSettings->value(key);
+    return mSettings->value(key, fallback);
 }
 void SettingsPrivate::set(QString key, QVariant value)
 {

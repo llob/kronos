@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QSettings>
-#include <QMutex>
+#include <QRecursiveMutex>
 #include <QSharedPointer>
 
 /**
@@ -19,7 +19,7 @@ class SettingsPrivate : public QObject
     Q_OBJECT
 private:
     QSharedPointer<QSettings> mSettings;
-    QMutex mMutex;
+    QRecursiveMutex mMutex;
 public:
     SettingsPrivate();
     /**
@@ -33,7 +33,7 @@ public:
      * @param key The key
      * @return The value or an invalid QVariant if no value is stored for key
      */
-    QVariant get(QString key);
+    QVariant get(QString key, QVariant fallback = QVariant());
 signals:
     /**
      * @brief updated Emitted whenever a settings value is updated

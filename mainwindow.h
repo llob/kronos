@@ -44,11 +44,13 @@ private:
     void setupCalendar();
     void setupCredentials();
     void setAvatar(QPixmap pixmap);
-    void updateTotals();
+    void showCredentials(bool visible);
+    void updateVisibilityPushButtonIcon();
 private slots:
     void setCurrentDate(QDate currentDate);
     void monthlyTotalCalculatorUpdated(int seconds);
     void weeklyTotalCalculatorUpdated(int seconds);
     void authenticationStateChanged(AuthenticationState::State oldState, AuthenticationState::State newState);
+    void toggleVisbilityPushButtonClicked();
 };
 #endif // MAINWINDOW_H

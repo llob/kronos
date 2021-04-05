@@ -123,7 +123,6 @@ void RegistrationDialog::search()
 
 void RegistrationDialog::jiraClientSearchFinished(QList<QSharedPointer<JiraIssue> > issues)
 {
-    qDebug() << "Search finished" << issues.length();
     ui->searchLineEdit->setDisabled(false);
     mJiraIssues = issues;
     populateModel();

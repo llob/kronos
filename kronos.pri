@@ -1,4 +1,4 @@
-QT += network gui widgets
+QT += network gui widgets svg
 
 SOURCES += \
     $$PWD/abstractmodels/abstractissue.cpp \

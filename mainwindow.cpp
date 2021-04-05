@@ -1,10 +1,14 @@
 #include "mainwindow.h"
 #include <QBoxLayout>
+#include <QGraphicsSvgItem>
+#include <QSvgRenderer>
 #include <QPainter>
 #include <QPainterPath>
+#include <QPixmap>
 #include "ui_mainwindow.h"
 #include "widgets/dailyregistrations.h"
 #include "settings/settings.h"
+#include "utils/colors.h"
 
 MainWindow::MainWindow(MainController *mainController, QWidget *parent)
     : QMainWindow(parent)
@@ -31,7 +35,33 @@ MainWindow::MainWindow(MainController *mainController, QWidget *parent)
     mWeeklyTotalCalculator.update();
     mMonthlyTotalCalculator.update();
 
+    showCredentials(mSettings.showCredentials());
+
     restoreGeometry(mSettings.windowGeometry());
+    updateVisibilityPushButtonIcon();
+}
+
+void MainWindow::updateVisibilityPushButtonIcon() {
+    QSvgRenderer svgRenderer(QString(":/resources/chevron_right.svg"));
+    // We use minimumSize() here, as the buttons size is not correctly computed
+    // when it is first rendered, and as a consequence, the size of the output
+    // image is incorrectly calculated. Since we do not resize
+    // the button, this is fine for now.
+    QImage out(ui->toggleVisibilityPushButton->minimumSize(), QImage::Format_ARGB32);
+    out.fill(Colors::ivory());
+    QPainter painter(&out);
+    // Check whether we should show credentials
+    if (mSettings.showCredentials()) {
+        // Draw the "expanded" state of the button image
+        // with the chevron rotated 90 degress clock wise
+        painter.translate(out.width(), 0);
+        painter.rotate(90);
+    }
+    svgRenderer.render(&painter, out.rect());
+    QPalette palette;
+    palette.setBrush(ui->toggleVisibilityPushButton->backgroundRole(),
+                     QBrush(QPixmap::fromImage(out)));
+    ui->toggleVisibilityPushButton->setPalette(palette);
 }
 
 void MainWindow::setupCalendar()
@@ -101,6 +131,9 @@ void MainWindow::setupConnections()
                      &mWeeklyTotalCalculator, &WeeklyTotalCalculator::update);
     QObject::connect(dailyRegistrations, &DailyRegistrations::registrationAdded,
                      &mMonthlyTotalCalculator, &MonthlyTotalCalculator::update);
+
+    QObject::connect(ui->toggleVisibilityPushButton, &QPushButton::clicked,
+                     this, &MainWindow::toggleVisbilityPushButtonClicked);
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)
@@ -142,10 +175,32 @@ void MainWindow::authenticationStateChanged(AuthenticationState::State oldState,
 {
     Q_UNUSED(oldState);
     if (newState == AuthenticationState::AUTHENTICATED) {
-        mAuthenticationStatusLabel->setText("Authenticated");
+        mAuthenticationStatusLabel->setText("🤘 Authenticated");
     } else {
-        mAuthenticationStatusLabel->setText("Not authenticated");
+        mAuthenticationStatusLabel->setText("🤬 Not authenticated");
     }
+}
+
+void MainWindow::toggleVisbilityPushButtonClicked()
+{
+    bool show = !mSettings.showCredentials();
+    mSettings.setShowCredentials(show);
+    showCredentials(show);
+}
+
+void MainWindow::showCredentials(bool visible) {
+
+    updateVisibilityPushButtonIcon();
+
+    ui->jiraHostnameLabel->setVisible(visible);
+    ui->jiraTokenLabel->setVisible(visible);
+    ui->jiraUsernameLabel->setVisible(visible);
+
+    ui->jiraHostnameLineEdit->setVisible(visible);
+    ui->jiraTokenLineEdit->setVisible(visible);
+    ui->jiraUsernameLineEdit->setVisible(visible);
+
+    ui->savePushButton->setVisible(visible);
 }
 
 void MainWindow::setupDailyRegistrations()
@@ -157,11 +212,4 @@ void MainWindow::setupDailyRegistrations()
         ui->scrollArea);
     ui->scrollArea->setWidget(dailyRegistrations);
     ui->scrollArea->ensureVisible(0, 300);
-}
-
-void MainWindow::updateTotals() {
-    // and worklogAuthor = 557058:60fd2325-a1cb-4aab-8867-9fd89cb3a52a
-//
-    mMonthlyTotalCalculator.update();
-    mWeeklyTotalCalculator.update();
 }
