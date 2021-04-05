@@ -17,6 +17,8 @@ private:
     void drawRegistrationInProgress(QPaintEvent *event);
     bool registrationInProgress();
     QPoint mRegistrationInProgressStartPos;
+    QTime mRegistrationInProgressStartTime;
+    QTime mRegistrationInProgressEndTime;
     QPoint mCurrentMousePos;
     QDate mDate;
     DailyRegistrationsModel *mModel;
@@ -33,6 +35,20 @@ private:
     QSharedPointer<JiraWorklog> worklogFromPos(QPoint pos);
     QTime round(const QTime time);
     void drawWorkingOverlay(QPaintEvent *event);
+    /**
+     * @brief lastWorklogEndTimeBefore Get the end time of the last worklog
+     *  which has endtime before the specified time
+     * @param time The end endtime of the worklog, or 23:59 if none was found
+     * @return
+     */
+    QTime lastWorklogEndTimeBefore(QTime time);
+    /**
+     * @brief firstWorklogStartTimeAfter Get the start time of the first worklog
+     *  which starts after specified time
+     * @param time Start time
+     * @return Start time of located worklog or 00:00:00 if no matching worklogs were found
+     */
+    QTime firstWorklogStartTimeAfter(QTime time);
 public:
     explicit DailyRegistrations(DailyRegistrationsModel *model, QDate date, QWidget *parent = nullptr);
     void setCurrentDate(const QDate date);
