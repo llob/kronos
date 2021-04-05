@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QSettings>
-#include <QRecursiveMutex>
+#include <QMutex>
 #include <QSharedPointer>
 
 /**
@@ -19,7 +19,7 @@ class SettingsPrivate : public QObject
     Q_OBJECT
 private:
     QSharedPointer<QSettings> mSettings;
-    QRecursiveMutex mMutex;
+    QMutex mMutex;
 public:
     SettingsPrivate();
     /**
