@@ -48,6 +48,16 @@ QByteArray Settings::windowGeometry() const
     return mSettings->get("windowGeometry").toByteArray();
 }
 
+void Settings::setShowCredentials(bool show)
+{
+    mSettings->set("showCredentials", show);
+}
+
+bool Settings::showCredentials() const
+{
+    return mSettings->get("showCredentials").toBool();
+}
+
 QString Settings::accountId() const
 {
     return mSettings->get("accountId").toString();
