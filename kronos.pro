@@ -27,6 +27,7 @@ HEADERS +=  $$PWD/mainwindow.h \
             $$PWD/widgets/dailyregistrations.h
 
 
+
 FORMS += \
     $$PWD/mainwindow.ui \
     $$PWD/registrationdialog.ui \

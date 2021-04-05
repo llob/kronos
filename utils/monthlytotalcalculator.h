@@ -4,38 +4,27 @@
 #include <QObject>
 #include <QList>
 #include <QSharedPointer>
-#include "jira/jiraclient.h"
 #include "jira/jiraworklog.h"
 #include "jira/jiraissue.h"
 #include "settings/settings.h"
+#include "totalcalculator.h"
 
 /**
  * @brief The MonthlyTotalCalculator class continuously calculates
  *  the total number of hours logged for the current month
  */
-class MonthlyTotalCalculator : public QObject
+class MonthlyTotalCalculator : public TotalCalculator
 {
     Q_OBJECT
 private:
-    JiraClient mJiraClient;
-    int mTotal;
-    Settings mSettings;
-    QDate firstMonthDay() const;
+    QDate firstDate() const override;
 public:
     explicit MonthlyTotalCalculator();
     /**
      * @brief update Recalculate month total
      */
-    void update();
-signals:
-    /**
-     * @brief updated Emitted when the monthly total has been recalculated
-     * @param seconds Number of seconds logged for current month
-     */
-    void updated(int seconds);
-private slots:
-    void jiraClientSearchFinished(QList<QSharedPointer<JiraIssue>> issues);
-    void jiraClientIssueWorklogsFinished(QList<QSharedPointer<JiraWorklog>> worklogs);
+    void update() override;
+
 };
 
 #endif // MONTHLYTOTALCALCULATOR_H
