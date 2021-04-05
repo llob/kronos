@@ -20,9 +20,9 @@ DailyRegistrations::DailyRegistrations(DailyRegistrationsModel *model, QDate dat
     mDeleteConfirmationDialog = new DeleteConfirmationDialog(this);
 
     QObject::connect(this, &DailyRegistrations::registrationAdded,
-                     mModel, &DailyRegistrationsModel::createRegistration);
+                     mModel, &DailyRegistrationsModel::addWorklog);
     QObject::connect(this, &DailyRegistrations::registrationDeleted,
-                     mModel, &DailyRegistrationsModel::deleteRegistration);
+                     mModel, &DailyRegistrationsModel::deleteWorklog);
     QObject::connect(model, &DailyRegistrationsModel::updated,
                      this, &DailyRegistrations::modelUpdated);
     QObject::connect(mRegistrationDialog, &QDialog::accepted,

@@ -106,25 +106,15 @@ public:
      */
     void setRecentIssues(QList<QSharedPointer<JiraIssue>> issues);
     /**
-     * @brief setWindowLocation Set the main window location
-     * @param location
+     * @brief setWindowGeometry Set main window geometry (obtained from QMainWindow::windowGeometry)
+     * @param geometry
      */
-    void setWindowPosition(QPoint location);
+    void setWindowGeometry(const QByteArray geometry);
     /**
-     * @brief windowLocation Get the main window location
+     * @brief windowGeometry Retrieve stored main window geometry
      * @return
      */
-    QPoint windowPosition() const;
-    /**
-     * @brief setWindowSize Set main window size
-     * @param size
-     */
-    void setWindowSize(QSize size);
-    /**
-     * @brief windowSize Get main window size
-     * @return
-     */
-    QSize windowSize() const;
+    QByteArray windowGeometry() const;
 signals:
     /**
      * @brief updated Emitted whenever a settings value has changed

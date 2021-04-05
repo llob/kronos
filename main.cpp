@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     a.setApplicationDisplayName("Kronos");
-    a.setApplicationVersion("0.0.1");
+    a.setApplicationVersion("1.0");
     a.setApplicationName("kronos");
 
     MainController c;

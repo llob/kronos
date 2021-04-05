@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Register worklog</string>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -27,7 +27,7 @@
    <item>
     <widget class="QLineEdit" name="searchLineEdit">
      <property name="placeholderText">
-      <string>Search</string>
+      <string>Free form search or search by issue key</string>
      </property>
     </widget>
    </item>
