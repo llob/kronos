@@ -63,7 +63,6 @@ void DailyRegistrations::drawRegistrationRect(QPaintEvent *event, QPoint topLeft
     Q_UNUSED(event);
     QPainter painter(this);
     QRect rect(topLeft, bottomRight);
-//    painter.setRenderHint(QPainter::Antialiasing);
     QPainterPath path;
     path.addRoundedRect(rect, 10, 10);
     QPen pen(Colors::khakiWeb(), 1);
@@ -86,10 +85,59 @@ QTime DailyRegistrations::round(const QTime time) {
     }
 }
 
+QTime DailyRegistrations::lastWorklogEndTimeBefore(QTime time) {
+    QTime result(0, 0);
+    foreach (QSharedPointer<JiraWorklog> worklog, mModel->worklogs()) {
+        QTime worklogEndTime = worklog->started().addSecs(worklog->timeSpentSeconds()).time();
+        if (worklogEndTime > time) {
+            continue;
+        }
+        if (qAbs(time.secsTo(result)) > qAbs(time.secsTo(worklogEndTime))) {
+            // This worklog ends later than any we saw previously
+            result = worklogEndTime;
+        }
+    }
+    return result;
+}
+
+QTime DailyRegistrations::firstWorklogStartTimeAfter(QTime time) {
+    QTime result(23, 59);
+    foreach (QSharedPointer<JiraWorklog> worklog, mModel->worklogs()) {
+        QTime worklogStartTime = worklog->started().time();
+        if (worklogStartTime < time) {
+            continue;
+        }
+        if (qAbs(time.secsTo(result)) > qAbs(time.secsTo(worklogStartTime))) {
+            // This worklog ends before any we saw previously
+            result = worklogStartTime;
+        }
+    }
+    return result;
+}
+
 void DailyRegistrations::drawRegistrationInProgress(QPaintEvent *event) {
     if (registrationInProgress()) {
-        QPoint roundStartPos = posFromTime(round(timeFromPos(mRegistrationInProgressStartPos)));
-        QPoint roundEndPos = posFromTime(round(timeFromPos(mCurrentMousePos)));
+        QTime startTime = timeFromPos(mRegistrationInProgressStartPos);
+        QTime endTime = timeFromPos(mCurrentMousePos);
+
+        // Determine if span from startTime to endTime collides
+        // with an existing worklog, in which case we have to adjust
+        // endTime to avoid overlapping
+        if (startTime > endTime) {
+            // Worklog was dragged from end time to start time
+            QTime precedingWorklogEndTime = lastWorklogEndTimeBefore(startTime);
+            endTime = qMax(precedingWorklogEndTime, endTime);
+        } else {
+            // Worklog was dragged from start time to end time
+            QTime followingWorklogStartTime = firstWorklogStartTimeAfter(startTime);
+            endTime = qMin(followingWorklogStartTime, endTime);
+        }
+
+        mRegistrationInProgressStartTime = round(qMin(startTime, endTime));
+        mRegistrationInProgressEndTime = round(qMax(startTime, endTime));
+
+        QPoint roundStartPos = posFromTime(mRegistrationInProgressStartTime);
+        QPoint roundEndPos = posFromTime(mRegistrationInProgressEndTime);
         drawRegistrationRect(event,
                              QPoint(50, roundStartPos.y()),
                              QPoint(width() - 10, roundEndPos.y()));
@@ -212,24 +260,12 @@ void DailyRegistrations::mouseReleaseEvent(QMouseEvent *event)
         if (mRegistrationInProgressStartPos.isNull()) {
             return;
         }
-        QPoint registrationInProgressEndPos = event->pos();
-        QTime startTime;
-        QTime endTime;
-        if (registrationInProgressEndPos.y() > mRegistrationInProgressStartPos.y()) {
-            // Start pos is before end pos
-            startTime = timeFromPos(mRegistrationInProgressStartPos);
-            endTime = timeFromPos(registrationInProgressEndPos);
-        } else {
-            // End pos is before start pos
-            startTime = timeFromPos(registrationInProgressEndPos);
-            endTime = timeFromPos(mRegistrationInProgressStartPos);
-        }
         mRegistrationInProgressStartPos = QPoint(); // Make a note that we are done with creating a new registration
-        if (startTime.secsTo(endTime) > 0) {
+        if (mRegistrationInProgressStartTime.secsTo(mRegistrationInProgressEndTime) > 0) {
             mRegistrationDialog->setRecentIssues(mModel->recentIssues());
             mRegistrationDialog->setDate(mDate);
-            mRegistrationDialog->setStartTime(round(startTime));
-            mRegistrationDialog->setEndTime(round(endTime));
+            mRegistrationDialog->setStartTime(mRegistrationInProgressStartTime);
+            mRegistrationDialog->setEndTime(mRegistrationInProgressEndTime);
             mRegistrationDialog->show();
         }
     }
