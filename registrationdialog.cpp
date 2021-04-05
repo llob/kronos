@@ -16,6 +16,8 @@ RegistrationDialog::RegistrationDialog(QWidget *parent) :
     ui->searchResultsListView->setItemDelegate(mItemDelegate);
     mSearchTimer.setSingleShot(true);
     setupConnections();
+    // Populate results list with default search results
+    search();
 }
 
 RegistrationDialog::~RegistrationDialog()
@@ -95,7 +97,8 @@ void RegistrationDialog::searchLineEditTextChanged(const QString &text)
 
 void RegistrationDialog::search()
 {
-    // Ensure that we don't fire off another search, by
+    // In case the search was started by a timer timeout, we must
+    // ensure that we don't fire off another search, by
     // unconditionally killing the search timer
     mSearchTimer.stop();
 
@@ -103,19 +106,25 @@ void RegistrationDialog::search()
     QString terms = ui->searchLineEdit->text();
     QString query;
     QRegularExpression issueKeyRegExp("^[A-Za-z]{2,4}\\-[0-9]{1,10}$");
-    if (issueKeyRegExp.match(terms).hasMatch()) {
+    if (terms.isEmpty()) {
+        // Grab issues assigned to the current user in the current sprint
+        query = QString("assignee = currentUser() AND Sprint in openSprints () AND statusCategory in (\"In Progress\", \"To Do\") ORDER BY updated, created DESC");
+    } else if (issueKeyRegExp.match(terms).hasMatch()) {
+        // Looks like a search for a specific issue key
         query = QString("issuekey = \"%1\"").arg(terms);
     } else {
+        // Generic search
         query = QString("text ~ \"%1\" AND statusCategory in (\"In Progress\", \"To Do\") ORDER BY updated, created DESC").arg(terms);
     }
-    mJiraClient.search(query, 0, 50);
+    mJiraClient.search(query, 0, 30);
     mModel.clear();
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
 void RegistrationDialog::jiraClientSearchFinished(QList<QSharedPointer<JiraIssue> > issues)
 {
-    ui->searchLineEdit->setDisabled(false);    
+    qDebug() << "Search finished" << issues.length();
+    ui->searchLineEdit->setDisabled(false);
     mJiraIssues = issues;
     populateModel();
 }

@@ -38,24 +38,14 @@ void Settings::setRecentIssues(QList<QSharedPointer<JiraIssue> > issues)
     mSettings->set("recentIssues", variant);
 }
 
-void Settings::setWindowPosition(QPoint location)
+void Settings::setWindowGeometry(const QByteArray geometry)
 {
-    mSettings->set("windowLocation", location);
+    mSettings->set("windowGeometry", geometry);
 }
 
-QPoint Settings::windowPosition() const
+QByteArray Settings::windowGeometry() const
 {
-    return mSettings->get("windowLocation").toPoint();
-}
-
-void Settings::setWindowSize(QSize size)
-{
-    mSettings->set("windowSize", size);
-}
-
-QSize Settings::windowSize() const
-{
-    return mSettings->get("windowSize").toSize();
+    return mSettings->get("windowGeometry").toByteArray();
 }
 
 QString Settings::accountId() const

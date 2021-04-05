@@ -49,7 +49,7 @@ QList<QSharedPointer<JiraIssue> > DailyRegistrationsModel::recentIssues() const
     return mRecentIssues.issues();
 }
 
-void DailyRegistrationsModel::createRegistration(QTime startTime, QTime endTime, QSharedPointer<JiraIssue> issue)
+void DailyRegistrationsModel::addWorklog(QTime startTime, QTime endTime, QSharedPointer<JiraIssue> issue)
 {
     mRecentIssues.addIssue(issue);
 
@@ -63,7 +63,7 @@ void DailyRegistrationsModel::createRegistration(QTime startTime, QTime endTime,
     mJiraClient->addWorklog(jwl);
 }
 
-void DailyRegistrationsModel::deleteRegistration(QSharedPointer<JiraWorklog> worklog)
+void DailyRegistrationsModel::deleteWorklog(QSharedPointer<JiraWorklog> worklog)
 {
     mJiraClient->deleteWorklog(worklog);
 }

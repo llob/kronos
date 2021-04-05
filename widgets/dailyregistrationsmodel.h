@@ -24,8 +24,8 @@ public:
     QSharedPointer<JiraIssue> issueById(const QString issueId) const;
     QList<QSharedPointer<JiraIssue>> recentIssues() const;
 public slots:
-    void createRegistration(QTime startTime, QTime endTime, QSharedPointer<JiraIssue> issue);
-    void deleteRegistration(QSharedPointer<JiraWorklog> worklog);
+    void addWorklog(QTime startTime, QTime endTime, QSharedPointer<JiraIssue> issue);
+    void deleteWorklog(QSharedPointer<JiraWorklog> worklog);
     void setCurrentDate(const QDate date);
 
     void issueWorklogsFinished(QList<QSharedPointer<JiraWorklog> > worklogs);

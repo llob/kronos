@@ -25,22 +25,13 @@ MainWindow::MainWindow(MainController *mainController, QWidget *parent)
     ui->statusbar->addPermanentWidget(mAuthenticationStatusLabel);
 
     setupDailyRegistrations();
-    setupConnections();
     setupCalendar();
     setupCredentials();
+    setupConnections();
     mWeeklyTotalCalculator.update();
     mMonthlyTotalCalculator.update();
 
-
-    auto size = mSettings.windowSize();
-    if (size.isValid()) {
-        resize(size);
-    }
-    auto pos = mSettings.windowPosition();
-    if (!pos.isNull()) {
-        move(pos);
-    }
-
+    restoreGeometry(mSettings.windowGeometry());
 }
 
 void MainWindow::setupCalendar()
@@ -106,17 +97,22 @@ void MainWindow::setupConnections()
                      this, &MainWindow::monthlyTotalCalculatorUpdated);
     QObject::connect(&mWeeklyTotalCalculator, &WeeklyTotalCalculator::updated,
                      this, &MainWindow::weeklyTotalCalculatorUpdated);
+    QObject::connect(dailyRegistrations, &DailyRegistrations::registrationAdded,
+                     &mWeeklyTotalCalculator, &WeeklyTotalCalculator::update);
+    QObject::connect(dailyRegistrations, &DailyRegistrations::registrationAdded,
+                     &mMonthlyTotalCalculator, &MonthlyTotalCalculator::update);
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)
 {
-    QMainWindow::resizeEvent(event);
-    mSettings.setWindowSize(event->size());
+    Q_UNUSED(event);
+    mSettings.setWindowGeometry(saveGeometry());
 }
 
-void MainWindow::moveEvent(QMoveEvent *event) {
-    QMainWindow::moveEvent(event);
-    mSettings.setWindowPosition(event->pos());
+void MainWindow::moveEvent(QMoveEvent *event)
+{
+    Q_UNUSED(event);
+    mSettings.setWindowGeometry(saveGeometry());
 }
 
 void MainWindow::setCurrentDate(QDate currentDate)

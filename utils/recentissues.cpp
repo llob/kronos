@@ -1,6 +1,6 @@
 #include "recentissues.h"
 
-const int RecentIssues::mMaxIssueCount = 10;
+const int RecentIssues::mMaxIssueCount = 5;
 
 RecentIssues::RecentIssues() : QObject()
 {
