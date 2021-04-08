@@ -127,7 +127,8 @@ void JiraClient::search(const QString query, int startAt, int maxResults)
                          Q_UNUSED(maxResultsNode);
                          QVariant issuesNode = root.value("issues");
                          QVariantList issuesList = issuesNode.toList();
-                         QList<QSharedPointer<JiraIssue>> issues = JiraIssue::fromJsonList(issuesList);
+                         QList<QSharedPointer<AbstractIssue>> issues = JiraIssue::fromJsonList(issuesList);
+                         mIssueCache.putList(issues);
                          emit this->searchFinished(issues);
                      });
 
@@ -139,7 +140,7 @@ void JiraClient::settingsUpdated()
     setToken(mSettings.secret());
 }
 
-void JiraClient::issueWorklogs(QSharedPointer<JiraIssue> issue)
+void JiraClient::issueWorklogs(QSharedPointer<AbstractIssue> issue)
 {
     QUrl u = url(QString("/rest/api/latest/issue/%1/worklog").arg(issue->key()));
     auto reply = get(u);

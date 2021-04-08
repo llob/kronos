@@ -36,9 +36,3 @@ QString AbstractIssue::summary() const
 {
     return mSummary;
 }
-
-QByteArray AbstractIssue::toJson() const
-{
-    qWarning() << "Invalid call to not implemented function" << __FUNCTION__;
-    return QByteArray();
-}

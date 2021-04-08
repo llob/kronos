@@ -19,7 +19,7 @@ class RecentIssues : public QObject
     Q_OBJECT
 private:
     static const int mMaxIssueCount;
-    QList<QSharedPointer<JiraIssue>> mIssues;
+    QList<QSharedPointer<AbstractIssue>> mIssues;
     Settings mSettings;
 public:
     explicit RecentIssues();
@@ -27,12 +27,12 @@ public:
      * @brief addIssue Register an issue as recently used
      * @param issue
      */
-    void addIssue(QSharedPointer<JiraIssue> issue);
+    void addIssue(QSharedPointer<AbstractIssue> issue);
     /**
      * @brief issues Get the recent issues
      * @return
      */
-    QList<QSharedPointer<JiraIssue>> issues() const;
+    QList<QSharedPointer<AbstractIssue> > issues() const;
 signals:
 
 };

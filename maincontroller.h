@@ -17,7 +17,7 @@ private:
     TrayIconController mTrayIconController;
     void setupConnections();
 public:
-    explicit MainController(QObject *parent = nullptr);
+    explicit MainController();
 signals:
 
 };

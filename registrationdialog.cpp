@@ -52,7 +52,7 @@ void RegistrationDialog::setDate(const QDate date)
     setupWorklogInformationLabel();
 }
 
-QSharedPointer<JiraIssue> RegistrationDialog::jiraIssue()
+QSharedPointer<AbstractIssue> RegistrationDialog::jiraIssue()
 {
     return mJiraIssue;
 }
@@ -63,7 +63,7 @@ void RegistrationDialog::populateModel() {
     mModel.setSearchIssues(mJiraIssues);
 }
 
-void RegistrationDialog::setRecentIssues(QList<QSharedPointer<JiraIssue> > issues)
+void RegistrationDialog::setRecentIssues(QList<QSharedPointer<AbstractIssue> > issues)
 {
     mRecentIssues = issues;
     populateModel();
@@ -121,14 +121,14 @@ void RegistrationDialog::search()
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
-void RegistrationDialog::jiraClientSearchFinished(QList<QSharedPointer<JiraIssue> > issues)
+void RegistrationDialog::jiraClientSearchFinished(QList<QSharedPointer<AbstractIssue> > issues)
 {
     ui->searchLineEdit->setDisabled(false);
     mJiraIssues = issues;
     populateModel();
 }
 
-QSharedPointer<JiraIssue> RegistrationDialog::issueByModelIndex(int index) {
+QSharedPointer<AbstractIssue> RegistrationDialog::issueByModelIndex(int index) {
     if (index < mRecentIssues.length()) {
         return mRecentIssues.at(index);
     }
@@ -162,7 +162,7 @@ void RegistrationDialog::listViewDoubleClicked(const QModelIndex &selected)
 
 }
 
-QString RegistrationDialog::issueToString(QSharedPointer<JiraIssue> issue)
+QString RegistrationDialog::issueToString(QSharedPointer<AbstractIssue> issue)
 {
     return QString("%1 %2").arg(issue->key(), issue->summary());
 }

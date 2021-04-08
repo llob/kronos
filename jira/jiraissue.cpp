@@ -22,9 +22,9 @@ JiraIssue::~JiraIssue()
 
 }
 
-QList<QSharedPointer<JiraIssue> > JiraIssue::fromJsonList(const QVariantList list)
+QList<QSharedPointer<AbstractIssue> > JiraIssue::fromJsonList(const QVariantList list)
 {
-    QList<QSharedPointer<JiraIssue>> issues;
+    QList<QSharedPointer<AbstractIssue>> issues;
     foreach (QVariant issueNode, list) {
         // Loop over each issue which is itself a map
         if (!issueNode.canConvert<QVariantMap>()) {
@@ -47,6 +47,12 @@ QVariant JiraIssue::toVariant() const
     result.insert("key", mKey);
     result.insert("id", mId);
     return result;
+}
+
+QByteArray JiraIssue::toJson() const
+{
+    qWarning() << __FUNCTION__ << "not implemented";
+    return QByteArray();
 }
 
 QString JiraIssue::toString() const

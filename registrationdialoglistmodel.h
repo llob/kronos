@@ -10,9 +10,9 @@
 class RegistrationDialogListModel : public QAbstractListModel
 {
 private:
-    QList<QSharedPointer<JiraIssue>> mRecentIssues;
-    QList<QSharedPointer<JiraIssue>> mSearchIssues;
-    QSharedPointer<JiraIssue> issueByRow(int row) const;
+    QList<QSharedPointer<AbstractIssue>> mRecentIssues;
+    QList<QSharedPointer<AbstractIssue>> mSearchIssues;
+    QSharedPointer<AbstractIssue> issueByRow(int row) const;
 public:
     enum RegistrationType {
         RecentIssue,
@@ -23,8 +23,8 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
     void clear();
-    void setRecentIssues(QList<QSharedPointer<JiraIssue>> issues);
-    void setSearchIssues(QList<QSharedPointer<JiraIssue>> issues);
+    void setRecentIssues(QList<QSharedPointer<AbstractIssue> > issues);
+    void setSearchIssues(QList<QSharedPointer<AbstractIssue> > issues);
 };
 
 #endif // REGISTRATIONDIALOGLISTMODEL_H

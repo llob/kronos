@@ -5,7 +5,7 @@ RegistrationDialogListModel::RegistrationDialogListModel()
 
 }
 
-QSharedPointer<JiraIssue> RegistrationDialogListModel::issueByRow(int row) const {
+QSharedPointer<AbstractIssue> RegistrationDialogListModel::issueByRow(int row) const {
     if (row < mRecentIssues.length()) {
         return mRecentIssues.at(row);;
     } else {
@@ -18,7 +18,7 @@ QVariant RegistrationDialogListModel::data(const QModelIndex &index, int role) c
     if (!index.isValid()) {
         return QVariant();
     }
-    QSharedPointer<JiraIssue> issue = issueByRow(index.row());
+    QSharedPointer<AbstractIssue> issue = issueByRow(index.row());
     if (role == Qt::UserRole) {
         QVariantMap result;
         result.insert("issue", issue->toVariant());
@@ -55,14 +55,14 @@ void RegistrationDialogListModel::clear()
     endResetModel();
 }
 
-void RegistrationDialogListModel::setSearchIssues(QList<QSharedPointer<JiraIssue> > issues)
+void RegistrationDialogListModel::setSearchIssues(QList<QSharedPointer<AbstractIssue> > issues)
 {
     beginResetModel();
     mSearchIssues = issues;
     endResetModel();
 }
 
-void RegistrationDialogListModel::setRecentIssues(QList<QSharedPointer<JiraIssue> > issues)
+void RegistrationDialogListModel::setRecentIssues(QList<QSharedPointer<AbstractIssue> > issues)
 {
     beginResetModel();
     mRecentIssues = issues;

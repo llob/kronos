@@ -30,8 +30,8 @@ public:
     QTime endTime() const;
     void setEndTime(const QTime endTime);
     void setDate(const QDate date);
-    QSharedPointer<JiraIssue> jiraIssue();
-    void setRecentIssues(QList<QSharedPointer<JiraIssue>> issues);
+    QSharedPointer<AbstractIssue> jiraIssue();
+    void setRecentIssues(QList<QSharedPointer<AbstractIssue> > issues);
 
 private:
     Ui::RegistrationDialog *ui;
@@ -39,23 +39,23 @@ private:
     QTime mStartTime;
     QTime mEndTime;
     QDate mDate;
-    QList<QSharedPointer<JiraIssue>> mJiraIssues;
-    QList<QSharedPointer<JiraIssue>> mRecentIssues;
-    QSharedPointer<JiraIssue> mJiraIssue;
+    QList<QSharedPointer<AbstractIssue>> mJiraIssues;
+    QList<QSharedPointer<AbstractIssue>> mRecentIssues;
+    QSharedPointer<AbstractIssue> mJiraIssue;
     RegistrationDialogListModel mModel;
     JiraClient mJiraClient;
     RegistrationDialogListVievItemDelegate *mItemDelegate;
     void setupConnections();
     void setupWorklogInformationLabel();
     void populateModel();
-    QSharedPointer<JiraIssue> issueByModelIndex(int index);
+    QSharedPointer<AbstractIssue> issueByModelIndex(int index);
 private slots:
     void searchLineEditTextChanged(const QString &text);
     void search();
-    void jiraClientSearchFinished(QList<QSharedPointer<JiraIssue>> issues);
+    void jiraClientSearchFinished(QList<QSharedPointer<AbstractIssue> > issues);
     void listViewIndexesMoved(const QItemSelection &selected, const QItemSelection &deselected);
     void listViewDoubleClicked(const QModelIndex &selected);
-    QString issueToString(QSharedPointer<JiraIssue> issue);
+    QString issueToString(QSharedPointer<AbstractIssue> issue);
 };
 
 #endif // REGISTRATIONDIALOG_H

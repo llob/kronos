@@ -7,6 +7,8 @@ SOURCES += \
     $$PWD/abstractmodels/modelobject.cpp \
     $$PWD/authentication/authenticationstate.cpp \
     $$PWD/authentication/authenticationstateprivate.cpp \
+    $$PWD/cache/issuecache.cpp \
+    $$PWD/cache/issuecacheprivate.cpp \
     $$PWD/jira/jiraclient.cpp \
     $$PWD/jira/jiraissue.cpp \
     $$PWD/jira/jirauser.cpp \
@@ -31,6 +33,8 @@ HEADERS += \
     $$PWD/abstractmodels/modelobject.h \
     $$PWD/authentication/authenticationstate.h \
     $$PWD/authentication/authenticationstateprivate.h \
+    $$PWD/cache/issuecache.h \
+    $$PWD/cache/issuecacheprivate.h \
     $$PWD/jira/jiraclient.h \
     $$PWD/jira/jiraissue.h \
     $$PWD/jira/jirauser.h \

@@ -196,7 +196,7 @@ void DailyRegistrations::drawRegistrations(QPaintEvent *event)
         QDateTime started = worklog->started();
         QDateTime ended = started.addSecs(worklog->timeSpentSeconds());
         QPoint startedPos = posFromTime(started.time());
-        QSharedPointer<JiraIssue> issue = mModel->issueById(worklog->issueId());
+        QSharedPointer<AbstractIssue> issue = mModel->issueById(worklog->issueId());
         if (issue.isNull()) {
             qWarning() << "Failed to retrieve issue with id" << worklog->issueId();
             continue;

@@ -7,7 +7,7 @@ RecentIssues::RecentIssues() : QObject()
     mIssues = mSettings.recentIssues();
 }
 
-void RecentIssues::addIssue(QSharedPointer<JiraIssue> issue)
+void RecentIssues::addIssue(QSharedPointer<AbstractIssue> issue)
 {
     mIssues.removeAll(issue);
     mIssues.push_front(issue);
@@ -17,7 +17,7 @@ void RecentIssues::addIssue(QSharedPointer<JiraIssue> issue)
     mSettings.setRecentIssues(mIssues);
 }
 
-QList<QSharedPointer<JiraIssue> > RecentIssues::issues() const
+QList<QSharedPointer<AbstractIssue> > RecentIssues::issues() const
 {
     return mIssues;
 }

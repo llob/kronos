@@ -7,8 +7,7 @@
 #include <QBuffer>
 #include <QSharedPointer>
 #include "settingsprivate.h"
-
-class JiraIssue;
+#include "abstractmodels/abstractissue.h"
 
 /**
  * @brief The Settings class manages data which is persisted
@@ -99,12 +98,12 @@ public:
      * @brief recentIssues Get any stored recent issues
      * @return
      */
-    QList<QSharedPointer<JiraIssue>> recentIssues() const;
+    QList<QSharedPointer<AbstractIssue> > recentIssues() const;
     /**
      * @brief setRecentIssues Set any stored recent issues
      * @param issues
      */
-    void setRecentIssues(QList<QSharedPointer<JiraIssue>> issues);
+    void setRecentIssues(QList<QSharedPointer<AbstractIssue> > issues);
     /**
      * @brief setWindowGeometry Set main window geometry (obtained from QMainWindow::windowGeometry)
      * @param geometry
