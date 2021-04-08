@@ -24,7 +24,6 @@ void IssueCachePrivate::put(PAbstractIssue issue)
 {
     mCacheByKey.insert(issue->key(), issue);
     mCacheById.insert(issue->id(), issue);
-    qDebug() << "Cache size" << mCacheByKey.size();
 }
 
 void IssueCachePrivate::putList(QList<PAbstractIssue> issues)
