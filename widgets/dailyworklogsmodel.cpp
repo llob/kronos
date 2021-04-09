@@ -1,50 +1,50 @@
-#include "dailyregistrationsmodel.h"
+#include "DailyWorklogsModel.h"
 
-DailyRegistrationsModel::DailyRegistrationsModel(QSharedPointer<JiraClient> jiraClient)
+DailyWorklogsModel::DailyWorklogsModel(QSharedPointer<JiraClient> jiraClient)
 {
     mJiraClient = jiraClient;
     QObject::connect(mJiraClient.data(), &JiraClient::searchFinished,
-                     this, &DailyRegistrationsModel::searchFinished);
+                     this, &DailyWorklogsModel::searchFinished);
     QObject::connect(mJiraClient.data(), &JiraClient::searchFailed,
-                     this, &DailyRegistrationsModel::searchFailed);
+                     this, &DailyWorklogsModel::searchFailed);
 
     QObject::connect(mJiraClient.data(), &JiraClient::issueWorklogsFinished,
-                     this, &DailyRegistrationsModel::issueWorklogsFinished);
+                     this, &DailyWorklogsModel::issueWorklogsFinished);
     QObject::connect(mJiraClient.data(), &JiraClient::issueWorklogsFailed,
-                     this, &DailyRegistrationsModel::issueWorklogsFailed);
+                     this, &DailyWorklogsModel::issueWorklogsFailed);
 
     QObject::connect(mJiraClient.data(), &JiraClient::addWorklogFinished,
-                     this, &DailyRegistrationsModel::addWorklogFinished);
+                     this, &DailyWorklogsModel::addWorklogFinished);
     QObject::connect(mJiraClient.data(), &JiraClient::addWorklogFailed,
-                     this, &DailyRegistrationsModel::addWorklogFailed);
+                     this, &DailyWorklogsModel::addWorklogFailed);
 
 
     QObject::connect(mJiraClient.data(), &JiraClient::deleteWorklogFinished,
-                     this, &DailyRegistrationsModel::deleteWorklogFinished);
+                     this, &DailyWorklogsModel::deleteWorklogFinished);
     QObject::connect(mJiraClient.data(), &JiraClient::deleteWorklogFailed,
-                     this, &DailyRegistrationsModel::deleteWorklogFailed);
+                     this, &DailyWorklogsModel::deleteWorklogFailed);
 
 
 
     setCurrentDate(QDate::currentDate());
 }
 
-QList<QSharedPointer<JiraWorklog> > DailyRegistrationsModel::worklogs() const
+QList<QSharedPointer<JiraWorklog> > DailyWorklogsModel::worklogs() const
 {
     return mWorklogs;
 }
 
-QSharedPointer<AbstractIssue> DailyRegistrationsModel::issueById(const QString issueId) const
+QSharedPointer<AbstractIssue> DailyWorklogsModel::issueById(const QString issueId) const
 {
     return mIssueCache.getById(issueId);
 }
 
-QList<QSharedPointer<AbstractIssue> > DailyRegistrationsModel::recentIssues() const
+QList<QSharedPointer<AbstractIssue> > DailyWorklogsModel::recentIssues() const
 {
     return mRecentIssues.issues();
 }
 
-void DailyRegistrationsModel::addWorklog(QTime startTime, QTime endTime, QSharedPointer<AbstractIssue> issue)
+void DailyWorklogsModel::addWorklog(QTime startTime, QTime endTime, QSharedPointer<AbstractIssue> issue)
 {
     mRecentIssues.addIssue(issue);
 
@@ -58,12 +58,12 @@ void DailyRegistrationsModel::addWorklog(QTime startTime, QTime endTime, QShared
     mJiraClient->addWorklog(jwl);
 }
 
-void DailyRegistrationsModel::deleteWorklog(QSharedPointer<JiraWorklog> worklog)
+void DailyWorklogsModel::deleteWorklog(QSharedPointer<JiraWorklog> worklog)
 {
     mJiraClient->deleteWorklog(worklog);
 }
 
-void DailyRegistrationsModel::setCurrentDate(const QDate date)
+void DailyWorklogsModel::setCurrentDate(const QDate date)
 {
     mCurrentDate = date;
 
@@ -78,7 +78,7 @@ void DailyRegistrationsModel::setCurrentDate(const QDate date)
     mJiraClient->search(query);
 }
 
-void DailyRegistrationsModel::issueWorklogsFinished(QList<QSharedPointer<JiraWorklog>> worklogs)
+void DailyWorklogsModel::issueWorklogsFinished(QList<QSharedPointer<JiraWorklog>> worklogs)
 {
     QString accountId = mSettings.accountId();
     foreach (QSharedPointer<JiraWorklog> worklog, worklogs) {
@@ -93,41 +93,41 @@ void DailyRegistrationsModel::issueWorklogsFinished(QList<QSharedPointer<JiraWor
     emit updated();
 }
 
-void DailyRegistrationsModel::issueWorklogsFailed(int httpCode, QNetworkReply::NetworkError error, QString message)
+void DailyWorklogsModel::issueWorklogsFailed(int httpCode, QNetworkReply::NetworkError error, QString message)
 {
     qDebug() << __FUNCTION__ << httpCode << error << message;
 }
 
-void DailyRegistrationsModel::searchFinished(QList<QSharedPointer<AbstractIssue> > issues)
+void DailyWorklogsModel::searchFinished(QList<QSharedPointer<AbstractIssue> > issues)
 {
     foreach (QSharedPointer<AbstractIssue> issue, issues) {
         mJiraClient->issueWorklogs(issue);
     }
 }
 
-void DailyRegistrationsModel::searchFailed(int httpCode, QNetworkReply::NetworkError error, QString message)
+void DailyWorklogsModel::searchFailed(int httpCode, QNetworkReply::NetworkError error, QString message)
 {
     qDebug() << __FUNCTION__ << httpCode << error << message;
 }
 
-void DailyRegistrationsModel::addWorklogFinished(QSharedPointer<JiraWorklog> worklog)
+void DailyWorklogsModel::addWorklogFinished(QSharedPointer<JiraWorklog> worklog)
 {
     mWorklogs.append(worklog);
     emit updated();
 }
 
-void DailyRegistrationsModel::addWorklogFailed(int httpCode, QNetworkReply::NetworkError error, QString message)
+void DailyWorklogsModel::addWorklogFailed(int httpCode, QNetworkReply::NetworkError error, QString message)
 {
     qDebug() << __FUNCTION__ << httpCode << error << message;
 }
 
-void DailyRegistrationsModel::deleteWorklogFinished(bool success)
+void DailyWorklogsModel::deleteWorklogFinished(bool success)
 {
     Q_UNUSED(success);
     setCurrentDate(mCurrentDate); // Force refresh of loaded worklogs
 }
 
-void DailyRegistrationsModel::deleteWorklogFailed(int httpCode, QNetworkReply::NetworkError error, QString message)
+void DailyWorklogsModel::deleteWorklogFailed(int httpCode, QNetworkReply::NetworkError error, QString message)
 {
     qDebug() << __FUNCTION__ << httpCode << error << message;
 }

@@ -6,7 +6,7 @@
 #include <QPainterPath>
 #include <QPixmap>
 #include "ui_mainwindow.h"
-#include "widgets/dailyregistrations.h"
+#include "widgets/dailyworklogs.h"
 #include "settings/settings.h"
 #include "utils/colors.h"
 
@@ -128,9 +128,9 @@ void MainWindow::setupConnections()
                      this, &MainWindow::monthlyTotalCalculatorUpdated);
     QObject::connect(&mWeeklyTotalCalculator, &WeeklyTotalCalculator::updated,
                      this, &MainWindow::weeklyTotalCalculatorUpdated);
-    QObject::connect(dailyRegistrations, &DailyRegistrations::registrationAdded,
+    QObject::connect(dailyRegistrations, &DailyWorklogs::worklogAdded,
                      &mWeeklyTotalCalculator, &WeeklyTotalCalculator::update);
-    QObject::connect(dailyRegistrations, &DailyRegistrations::registrationAdded,
+    QObject::connect(dailyRegistrations, &DailyWorklogs::worklogAdded,
                      &mMonthlyTotalCalculator, &MonthlyTotalCalculator::update);
 
     QObject::connect(ui->toggleVisibilityPushButton, &QPushButton::clicked,
@@ -206,8 +206,8 @@ void MainWindow::showCredentials(bool visible) {
 
 void MainWindow::setupDailyRegistrations()
 {
-    auto dailyRegistrationsModel = new DailyRegistrationsModel(mJiraClient);
-    this->dailyRegistrations = new DailyRegistrations(
+    auto dailyRegistrationsModel = new DailyWorklogsModel(mJiraClient);
+    this->dailyRegistrations = new DailyWorklogs(
         dailyRegistrationsModel,
         QDate::currentDate(),
         ui->scrollArea);

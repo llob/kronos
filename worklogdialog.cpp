@@ -1,10 +1,10 @@
-#include "registrationdialog.h"
+#include "worklogdialog.h"
 #include "ui_registrationdialog.h"
 #include <QLineEdit>
 #include <QPushButton>
 #include <QRegularExpression>
 
-RegistrationDialog::RegistrationDialog(QWidget *parent) :
+WorklogDialog::WorklogDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::RegistrationDialog)
 {
@@ -12,7 +12,7 @@ RegistrationDialog::RegistrationDialog(QWidget *parent) :
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     mModel.setParent(ui->searchResultsListView);
     ui->searchResultsListView->setModel(&mModel);
-    mItemDelegate = new RegistrationDialogListVievItemDelegate();
+    mItemDelegate = new WorklogDialogListVievItemDelegate();
     ui->searchResultsListView->setItemDelegate(mItemDelegate);
     mSearchTimer.setSingleShot(true);
     setupConnections();
@@ -20,82 +20,82 @@ RegistrationDialog::RegistrationDialog(QWidget *parent) :
     search();
 }
 
-RegistrationDialog::~RegistrationDialog()
+WorklogDialog::~WorklogDialog()
 {
     delete ui;
 }
 
-QTime RegistrationDialog::startTime() const
+QTime WorklogDialog::startTime() const
 {
     return mStartTime;
 }
 
-void RegistrationDialog::setStartTime(const QTime startTime)
+void WorklogDialog::setStartTime(const QTime startTime)
 {
     mStartTime = startTime;
 }
 
-QTime RegistrationDialog::endTime() const
+QTime WorklogDialog::endTime() const
 {
     return mEndTime;
 }
 
-void RegistrationDialog::setEndTime(const QTime endTime)
+void WorklogDialog::setEndTime(const QTime endTime)
 {
     mEndTime = endTime;
     setupWorklogInformationLabel();
 }
 
-void RegistrationDialog::setDate(const QDate date)
+void WorklogDialog::setDate(const QDate date)
 {
     mDate = date;
     setupWorklogInformationLabel();
 }
 
-QSharedPointer<AbstractIssue> RegistrationDialog::jiraIssue()
+QSharedPointer<AbstractIssue> WorklogDialog::jiraIssue()
 {
     return mJiraIssue;
 }
 
-void RegistrationDialog::populateModel() {
+void WorklogDialog::populateModel() {
     mModel.clear();
     mModel.setRecentIssues(mRecentIssues);
     mModel.setSearchIssues(mJiraIssues);
 }
 
-void RegistrationDialog::setRecentIssues(QList<QSharedPointer<AbstractIssue> > issues)
+void WorklogDialog::setRecentIssues(QList<QSharedPointer<AbstractIssue> > issues)
 {
     mRecentIssues = issues;
     populateModel();
 }
 
-void RegistrationDialog::setupConnections()
+void WorklogDialog::setupConnections()
 {
     QObject::connect(&mSearchTimer, &QTimer::timeout,
-                     this, &RegistrationDialog::search);
+                     this, &WorklogDialog::search);
     QObject::connect(ui->searchLineEdit, &QLineEdit::textEdited,
-                     this, &RegistrationDialog::searchLineEditTextChanged);
+                     this, &WorklogDialog::searchLineEditTextChanged);
     QObject::connect(&mJiraClient, &JiraClient::searchFinished,
-                     this, &RegistrationDialog::jiraClientSearchFinished);
+                     this, &WorklogDialog::jiraClientSearchFinished);
     QObject::connect(ui->searchResultsListView->selectionModel(), &QItemSelectionModel::selectionChanged,
-                     this, &RegistrationDialog::listViewIndexesMoved);
+                     this, &WorklogDialog::listViewIndexesMoved);
     QObject::connect(ui->searchResultsListView, &QListView::doubleClicked,
-                     this, &RegistrationDialog::listViewDoubleClicked);
+                     this, &WorklogDialog::listViewDoubleClicked);
     QObject::connect(ui->searchLineEdit, &QLineEdit::returnPressed,
-                     this, &RegistrationDialog::search);
+                     this, &WorklogDialog::search);
 }
 
-void RegistrationDialog::setupWorklogInformationLabel() {
+void WorklogDialog::setupWorklogInformationLabel() {
     ui->worklogInfoLabel->setText(QString("New worklog from %2 to %3").arg(mStartTime.toString(), mEndTime.toString()));
 }
 
-void RegistrationDialog::searchLineEditTextChanged(const QString &text)
+void WorklogDialog::searchLineEditTextChanged(const QString &text)
 {
     Q_UNUSED(text);
     mSearchTimer.start(1000);
 }
 
-void RegistrationDialog::search()
+void WorklogDialog::search()
 {
     // In case the search was started by a timer timeout, we must
     // ensure that we don't fire off another search, by
@@ -121,14 +121,14 @@ void RegistrationDialog::search()
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
-void RegistrationDialog::jiraClientSearchFinished(QList<QSharedPointer<AbstractIssue> > issues)
+void WorklogDialog::jiraClientSearchFinished(QList<QSharedPointer<AbstractIssue> > issues)
 {
     ui->searchLineEdit->setDisabled(false);
     mJiraIssues = issues;
     populateModel();
 }
 
-QSharedPointer<AbstractIssue> RegistrationDialog::issueByModelIndex(int index) {
+QSharedPointer<AbstractIssue> WorklogDialog::issueByModelIndex(int index) {
     if (index < mRecentIssues.length()) {
         return mRecentIssues.at(index);
     }
@@ -138,7 +138,7 @@ QSharedPointer<AbstractIssue> RegistrationDialog::issueByModelIndex(int index) {
     return nullptr;
 }
 
-void RegistrationDialog::listViewIndexesMoved(const QItemSelection &selected, const QItemSelection &deselected)
+void WorklogDialog::listViewIndexesMoved(const QItemSelection &selected, const QItemSelection &deselected)
 {
     Q_UNUSED(deselected);
     // Top index of first selection
@@ -155,14 +155,14 @@ void RegistrationDialog::listViewIndexesMoved(const QItemSelection &selected, co
     }
 }
 
-void RegistrationDialog::listViewDoubleClicked(const QModelIndex &selected)
+void WorklogDialog::listViewDoubleClicked(const QModelIndex &selected)
 {
     mJiraIssue = issueByModelIndex(selected.row());
     accept();
 
 }
 
-QString RegistrationDialog::issueToString(QSharedPointer<AbstractIssue> issue)
+QString WorklogDialog::issueToString(QSharedPointer<AbstractIssue> issue)
 {
     return QString("%1 %2").arg(issue->key(), issue->summary());
 }

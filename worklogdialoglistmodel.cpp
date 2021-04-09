@@ -1,11 +1,11 @@
-#include "registrationdialoglistmodel.h"
+#include "worklogdialoglistmodel.h"
 
-RegistrationDialogListModel::RegistrationDialogListModel()
+WorklogDialogListModel::WorklogDialogListModel()
 {
 
 }
 
-QSharedPointer<AbstractIssue> RegistrationDialogListModel::issueByRow(int row) const {
+QSharedPointer<AbstractIssue> WorklogDialogListModel::issueByRow(int row) const {
     if (row < mRecentIssues.length()) {
         return mRecentIssues.at(row);;
     } else {
@@ -13,7 +13,7 @@ QSharedPointer<AbstractIssue> RegistrationDialogListModel::issueByRow(int row) c
     }
 }
 
-QVariant RegistrationDialogListModel::data(const QModelIndex &index, int role) const
+QVariant WorklogDialogListModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
         return QVariant();
@@ -23,9 +23,9 @@ QVariant RegistrationDialogListModel::data(const QModelIndex &index, int role) c
         QVariantMap result;
         result.insert("issue", issue->toVariant());
         if (index.row() < mRecentIssues.length()) {
-            result.insert("type", RegistrationDialogListModel::RecentIssue);
+            result.insert("type", WorklogDialogListModel::RecentIssue);
         } else {
-            result.insert("type", RegistrationDialogListModel::SearchIssue);
+            result.insert("type", WorklogDialogListModel::SearchIssue);
         }
         return result;
     }
@@ -35,19 +35,19 @@ QVariant RegistrationDialogListModel::data(const QModelIndex &index, int role) c
     return QVariant();
 }
 
-int RegistrationDialogListModel::rowCount(const QModelIndex &parent) const
+int WorklogDialogListModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return mRecentIssues.length() + mSearchIssues.length();
 }
 
-int RegistrationDialogListModel::columnCount(const QModelIndex &parent) const
+int WorklogDialogListModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return 1;
 }
 
-void RegistrationDialogListModel::clear()
+void WorklogDialogListModel::clear()
 {
     beginResetModel();
     mSearchIssues.clear();
@@ -55,14 +55,14 @@ void RegistrationDialogListModel::clear()
     endResetModel();
 }
 
-void RegistrationDialogListModel::setSearchIssues(QList<QSharedPointer<AbstractIssue> > issues)
+void WorklogDialogListModel::setSearchIssues(QList<QSharedPointer<AbstractIssue> > issues)
 {
     beginResetModel();
     mSearchIssues = issues;
     endResetModel();
 }
 
-void RegistrationDialogListModel::setRecentIssues(QList<QSharedPointer<AbstractIssue> > issues)
+void WorklogDialogListModel::setRecentIssues(QList<QSharedPointer<AbstractIssue> > issues)
 {
     beginResetModel();
     mRecentIssues = issues;

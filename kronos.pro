@@ -13,24 +13,24 @@ RC_ICONS = kronos.ico
 
 SOURCES +=  $$PWD/main.cpp \
             $$PWD/mainwindow.cpp \
-            $$PWD/registrationdialog.cpp \
+            $$PWD/worklogdialog.cpp \
             $$PWD/deleteconfirmationdialog.cpp \
             $$PWD/maincontroller.cpp \
-            $$PWD/registrationdialoglistvievitemdelegate.cpp \
-            $$PWD/widgets/dailyregistrations.cpp
+            $$PWD/worklogdialoglistvievitemdelegate.cpp \
+            $$PWD/widgets/dailyworklogs.cpp
 
 HEADERS +=  $$PWD/mainwindow.h \
-            $$PWD/registrationdialog.h \
+            $$PWD/worklogdialog.h \
             $$PWD/deleteconfirmationdialog.h \
             $$PWD/maincontroller.h \
-            $$PWD/registrationdialoglistvievitemdelegate.h \
-            $$PWD/widgets/dailyregistrations.h
+            $$PWD/worklogdialoglistvievitemdelegate.h \
+            $$PWD/widgets/dailyworklogs.h
 
 
 
 FORMS += \
     $$PWD/mainwindow.ui \
-    $$PWD/registrationdialog.ui \
+    $$PWD/worklogdialog.ui \
     $$PWD/deleteconfirmationdialog.ui
 
 # Default rules for deployment.

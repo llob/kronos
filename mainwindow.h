@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <QResizeEvent>
 #include <QMoveEvent>
-#include "widgets/dailyregistrations.h"
+#include "widgets/dailyworklogs.h"
 #include "jira/jiraclient.h"
 #include "settings/settings.h"
 #include "maincontroller.h"
@@ -29,7 +29,7 @@ protected:
     void moveEvent(QMoveEvent *event);
 private:
     Ui::MainWindow *ui;
-    DailyRegistrations *dailyRegistrations;
+    DailyWorklogs *dailyRegistrations;
     QDate mCurrentDate;
     QSharedPointer<JiraClient> mJiraClient;
     Settings mSettings;

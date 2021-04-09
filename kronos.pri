@@ -20,7 +20,6 @@ SOURCES += \
     $$PWD/nagging/nagengine.cpp \
     $$PWD/nagging/nagstate.cpp \
     $$PWD/nagging/randomnag.cpp \
-    $$PWD/registrationdialoglistmodel.cpp \
     $$PWD/settings/settings.cpp \
     $$PWD/settings/settingsprivate.cpp \
     $$PWD/tray/trayiconcontroller.cpp \
@@ -29,8 +28,9 @@ SOURCES += \
     $$PWD/utils/recentissues.cpp \
     $$PWD/utils/totalcalculatorprivate.cpp \
     $$PWD/utils/weeklytotalcalculator.cpp \
-    $$PWD/widgets/dailyregistrationsmodel.cpp \
-    $$PWD/utils/totalcalculator.cpp
+    $$PWD/utils/totalcalculator.cpp \
+    $$PWD/widgets/dailyworklogsmodel.cpp \
+    $$PWD/worklogdialoglistmodel.cpp
 
 HEADERS += \
     $$PWD/abstractmodels/abstractissue.h \
@@ -52,7 +52,6 @@ HEADERS += \
     $$PWD/nagging/nagengine.h \
     $$PWD/nagging/nagstate.h \
     $$PWD/nagging/randomnag.h \
-    $$PWD/registrationdialoglistmodel.h \
     $$PWD/settings/settings.h \
     $$PWD/settings/settingsprivate.h \
     $$PWD/tray/trayiconcontroller.h \
@@ -62,8 +61,9 @@ HEADERS += \
     $$PWD/utils/recentissues.h \
     $$PWD/utils/totalcalculatorprivate.h \
     $$PWD/utils/weeklytotalcalculator.h \
-    $$PWD/widgets/dailyregistrationsmodel.h \
-    $$PWD/utils/totalcalculator.h
+    $$PWD/utils/totalcalculator.h \
+    $$PWD/widgets/dailyworklogsmodel.h \
+    $$PWD/worklogdialoglistmodel.h
 
 INCLUDEPATH += $$PWD
 

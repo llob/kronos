@@ -1,5 +1,5 @@
-#ifndef REGISTRATIONDIALOGLISTVIEVITEMDELEGATE_H
-#define REGISTRATIONDIALOGLISTVIEVITEMDELEGATE_H
+#ifndef WORKLOGDIALOGLISTVIEVITEMDELEGATE_H
+#define WORKLOGDIALOGLISTVIEVITEMDELEGATE_H
 
 #include <QAbstractItemDelegate>
 #include <QSize>
@@ -8,12 +8,12 @@
 #include <QPainter>
 #include <QStyleOptionViewItem>
 
-class RegistrationDialogListVievItemDelegate : public QAbstractItemDelegate
+class WorklogDialogListVievItemDelegate : public QAbstractItemDelegate
 {
 public:
-    RegistrationDialogListVievItemDelegate();
+    WorklogDialogListVievItemDelegate();
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
-#endif // REGISTRATIONDIALOGLISTVIEVITEMDELEGATE_H
+#endif // WORKLOGDIALOGLISTVIEVITEMDELEGATE_H

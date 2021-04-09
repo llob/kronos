@@ -1,14 +1,14 @@
-#include "registrationdialoglistvievitemdelegate.h"
+#include "worklogdialoglistvievitemdelegate.h"
 #include "jira/jiraissue.h"
 #include "utils/colors.h"
 #include <QPainterPath>
 
-RegistrationDialogListVievItemDelegate::RegistrationDialogListVievItemDelegate()
+WorklogDialogListVievItemDelegate::WorklogDialogListVievItemDelegate()
 {
 
 }
 
-void RegistrationDialogListVievItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void WorklogDialogListVievItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QVariantMap v = index.model()->data(index, Qt::UserRole).toMap();
     QVariantMap issueMap = v.value("issue").toMap();
@@ -48,7 +48,7 @@ void RegistrationDialogListVievItemDelegate::paint(QPainter *painter, const QSty
     painter->drawText(textBoundingRect, QString("%1 %2").arg(j.key(), j.summary()));
 }
 
-QSize RegistrationDialogListVievItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize WorklogDialogListVievItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     Q_UNUSED(index);
     Q_UNUSED(option);

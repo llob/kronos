@@ -1,5 +1,5 @@
-#ifndef REGISTRATIONDIALOG_H
-#define REGISTRATIONDIALOG_H
+#ifndef WORKLOGDIALOG_H
+#define WORKLOGDIALOG_H
 
 #include <QDialog>
 #include <QTime>
@@ -8,22 +8,22 @@
 #include <QItemSelection>
 #include <QItemSelectionModel>
 #include <QModelIndex>
-#include "registrationdialoglistmodel.h"
+#include "worklogdialoglistmodel.h"
 #include "jira/jiraissue.h"
 #include "jira/jiraclient.h"
-#include "registrationdialoglistvievitemdelegate.h"
+#include "worklogdialoglistvievitemdelegate.h"
 
 namespace Ui {
 class RegistrationDialog;
 }
 
-class RegistrationDialog : public QDialog
+class WorklogDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit RegistrationDialog(QWidget *parent = nullptr);
-    ~RegistrationDialog();
+    explicit WorklogDialog(QWidget *parent = nullptr);
+    ~WorklogDialog();
 
     QTime startTime() const;
     void setStartTime(const QTime startTime);
@@ -42,9 +42,9 @@ private:
     QList<QSharedPointer<AbstractIssue>> mJiraIssues;
     QList<QSharedPointer<AbstractIssue>> mRecentIssues;
     QSharedPointer<AbstractIssue> mJiraIssue;
-    RegistrationDialogListModel mModel;
+    WorklogDialogListModel mModel;
     JiraClient mJiraClient;
-    RegistrationDialogListVievItemDelegate *mItemDelegate;
+    WorklogDialogListVievItemDelegate *mItemDelegate;
     void setupConnections();
     void setupWorklogInformationLabel();
     void populateModel();
@@ -58,4 +58,4 @@ private slots:
     QString issueToString(QSharedPointer<AbstractIssue> issue);
 };
 
-#endif // REGISTRATIONDIALOG_H
+#endif // WORKLOGDIALOG_H
