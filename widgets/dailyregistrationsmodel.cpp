@@ -34,22 +34,17 @@ QList<QSharedPointer<JiraWorklog> > DailyRegistrationsModel::worklogs() const
     return mWorklogs;
 }
 
-QSharedPointer<JiraIssue> DailyRegistrationsModel::issueById(const QString issueId) const
+QSharedPointer<AbstractIssue> DailyRegistrationsModel::issueById(const QString issueId) const
 {
-    foreach (QSharedPointer<JiraIssue> issue, mIssues) {
-        if (issue->id() == issueId) {
-            return issue;
-        }
-    }
-    return nullptr;
+    return mIssueCache.getById(issueId);
 }
 
-QList<QSharedPointer<JiraIssue> > DailyRegistrationsModel::recentIssues() const
+QList<QSharedPointer<AbstractIssue> > DailyRegistrationsModel::recentIssues() const
 {
     return mRecentIssues.issues();
 }
 
-void DailyRegistrationsModel::addWorklog(QTime startTime, QTime endTime, QSharedPointer<JiraIssue> issue)
+void DailyRegistrationsModel::addWorklog(QTime startTime, QTime endTime, QSharedPointer<AbstractIssue> issue)
 {
     mRecentIssues.addIssue(issue);
 
@@ -103,10 +98,9 @@ void DailyRegistrationsModel::issueWorklogsFailed(int httpCode, QNetworkReply::N
     qDebug() << __FUNCTION__ << httpCode << error << message;
 }
 
-void DailyRegistrationsModel::searchFinished(QList<QSharedPointer<JiraIssue> > issues)
+void DailyRegistrationsModel::searchFinished(QList<QSharedPointer<AbstractIssue> > issues)
 {
-    mIssues = issues;
-    foreach (QSharedPointer<JiraIssue> issue, mIssues) {
+    foreach (QSharedPointer<AbstractIssue> issue, issues) {
         mJiraClient->issueWorklogs(issue);
     }
 }
@@ -118,7 +112,6 @@ void DailyRegistrationsModel::searchFailed(int httpCode, QNetworkReply::NetworkE
 
 void DailyRegistrationsModel::addWorklogFinished(QSharedPointer<JiraWorklog> worklog)
 {
-    qDebug() << "Add worklog finished";
     mWorklogs.append(worklog);
     emit updated();
 }

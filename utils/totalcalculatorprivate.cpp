@@ -19,10 +19,10 @@ void TotalCalculatorPrivate::calculate()
     mJiraClient.search(mQuery);
 }
 
-void TotalCalculatorPrivate::jiraClientSearchFinished(QList<QSharedPointer<JiraIssue> > issues)
+void TotalCalculatorPrivate::jiraClientSearchFinished(QList<QSharedPointer<AbstractIssue> > issues)
 {
     mIssueWorklogRequestCount = issues.length();
-    foreach(QSharedPointer<JiraIssue> issue, issues) {
+    foreach(QSharedPointer<AbstractIssue> issue, issues) {
         mJiraClient.issueWorklogs(issue);
     }
 }

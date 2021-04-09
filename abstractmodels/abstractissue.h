@@ -55,7 +55,12 @@ public:
      *  stored as a byte array
      * @return
      */
-    QByteArray toJson() const;
+    virtual QByteArray toJson() const  = 0;
+    /**
+     * @brief toString String representation of this issue
+     * @return
+     */
+    virtual QString toString() const = 0;
 };
 
 typedef QSharedPointer<AbstractIssue> PAbstractIssue;

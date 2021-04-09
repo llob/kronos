@@ -12,6 +12,7 @@
 #include "jira/jiraworklog.h"
 #include "jira/jirauser.h"
 #include "settings/settings.h"
+#include "cache/issuecache.h"
 
 class JiraClient : public QObject
 {
@@ -24,6 +25,7 @@ private:
     QUrl url(QString path, QString query);
     QSharedPointer<QNetworkAccessManager> mNam;
     Settings mSettings;
+    IssueCache mIssueCache;
 
     /**
      * @brief httpCode Get the HTTP code from the network reply
@@ -42,11 +44,11 @@ public:
     void myself();
     void addWorklog(QSharedPointer<JiraWorklog> worklog);
     void deleteWorklog(QSharedPointer<JiraWorklog> worklog);
-    void issueWorklogs(QSharedPointer<JiraIssue> issue);
+    void issueWorklogs(QSharedPointer<AbstractIssue> issue);
     void search(const QString query, int startAt = 0, int maxResults = 20);
     QNetworkReply *delete_request(QUrl url);
 signals:
-    void searchFinished(QList<QSharedPointer<JiraIssue>> issues);
+    void searchFinished(QList<QSharedPointer<AbstractIssue>> issues);
     void searchFailed(int httpCode, QNetworkReply::NetworkError error, QString errorMessage);
 
     void myselfFinished(QSharedPointer<JiraUser> myself);

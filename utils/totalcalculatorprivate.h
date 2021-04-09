@@ -35,7 +35,7 @@ signals:
     void updated(int seconds);
 private slots:
     void jiraClientIssueWorklogsFinished(QList<QSharedPointer<JiraWorklog> > worklogs);
-    void jiraClientSearchFinished(QList<QSharedPointer<JiraIssue> > issues);
+    void jiraClientSearchFinished(QList<QSharedPointer<AbstractIssue> > issues);
 };
 
 #endif // TOTALCALCULATORPRIVATE_H

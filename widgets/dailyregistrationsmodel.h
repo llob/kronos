@@ -7,6 +7,7 @@
 #include "utils/condition.h"
 #include "settings/settings.h"
 #include "utils/recentissues.h"
+#include "cache/issuecache.h"
 
 class DailyRegistrationsModel : public QObject
 {
@@ -14,24 +15,25 @@ class DailyRegistrationsModel : public QObject
 private:
     QSharedPointer<JiraClient> mJiraClient;
     QList<QSharedPointer<JiraWorklog>> mWorklogs;
-    QList<QSharedPointer<JiraIssue>> mIssues;
+    //QList<QSharedPointer<AbstractIssue>> mIssues;
+    IssueCache mIssueCache;
     QDate mCurrentDate;
     Settings mSettings;
     RecentIssues mRecentIssues;
 public:
     DailyRegistrationsModel(QSharedPointer<JiraClient> jiraClient);
     QList<QSharedPointer<JiraWorklog>> worklogs() const;
-    QSharedPointer<JiraIssue> issueById(const QString issueId) const;
-    QList<QSharedPointer<JiraIssue>> recentIssues() const;
+    QSharedPointer<AbstractIssue> issueById(const QString issueId) const;
+    QList<QSharedPointer<AbstractIssue>> recentIssues() const;
 public slots:
-    void addWorklog(QTime startTime, QTime endTime, QSharedPointer<JiraIssue> issue);
+    void addWorklog(QTime startTime, QTime endTime, QSharedPointer<AbstractIssue> issue);
     void deleteWorklog(QSharedPointer<JiraWorklog> worklog);
     void setCurrentDate(const QDate date);
 
     void issueWorklogsFinished(QList<QSharedPointer<JiraWorklog> > worklogs);
     void issueWorklogsFailed(int httpCode, QNetworkReply::NetworkError error, QString message);
 
-    void searchFinished(QList<QSharedPointer<JiraIssue>> issues);
+    void searchFinished(QList<QSharedPointer<AbstractIssue> > issues);
     void searchFailed(int httpCode, QNetworkReply::NetworkError error, QString message);
 
     void addWorklogFinished(QSharedPointer<JiraWorklog> worklog);

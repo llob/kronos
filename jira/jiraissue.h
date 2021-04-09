@@ -18,9 +18,10 @@ public:
     JiraIssue(const QVariantMap json);
     JiraIssue(const QByteArray json);
     virtual ~JiraIssue();
-    static QList<QSharedPointer<JiraIssue>> fromJsonList(const QVariantList list);
-    QString toString() const;
+    static QList<QSharedPointer<AbstractIssue> > fromJsonList(const QVariantList list);
+    QString toString() const override;
     QVariant toVariant() const override;
+    QByteArray toJson() const override;
 protected:
     bool fromJson(const QVariantMap json);
 };

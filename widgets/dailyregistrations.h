@@ -62,7 +62,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
 
 signals:
-    void registrationAdded(QTime startTime, QTime endTime, QSharedPointer<JiraIssue> issue);
+    void registrationAdded(QTime startTime, QTime endTime, QSharedPointer<AbstractIssue> issue);
     void registrationDeleted(QSharedPointer<JiraWorklog> worklog);
 
 private slots:

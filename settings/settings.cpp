@@ -18,9 +18,9 @@ void Settings::setHostname(QString jiraHostname) {
     mSettings->set("jiraHostname", jiraHostname);
 }
 
-QList<QSharedPointer<JiraIssue> > Settings::recentIssues() const
+QList<QSharedPointer<AbstractIssue> > Settings::recentIssues() const
 {
-    QList<QSharedPointer<JiraIssue>> issues;
+    QList<QSharedPointer<AbstractIssue>> issues;
     QVariantList variant = mSettings->get("recentIssues").toList();
     foreach (QVariant issueVariant, variant) {
         auto issue = QSharedPointer<JiraIssue>(new JiraIssue(issueVariant.toMap()));
@@ -29,10 +29,10 @@ QList<QSharedPointer<JiraIssue> > Settings::recentIssues() const
     return issues;
 }
 
-void Settings::setRecentIssues(QList<QSharedPointer<JiraIssue> > issues)
+void Settings::setRecentIssues(QList<QSharedPointer<AbstractIssue> > issues)
 {
     QVariantList variant;
-    foreach (QSharedPointer<JiraIssue> issue, issues) {
+    foreach (QSharedPointer<AbstractIssue> issue, issues) {
         variant.append(issue->toVariant());
     }
     mSettings->set("recentIssues", variant);
