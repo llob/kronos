@@ -1,4 +1,4 @@
-#include "DailyWorklogsModel.h"
+#include "dailyworklogsmodel.h"
 
 DailyWorklogsModel::DailyWorklogsModel(QSharedPointer<JiraClient> jiraClient)
 {
