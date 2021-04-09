@@ -19,8 +19,10 @@ parts:
   kronos:
     # See 'snapcraft plugins'
     source-type: git
+    qt-version: qt5
     source: https://github.com/llob/kronos.git
     plugin: qmake
+    after: [desktop-qt5]
     stage-packages:
     - libdouble-conversion1
     - libfreetype6
