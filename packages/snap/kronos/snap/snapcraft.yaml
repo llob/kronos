@@ -38,3 +38,5 @@ parts:
     - libxau6
     - libxcb1
     - libxdmcp6
+    - libqt5svg5
+    - libqt5svg5-dev
