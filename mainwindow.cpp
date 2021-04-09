@@ -32,6 +32,7 @@ MainWindow::MainWindow(MainController *mainController, QWidget *parent)
     setupCalendar();
     setupCredentials();
     setupConnections();
+
     mWeeklyTotalCalculator.update();
     mMonthlyTotalCalculator.update();
 
