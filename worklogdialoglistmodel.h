@@ -1,5 +1,5 @@
-#ifndef REGISTRATIONDIALOGLISTMODEL_H
-#define REGISTRATIONDIALOGLISTMODEL_H
+#ifndef WORKLOGDIALOGLISTMODEL_H
+#define WORKLOGDIALOGLISTMODEL_H
 
 #include <QAbstractListModel>
 #include <QSharedPointer>
@@ -7,7 +7,7 @@
 #include <QList>
 #include "jira/jiraissue.h"
 
-class RegistrationDialogListModel : public QAbstractListModel
+class WorklogDialogListModel : public QAbstractListModel
 {
 private:
     QList<QSharedPointer<AbstractIssue>> mRecentIssues;
@@ -18,7 +18,7 @@ public:
         RecentIssue,
         SearchIssue
     };
-    RegistrationDialogListModel();
+    WorklogDialogListModel();
     QVariant data(const QModelIndex &index, int role) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -27,4 +27,4 @@ public:
     void setSearchIssues(QList<QSharedPointer<AbstractIssue> > issues);
 };
 
-#endif // REGISTRATIONDIALOGLISTMODEL_H
+#endif // WORKLOGDIALOGLISTMODEL_H

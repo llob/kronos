@@ -1,5 +1,5 @@
-#ifndef DAILYREGISTRATIONSMODEL_H
-#define DAILYREGISTRATIONSMODEL_H
+#ifndef DAILYWORKLOGSMODEL_H
+#define DAILYWORKLOGSMODEL_H
 
 #include <QObject>
 #include "jira/jiraclient.h"
@@ -9,7 +9,7 @@
 #include "utils/recentissues.h"
 #include "cache/issuecache.h"
 
-class DailyRegistrationsModel : public QObject
+class DailyWorklogsModel : public QObject
 {
     Q_OBJECT
 private:
@@ -21,7 +21,7 @@ private:
     Settings mSettings;
     RecentIssues mRecentIssues;
 public:
-    DailyRegistrationsModel(QSharedPointer<JiraClient> jiraClient);
+    DailyWorklogsModel(QSharedPointer<JiraClient> jiraClient);
     QList<QSharedPointer<JiraWorklog>> worklogs() const;
     QSharedPointer<AbstractIssue> issueById(const QString issueId) const;
     QList<QSharedPointer<AbstractIssue>> recentIssues() const;
@@ -45,4 +45,4 @@ signals:
     void updated();
 };
 
-#endif // DAILYREGISTRATIONSMODEL_H
+#endif // DAILYWORKLOGSMODEL_H

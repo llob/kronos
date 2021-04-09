@@ -1,15 +1,15 @@
-#ifndef DAILYREGISTRATIONS_H
-#define DAILYREGISTRATIONS_H
+#ifndef DAILYWORKLOGS_H
+#define DAILYWORKLOGS_H
 
 #include <QWidget>
 #include <QSharedPointer>
 #include <QTime>
 #include <QDate>
-#include "dailyregistrationsmodel.h"
-#include "registrationdialog.h"
+#include "dailyworklogsmodel.h"
+#include "worklogdialog.h"
 #include "deleteconfirmationdialog.h"
 
-class DailyRegistrations : public QWidget
+class DailyWorklogs : public QWidget
 {
     Q_OBJECT
 private:
@@ -21,8 +21,8 @@ private:
     QTime mRegistrationInProgressEndTime;
     QPoint mCurrentMousePos;
     QDate mDate;
-    DailyRegistrationsModel *mModel;
-    RegistrationDialog *mRegistrationDialog;
+    DailyWorklogsModel *mModel;
+    WorklogDialog *mRegistrationDialog;
     DeleteConfirmationDialog *mDeleteConfirmationDialog;
     bool mWorking;
 
@@ -50,7 +50,7 @@ private:
      */
     QTime firstWorklogStartTimeAfter(QTime time);
 public:
-    explicit DailyRegistrations(DailyRegistrationsModel *model, QDate date, QWidget *parent = nullptr);
+    explicit DailyWorklogs(DailyWorklogsModel *model, QDate date, QWidget *parent = nullptr);
     void setCurrentDate(const QDate date);
     QDate currentDate() const;
     void setWorking(bool working);
@@ -62,11 +62,11 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
 
 signals:
-    void registrationAdded(QTime startTime, QTime endTime, QSharedPointer<AbstractIssue> issue);
-    void registrationDeleted(QSharedPointer<JiraWorklog> worklog);
+    void worklogAdded(QTime startTime, QTime endTime, QSharedPointer<AbstractIssue> issue);
+    void worklogDeleted(QSharedPointer<JiraWorklog> worklog);
 
 private slots:
     void modelUpdated();
 };
 
-#endif // DAILYREGISTRATIONS_H
+#endif // DAILYWORKLOGS_H

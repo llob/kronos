@@ -1,4 +1,4 @@
-#include "dailyregistrations.h"
+#include "dailyworklogs.h"
 #include <QPainter>
 #include <QPainterPath>
 #include <QMouseEvent>
@@ -9,57 +9,57 @@
 #include <QTime>
 #include "utils/colors.h"
 #include "jira/jiraworklog.h"
-#include "registrationdialog.h"
+#include "worklogdialog.h"
 
-DailyRegistrations::DailyRegistrations(DailyRegistrationsModel *model, QDate date, QWidget *parent) : QWidget(parent)
+DailyWorklogs::DailyWorklogs(DailyWorklogsModel *model, QDate date, QWidget *parent) : QWidget(parent)
 {
     mModel = model;
     mDate = date;
     setMinimumHeight(1200);
-    mRegistrationDialog = new RegistrationDialog(this);
+    mRegistrationDialog = new WorklogDialog(this);
     mDeleteConfirmationDialog = new DeleteConfirmationDialog(this);
 
-    QObject::connect(this, &DailyRegistrations::registrationAdded,
-                     mModel, &DailyRegistrationsModel::addWorklog);
-    QObject::connect(this, &DailyRegistrations::registrationDeleted,
-                     mModel, &DailyRegistrationsModel::deleteWorklog);
-    QObject::connect(model, &DailyRegistrationsModel::updated,
-                     this, &DailyRegistrations::modelUpdated);
+    QObject::connect(this, &DailyWorklogs::worklogAdded,
+                     mModel, &DailyWorklogsModel::addWorklog);
+    QObject::connect(this, &DailyWorklogs::worklogDeleted,
+                     mModel, &DailyWorklogsModel::deleteWorklog);
+    QObject::connect(model, &DailyWorklogsModel::updated,
+                     this, &DailyWorklogs::modelUpdated);
     QObject::connect(mRegistrationDialog, &QDialog::accepted,
         [this] {
-            emit this->registrationAdded(
+            emit this->worklogAdded(
                              this->mRegistrationDialog->startTime(),
                              this->mRegistrationDialog->endTime(),
                              this->mRegistrationDialog->jiraIssue());
         });
     QObject::connect(mDeleteConfirmationDialog, &QDialog::accepted,
                      [this] {
-                         emit this->registrationDeleted(mDeleteConfirmationDialog->worklog());
+                         emit this->worklogDeleted(mDeleteConfirmationDialog->worklog());
                      });
 }
 
-void DailyRegistrations::setCurrentDate(const QDate date)
+void DailyWorklogs::setCurrentDate(const QDate date)
 {
     mDate = date;
     mModel->setCurrentDate(date);
 }
 
-QDate DailyRegistrations::currentDate() const
+QDate DailyWorklogs::currentDate() const
 {
     return mDate;
 }
 
-void DailyRegistrations::setWorking(bool working)
+void DailyWorklogs::setWorking(bool working)
 {
     mWorking = working;
     repaint();
 }
 
-int DailyRegistrations::pixelsPerHour() {
+int DailyWorklogs::pixelsPerHour() {
     return height()/24;
 }
 
-void DailyRegistrations::drawRegistrationRect(QPaintEvent *event, QPoint topLeft, QPoint bottomRight, QString text=QString()) {
+void DailyWorklogs::drawRegistrationRect(QPaintEvent *event, QPoint topLeft, QPoint bottomRight, QString text=QString()) {
     Q_UNUSED(event);
     QPainter painter(this);
     QRect rect(topLeft, bottomRight);
@@ -76,7 +76,7 @@ void DailyRegistrations::drawRegistrationRect(QPaintEvent *event, QPoint topLeft
     painter.drawText(rect.adjusted(5, 5, -5, -5), Qt::AlignLeft|Qt::AlignTop, text);
 }
 
-QTime DailyRegistrations::round(const QTime time) {
+QTime DailyWorklogs::round(const QTime time) {
     int pastRounding = time.minute() % 15;
     if (time.minute() % 15 > 7) {
         return time.addSecs(60 * (15 - pastRounding));
@@ -85,7 +85,7 @@ QTime DailyRegistrations::round(const QTime time) {
     }
 }
 
-QTime DailyRegistrations::lastWorklogEndTimeBefore(QTime time) {
+QTime DailyWorklogs::lastWorklogEndTimeBefore(QTime time) {
     QTime result(0, 0);
     foreach (QSharedPointer<JiraWorklog> worklog, mModel->worklogs()) {
         QTime worklogEndTime = worklog->started().addSecs(worklog->timeSpentSeconds()).time();
@@ -100,7 +100,7 @@ QTime DailyRegistrations::lastWorklogEndTimeBefore(QTime time) {
     return result;
 }
 
-QTime DailyRegistrations::firstWorklogStartTimeAfter(QTime time) {
+QTime DailyWorklogs::firstWorklogStartTimeAfter(QTime time) {
     QTime result(23, 59);
     foreach (QSharedPointer<JiraWorklog> worklog, mModel->worklogs()) {
         QTime worklogStartTime = worklog->started().time();
@@ -115,7 +115,7 @@ QTime DailyRegistrations::firstWorklogStartTimeAfter(QTime time) {
     return result;
 }
 
-void DailyRegistrations::drawRegistrationInProgress(QPaintEvent *event) {
+void DailyWorklogs::drawRegistrationInProgress(QPaintEvent *event) {
     if (registrationInProgress()) {
         QTime startTime = timeFromPos(mRegistrationInProgressStartPos);
         QTime endTime = timeFromPos(mCurrentMousePos);
@@ -144,12 +144,12 @@ void DailyRegistrations::drawRegistrationInProgress(QPaintEvent *event) {
     }
 }
 
-bool DailyRegistrations::registrationInProgress()
+bool DailyWorklogs::registrationInProgress()
 {
     return mRegistrationInProgressStartPos.y() != 0;
 }
 
-QSharedPointer<JiraWorklog> DailyRegistrations::worklogFromPos(QPoint pos)
+QSharedPointer<JiraWorklog> DailyWorklogs::worklogFromPos(QPoint pos)
 {
     QTime t = timeFromPos(pos);
     foreach (QSharedPointer<JiraWorklog> worklog, mModel->worklogs()) {
@@ -160,7 +160,7 @@ QSharedPointer<JiraWorklog> DailyRegistrations::worklogFromPos(QPoint pos)
     return nullptr;
 }
 
-QTime DailyRegistrations::timeFromPos(QPoint pos)
+QTime DailyWorklogs::timeFromPos(QPoint pos)
 {
     float pph = static_cast<float>(pixelsPerHour());
     int hours = pos.y() / pph;
@@ -169,13 +169,13 @@ QTime DailyRegistrations::timeFromPos(QPoint pos)
     return result;
 }
 
-QPoint DailyRegistrations::posFromTime(QTime time)
+QPoint DailyWorklogs::posFromTime(QTime time)
 {
     QPoint result(0, time.hour() * pixelsPerHour() + time.minute() * (pixelsPerHour()/60.0));
     return result;
 }
 
-void DailyRegistrations::drawTimes(QPaintEvent *event) {
+void DailyWorklogs::drawTimes(QPaintEvent *event) {
     Q_UNUSED(event);
     QPainter painter(this);
     int currentWidth = width();
@@ -188,7 +188,7 @@ void DailyRegistrations::drawTimes(QPaintEvent *event) {
     }
 }
 
-void DailyRegistrations::drawRegistrations(QPaintEvent *event)
+void DailyWorklogs::drawRegistrations(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QPainter painter(this);
@@ -208,7 +208,7 @@ void DailyRegistrations::drawRegistrations(QPaintEvent *event)
     }
 }
 
-void DailyRegistrations::drawWorkingOverlay(QPaintEvent *event) {
+void DailyWorklogs::drawWorkingOverlay(QPaintEvent *event) {
     Q_UNUSED(event);
     return;
     if (!mWorking) {
@@ -228,7 +228,7 @@ void DailyRegistrations::drawWorkingOverlay(QPaintEvent *event) {
     painter.drawArc(100, 100, 100, 100, 0, 320);
 }
 
-void DailyRegistrations::paintEvent(QPaintEvent *event)
+void DailyWorklogs::paintEvent(QPaintEvent *event)
 {
     drawTimes(event);
     drawRegistrationInProgress(event);
@@ -236,7 +236,7 @@ void DailyRegistrations::paintEvent(QPaintEvent *event)
     drawWorkingOverlay(event);
 }
 
-void DailyRegistrations::mousePressEvent(QMouseEvent *event)
+void DailyWorklogs::mousePressEvent(QMouseEvent *event)
 {
     // Check if mouse was pressed inside an existing worklog
     if (event->button() == Qt::LeftButton) {
@@ -246,7 +246,7 @@ void DailyRegistrations::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void DailyRegistrations::mouseReleaseEvent(QMouseEvent *event)
+void DailyWorklogs::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton) {
         auto worklog = worklogFromPos(event->pos());
@@ -271,7 +271,7 @@ void DailyRegistrations::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
-void DailyRegistrations::mouseMoveEvent(QMouseEvent *event)
+void DailyWorklogs::mouseMoveEvent(QMouseEvent *event)
 {
     if (mRegistrationInProgressStartPos.y() == 0) {
         return;
@@ -280,7 +280,7 @@ void DailyRegistrations::mouseMoveEvent(QMouseEvent *event)
     repaint();
 }
 
-void DailyRegistrations::modelUpdated()
+void DailyWorklogs::modelUpdated()
 {
     repaint();
 }
