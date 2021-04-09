@@ -22,9 +22,9 @@ parts:
     source: https://github.com/llob/kronos.git
     plugin: qmake
     build-snaps:
-    - kde-frameworks-5-core18-sdk
-    - kde-frameworks-5-core18
-    # stage-packages:
+    - kde-frameworks-5-core20-sdk
+    - kde-frameworks-5-core20
+    stage-packages:
     # - libdouble-conversion1
     # - libfreetype6
     # - libgl1
@@ -42,6 +42,6 @@ parts:
     # - libxau6
     # - libxcb1
     # - libxdmcp6
-    # - libqt5svg5
-    # - libqt5svg5-dev
+    - libqt5svg5
+    - libqt5svg5-dev
     # - none-existant-package
