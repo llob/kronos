@@ -1,12 +1,12 @@
 #include "worklogdialog.h"
-#include "ui_registrationdialog.h"
+#include "ui_worklogdialog.h"
 #include <QLineEdit>
 #include <QPushButton>
 #include <QRegularExpression>
 
 WorklogDialog::WorklogDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::RegistrationDialog)
+    ui(new Ui::WorklogDialog)
 {
     ui->setupUi(this);
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);

@@ -14,7 +14,7 @@
 #include "worklogdialoglistvievitemdelegate.h"
 
 namespace Ui {
-class RegistrationDialog;
+class WorklogDialog;
 }
 
 class WorklogDialog : public QDialog
@@ -34,7 +34,7 @@ public:
     void setRecentIssues(QList<QSharedPointer<AbstractIssue> > issues);
 
 private:
-    Ui::RegistrationDialog *ui;
+    Ui::WorklogDialog *ui;
     QTimer mSearchTimer;
     QTime mStartTime;
     QTime mEndTime;
