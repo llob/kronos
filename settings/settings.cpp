@@ -58,6 +58,16 @@ bool Settings::showCredentials() const
     return mSettings->get("showCredentials").toBool();
 }
 
+QVariantMap Settings::nagState() const
+{
+    return mSettings->get("nagState").toMap();
+}
+
+void Settings::setNagState(QVariantMap state)
+{
+    mSettings->set("nagState", state);
+}
+
 QString Settings::accountId() const
 {
     return mSettings->get("accountId").toString();

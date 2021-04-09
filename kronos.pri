@@ -14,6 +14,12 @@ SOURCES += \
     $$PWD/jira/jirauser.cpp \
     $$PWD/jira/jirautils.cpp \
     $$PWD/jira/jiraworklog.cpp \
+    $$PWD/nagging/afternoonnag.cpp \
+    $$PWD/nagging/morningnag.cpp \
+    $$PWD/nagging/nag.cpp \
+    $$PWD/nagging/nagengine.cpp \
+    $$PWD/nagging/nagstate.cpp \
+    $$PWD/nagging/randomnag.cpp \
     $$PWD/registrationdialoglistmodel.cpp \
     $$PWD/settings/settings.cpp \
     $$PWD/settings/settingsprivate.cpp \
@@ -40,6 +46,12 @@ HEADERS += \
     $$PWD/jira/jirauser.h \
     $$PWD/jira/jirautils.h \
     $$PWD/jira/jiraworklog.h \
+    $$PWD/nagging/afternoonnag.h \
+    $$PWD/nagging/morningnag.h \
+    $$PWD/nagging/nag.h \
+    $$PWD/nagging/nagengine.h \
+    $$PWD/nagging/nagstate.h \
+    $$PWD/nagging/randomnag.h \
     $$PWD/registrationdialoglistmodel.h \
     $$PWD/settings/settings.h \
     $$PWD/settings/settingsprivate.h \

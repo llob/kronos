@@ -14,6 +14,8 @@ void TrayIconController::setupTrayIcon()
 
 void TrayIconController::setupConnections()
 {
+    QObject::connect(&mNagEngine, &NagEngine::nag,
+                     this, &TrayIconController::nagEngineNag);
     QObject::connect(&mSystemTrayIcon, &QSystemTrayIcon::messageClicked,
                      [] { });
     QObject::connect(&mSystemTrayIcon, &QSystemTrayIcon::activated,
@@ -29,4 +31,9 @@ void TrayIconController::setupTimer()
                      });
     mNotificationTimer.start();
 
+}
+
+void TrayIconController::nagEngineNag(QString message)
+{
+    mSystemTrayIcon.showMessage("Kronos nagging", message);
 }

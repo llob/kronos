@@ -116,6 +116,17 @@ public:
     QByteArray windowGeometry() const;
     void setShowCredentials(bool show);
     bool showCredentials() const;
+
+    /**
+     * @brief nagState Retrieve stored nag state
+     * @return
+     */
+    QVariantMap nagState() const;
+    /**
+     * @brief setNagState Set current nag state
+     * @param state
+     */
+    void setNagState(QVariantMap state);
 signals:
     /**
      * @brief updated Emitted whenever a settings value has changed

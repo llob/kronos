@@ -6,6 +6,7 @@
 #include <QTimer>
 #include "jira/jiraclient.h"
 #include "authentication/authenticationstate.h"
+#include "nagging/nagengine.h"
 
 class TrayIconController : public QObject
 {
@@ -16,10 +17,13 @@ private:
     QSystemTrayIcon mSystemTrayIcon;
     QTimer mNotificationTimer;
     AuthenticationState mAuthenticationState;
+    NagEngine mNagEngine;
 
     void setupTrayIcon();
     void setupConnections();
     void setupTimer();
+private slots:
+    void nagEngineNag(QString message);
 signals:
 
 };
