@@ -24,6 +24,11 @@ QString JiraUtils::dateToString(const QDateTime dateTime)
     return res;
 }
 
+QString JiraUtils::dateToString(const QDate date)
+{
+    return dateToString(date.startOfDay());
+}
+
 QDateTime JiraUtils::stringToDateTime(const QString string)
 {
     QRegularExpression dateTimeRegExp("^([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\\.?([0-9]{0,3})(.*)$");

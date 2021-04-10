@@ -26,4 +26,6 @@ public:
 
 };
 
+typedef QSharedPointer<JiraWorklog> PJiraWorklog;
+
 #endif // JIRAWORKLOG_H

@@ -10,6 +10,12 @@
     <height>863</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>450</width>
+    <height>0</height>
+   </size>
+  </property>
   <property name="palette">
    <palette>
     <active>
@@ -295,27 +301,9 @@
       <property name="title">
        <string>Daily worklog</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,2">
+      <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,2">
        <item>
-        <widget class="QCalendarWidget" name="calendarWidget">
-         <property name="styleSheet">
-          <string notr="true">QCalendarWidget QWidget#qt_calendar_navigationbar {
-	background-color: rgb(255, 67, 101);
-}
-
-#qt_calendar_prevmonth {
-	background-color: rgb(255, 67, 101);
-    icon-size: 30px;
-    qproperty-icon: url(:/resources/chevron_left.svg);
-}
-#qt_calendar_nextmonth {
-	background-color: rgb(255, 67, 101);
-    icon-size: 30px;
-    qproperty-icon: url(:/resources/chevron_right.svg);
-}
-</string>
-         </property>
-        </widget>
+        <layout class="QVBoxLayout" name="calendarWidgetVerticalLayout"/>
        </item>
        <item>
         <widget class="QScrollArea" name="scrollArea">
@@ -331,7 +319,7 @@
             <x>0</x>
             <y>0</y>
             <width>411</width>
-            <height>295</height>
+            <height>490</height>
            </rect>
           </property>
          </widget>

@@ -17,14 +17,16 @@ SOURCES +=  $$PWD/main.cpp \
             $$PWD/deleteconfirmationdialog.cpp \
             $$PWD/maincontroller.cpp \
             $$PWD/worklogdialoglistvievitemdelegate.cpp \
-            $$PWD/widgets/dailyworklogs.cpp
+            $$PWD/widgets/dailyworklogs.cpp \
+            widgets/kronoscalendarwidget.cpp
 
 HEADERS +=  $$PWD/mainwindow.h \
             $$PWD/worklogdialog.h \
             $$PWD/deleteconfirmationdialog.h \
             $$PWD/maincontroller.h \
             $$PWD/worklogdialoglistvievitemdelegate.h \
-            $$PWD/widgets/dailyworklogs.h
+            $$PWD/widgets/dailyworklogs.h \
+            widgets/kronoscalendarwidget.h
 
 
 

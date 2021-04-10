@@ -9,6 +9,7 @@ class JiraUtils
 public:
     JiraUtils();
     static QString dateToString(const QDateTime dateTime);
+    static QString dateToString(const QDate date);
     static QDateTime stringToDateTime(const QString string);
 };
 
