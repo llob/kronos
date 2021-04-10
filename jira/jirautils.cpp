@@ -26,7 +26,12 @@ QString JiraUtils::dateToString(const QDateTime dateTime)
 
 QString JiraUtils::dateToString(const QDate date)
 {
+#if QT_VERSION >= 0x050E00
+    // startOfDay was introduced in Qt 5.14
     return dateToString(date.startOfDay());
+#else
+    return dateToString(QDateTime(date));
+#endif
 }
 
 QDateTime JiraUtils::stringToDateTime(const QString string)
