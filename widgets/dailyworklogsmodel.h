@@ -15,7 +15,6 @@ class DailyWorklogsModel : public QObject
 private:
     QSharedPointer<JiraClient> mJiraClient;
     QList<QSharedPointer<JiraWorklog>> mWorklogs;
-    //QList<QSharedPointer<AbstractIssue>> mIssues;
     IssueCache mIssueCache;
     QDate mCurrentDate;
     Settings mSettings;

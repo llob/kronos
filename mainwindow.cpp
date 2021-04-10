@@ -9,6 +9,7 @@
 #include "widgets/dailyworklogs.h"
 #include "settings/settings.h"
 #include "utils/colors.h"
+#include "widgets/kronoscalendarwidget.h"
 
 MainWindow::MainWindow(MainController *mainController, QWidget *parent)
     : QMainWindow(parent)
@@ -28,8 +29,8 @@ MainWindow::MainWindow(MainController *mainController, QWidget *parent)
     mAuthenticationStatusLabel = new QLabel();
     ui->statusbar->addPermanentWidget(mAuthenticationStatusLabel);
 
+    setupCalendarWidget();
     setupDailyRegistrations();
-    setupCalendar();
     setupCredentials();
     setupConnections();
 
@@ -63,11 +64,6 @@ void MainWindow::updateVisibilityPushButtonIcon() {
     palette.setBrush(ui->toggleVisibilityPushButton->backgroundRole(),
                      QBrush(QPixmap::fromImage(out)));
     ui->toggleVisibilityPushButton->setPalette(palette);
-}
-
-void MainWindow::setupCalendar()
-{
-    ui->calendarWidget->setSelectedDate(QDate::currentDate());
 }
 
 void MainWindow::setupCredentials()
@@ -120,18 +116,32 @@ void MainWindow::setupConnections()
                          mSettings.setSecret(this->ui->jiraTokenLineEdit->text());
                          mSettings.setHostname(this->ui->jiraHostnameLineEdit->text());
                      });
-    QObject::connect(ui->calendarWidget, &QCalendarWidget::selectionChanged,
+    QObject::connect(mCalendarWidget, &QCalendarWidget::selectionChanged,
                      [this] {
-                         this->setCurrentDate(this->ui->calendarWidget->selectedDate());
+                         this->setCurrentDate(mCalendarWidget->selectedDate());
                      });
     QObject::connect(&mMonthlyTotalCalculator, &MonthlyTotalCalculator::updated,
                      this, &MainWindow::monthlyTotalCalculatorUpdated);
     QObject::connect(&mWeeklyTotalCalculator, &WeeklyTotalCalculator::updated,
                      this, &MainWindow::weeklyTotalCalculatorUpdated);
-    QObject::connect(dailyRegistrations, &DailyWorklogs::worklogAdded,
+    QObject::connect(mDailyWorklogs, &DailyWorklogs::worklogAdded,
                      &mWeeklyTotalCalculator, &WeeklyTotalCalculator::update);
-    QObject::connect(dailyRegistrations, &DailyWorklogs::worklogAdded,
+    QObject::connect(mDailyWorklogs, &DailyWorklogs::worklogDeleted,
+                     &mWeeklyTotalCalculator, &WeeklyTotalCalculator::update);
+    QObject::connect(mDailyWorklogs, &DailyWorklogs::worklogAdded,
                      &mMonthlyTotalCalculator, &MonthlyTotalCalculator::update);
+    QObject::connect(mDailyWorklogs, &DailyWorklogs::worklogDeleted,
+                     &mMonthlyTotalCalculator, &MonthlyTotalCalculator::update);
+
+    QObject::connect(mDailyWorklogs, &DailyWorklogs::worklogAdded,
+        [this] () {
+            mCalendarWidget->updateWorklogData(mDailyWorklogs->currentDate());
+        });
+    QObject::connect(mDailyWorklogs, &DailyWorklogs::worklogDeleted,
+        [this] () {
+            mCalendarWidget->updateWorklogData(mDailyWorklogs->currentDate());
+        });
+
 
     QObject::connect(ui->toggleVisibilityPushButton, &QPushButton::clicked,
                      this, &MainWindow::toggleVisbilityPushButtonClicked);
@@ -149,10 +159,17 @@ void MainWindow::moveEvent(QMoveEvent *event)
     mSettings.setWindowGeometry(saveGeometry());
 }
 
+void MainWindow::setupCalendarWidget()
+{
+    mCalendarWidget = new KronosCalendarWidget();
+    mCalendarWidget->setSelectedDate(QDate::currentDate());
+    ui->calendarWidgetVerticalLayout->addWidget(mCalendarWidget);
+}
+
 void MainWindow::setCurrentDate(QDate currentDate)
 {
     mCurrentDate = currentDate;
-    dailyRegistrations->setCurrentDate(mCurrentDate);
+    mDailyWorklogs->setCurrentDate(mCurrentDate);
     mWeeklyTotalCalculator.update();
     mMonthlyTotalCalculator.update();
     ui->scrollArea->ensureVisible(0, 700); // Scroll to around start of work day
@@ -207,10 +224,10 @@ void MainWindow::showCredentials(bool visible) {
 void MainWindow::setupDailyRegistrations()
 {
     auto dailyRegistrationsModel = new DailyWorklogsModel(mJiraClient);
-    this->dailyRegistrations = new DailyWorklogs(
+    this->mDailyWorklogs = new DailyWorklogs(
         dailyRegistrationsModel,
         QDate::currentDate(),
         ui->scrollArea);
-    ui->scrollArea->setWidget(dailyRegistrations);
+    ui->scrollArea->setWidget(mDailyWorklogs);
     ui->scrollArea->ensureVisible(0, 300);
 }

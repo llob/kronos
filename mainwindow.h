@@ -6,6 +6,7 @@
 #include <QResizeEvent>
 #include <QMoveEvent>
 #include "widgets/dailyworklogs.h"
+#include "widgets/kronoscalendarwidget.h"
 #include "jira/jiraclient.h"
 #include "settings/settings.h"
 #include "maincontroller.h"
@@ -29,7 +30,8 @@ protected:
     void moveEvent(QMoveEvent *event);
 private:
     Ui::MainWindow *ui;
-    DailyWorklogs *dailyRegistrations;
+    DailyWorklogs *mDailyWorklogs;
+    KronosCalendarWidget *mCalendarWidget;
     QDate mCurrentDate;
     QSharedPointer<JiraClient> mJiraClient;
     Settings mSettings;
@@ -39,9 +41,9 @@ private:
     AuthenticationState mAuthenticationState;
     QLabel *mAuthenticationStatusLabel;
 
+    void setupCalendarWidget();
     void setupDailyRegistrations();
     void setupConnections();
-    void setupCalendar();
     void setupCredentials();
     void setAvatar(QPixmap pixmap);
     void showCredentials(bool visible);
