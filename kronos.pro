@@ -1,4 +1,4 @@
-QT       += core widgets svg
+QT       += core widgets svg network networkauth
 
 CONFIG += c++11
 
