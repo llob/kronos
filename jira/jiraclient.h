@@ -7,6 +7,7 @@
 #include <QNetworkAccessManager>
 #include <QJsonObject>
 #include <QNetworkReply>
+#include <QOAuth2AuthorizationCodeFlow>
 #include "utils/condition.h"
 #include "jira/jiraissue.h"
 #include "jira/jiraworklog.h"
@@ -26,6 +27,7 @@ private:
     QSharedPointer<QNetworkAccessManager> mNam;
     Settings mSettings;
     IssueCache mIssueCache;
+    QOAuth2AuthorizationCodeFlow mOauth2;
 
     /**
      * @brief httpCode Get the HTTP code from the network reply
