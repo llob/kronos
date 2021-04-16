@@ -9,8 +9,8 @@
 JiraClient::JiraClient()
 {
     auto replyHandler = new QOAuthHttpServerReplyHandler(1337, this);
-    mOauth2.setClientIdentifier("ZiYlkxHxh86maiCwzR20EltgQa7Wncuf");
-    mOauth2.setClientIdentifierSharedKey("R_ig6vRDscExlGIKv9cCXkRzrqkjZ8q_ylmPEMe-gYP_zQQdNYl2983LIlvtEHWO");
+    mOauth2.setClientIdentifier("xxx");
+    mOauth2.setClientIdentifierSharedKey("xxx");
     mOauth2.setReplyHandler(replyHandler);
     QUrl authorizationUrl("https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=ZiYlkxHxh86maiCwzR20EltgQa7Wncuf&scope=read%3Ajira-user&redirect_uri=http%3A%2F%2F127.0.0.1%3A1337&state=${YOUR_USER_BOUND_VALUE}&response_type=code&prompt=consent");
     qDebug() << authorizationUrl;
