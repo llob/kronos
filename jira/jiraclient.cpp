@@ -44,10 +44,6 @@ void JiraClient::myself()
 {
     QUrl u = url("/rest/api/latest/myself");
     auto reply = get(u);
-    QObject::connect(reply, &QNetworkReply::errorOccurred,
-                     [] (QNetworkReply::NetworkError code) {
-                         qDebug() << code;
-                     });
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {
 
