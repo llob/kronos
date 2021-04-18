@@ -50,7 +50,7 @@ public:
     void issueWorklogs(QSharedPointer<AbstractIssue> issue);
     void search(const QString query, int startAt = 0, int maxResults = 20);
     QNetworkReply *delete_request(QUrl url);
-    void clear();
+
 signals:
     void searchFinished(QList<QSharedPointer<AbstractIssue>> issues);
     void searchFailed(int httpCode, QNetworkReply::NetworkError error, QString errorMessage);

@@ -180,11 +180,6 @@ QNetworkReply* JiraClient::delete_request(QUrl url) {
     return reply;
 }
 
-void JiraClient::clear()
-{
-    //mNam = QSharedPointer<QNetworkAccessManager>(new QNetworkAccessManager);
-}
-
 QNetworkReply* JiraClient::post(QUrl url, QByteArray data) {
     const QByteArray authorization = "Basic " + QString("%1:%2").arg(mUsername).arg(mToken).toUtf8().toBase64();
     QNetworkRequest req;
