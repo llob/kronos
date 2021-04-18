@@ -16,9 +16,6 @@ private:
     JiraClient mJiraClient;
     AuthenticationState::State mState;
     QNetworkAccessManager mNam;
-    QString mOldJiraUsername;
-    QString mOldJiraToken;
-    QString mOldJiraHostname;
 public:
     explicit AuthenticationStatePrivate();
     /**
@@ -32,7 +29,7 @@ public:
      */
     void update();
 private slots:
-    void settingsUpdated();
+    void settingsCredentialsUpdated();
     void jiraClientMyselfFinished(QSharedPointer<JiraUser> myself);
     void jiraClientMyselfFailed(int httpCode, QNetworkReply::NetworkError error, QString message);
 signals:
@@ -41,7 +38,7 @@ signals:
      * @param oldState The previous state
      * @param newState The new (current) state
      */
-    void stateChanged(AuthenticationState::State oldState, AuthenticationState::State newState);
+    void stateChanged(AuthenticationState::State oldState, AuthenticationState::State newState, const QString message);
 };
 
 #endif // AUTHENTICATIONSTATEPRIVATE_H

@@ -50,6 +50,18 @@ void KronosCalendarWidget::calendarWidgetSelectionChanged()
     updateCells();
 }
 
+void KronosCalendarWidget::authenticationStateChanged(AuthenticationState::State oldState, AuthenticationState::State newState, const QString message)
+{
+    Q_UNUSED(oldState);
+    Q_UNUSED(message);
+    if (newState == AuthenticationState::DEAUTHENTICATED) {
+        mWorklogs.clear();
+        updateCells();
+    } else if (newState == AuthenticationState::AUTHENTICATED) {
+        updateWorklogData(selectedDate());
+    }
+}
+
 KronosCalendarWidget::KronosCalendarWidget()
 {
 
@@ -83,6 +95,8 @@ void KronosCalendarWidget::setupConnections()
                      this, &KronosCalendarWidget::jiraClientSearchFinished);
     QObject::connect(&mJiraClient, &JiraClient::issueWorklogsFinished,
                      this, &KronosCalendarWidget::jiraClientIssueWorklogsFinished);
+    QObject::connect(&mAuthenticationState, &AuthenticationState::stateChanged,
+                     this, &KronosCalendarWidget::authenticationStateChanged);
 }
 
 QMap<QString, PJiraWorklog> KronosCalendarWidget::dailyWorklogs(QDate date) const

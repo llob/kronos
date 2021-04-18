@@ -10,6 +10,7 @@
 #include "settings/settings.h"
 #include "utils/colors.h"
 #include "widgets/kronoscalendarwidget.h"
+#include "utils/images.h"
 
 MainWindow::MainWindow(MainController *mainController, QWidget *parent)
     : QMainWindow(parent)
@@ -103,18 +104,11 @@ void MainWindow::setupConnections()
 {
     QObject::connect(&mAuthenticationState, &AuthenticationState::stateChanged,
                      this, &MainWindow::authenticationStateChanged);
-    QObject::connect(&mSettings, &Settings::updated,
-                     [this] {
-                         if (mSettings.hasAvatar()) {
-                             this->setAvatar(mSettings.avatar());
-                         }
-                         this->ui->jiraDisplayNameLabel->setText(mSettings.displayName());
-                     });
     QObject::connect(ui->savePushButton, &QPushButton::clicked,
                      [this] {
-                         mSettings.setUsername(this->ui->jiraUsernameLineEdit->text());
-                         mSettings.setSecret(this->ui->jiraTokenLineEdit->text());
-                         mSettings.setHostname(this->ui->jiraHostnameLineEdit->text());
+                         mSettings.setUsername(this->ui->jiraUsernameLineEdit->text(), true);
+                         mSettings.setSecret(this->ui->jiraTokenLineEdit->text(), true);
+                         mSettings.setHostname(this->ui->jiraHostnameLineEdit->text(), false);
                      });
     QObject::connect(mCalendarWidget, &QCalendarWidget::selectionChanged,
                      [this] {
@@ -189,14 +183,24 @@ void MainWindow::weeklyTotalCalculatorUpdated(int seconds)
     ui->weeklyTotalLabel->setText(QString("Current weekly total: %1 hours %2 minutes").arg(hours).arg(minutes));
 }
 
-void MainWindow::authenticationStateChanged(AuthenticationState::State oldState, AuthenticationState::State newState)
+void MainWindow::authenticationStateChanged(AuthenticationState::State oldState, AuthenticationState::State newState, const QString message)
 {
     Q_UNUSED(oldState);
-    if (newState == AuthenticationState::AUTHENTICATED) {
+    switch (newState)
+    {
+    case AuthenticationState::AUTHENTICATED:
         mAuthenticationStatusLabel->setText("🤘 Authenticated");
-    } else {
-        mAuthenticationStatusLabel->setText("🤬 Not authenticated");
+        ui->jiraDisplayNameLabel->setText(mSettings.displayName());
+        break;
+    case AuthenticationState::AUTHENTICATING:
+        mAuthenticationStatusLabel->setText(QString("🤞 Authenticating"));
+        break;
+    case AuthenticationState::DEAUTHENTICATED:
+        ui->jiraDisplayNameLabel->setText("No user authenticated");
+        mAuthenticationStatusLabel->setText(QString("🤬 Not authenticated: %1").arg(message));
+        break;
     }
+    this->setAvatar(mSettings.avatar());
 }
 
 void MainWindow::toggleVisbilityPushButtonClicked()

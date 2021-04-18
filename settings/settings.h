@@ -26,6 +26,7 @@ class Settings : public QObject
     Q_OBJECT
 private:
     QSharedPointer<SettingsPrivate> mSettings;
+    QByteArray imageToByteArray(const QImage image) const;
 public:
     Settings();
     /**
@@ -37,7 +38,7 @@ public:
      * @brief setUsername Set the backend username
      * @param username
      */
-    void setUsername(const QString username);
+    void setUsername(const QString username, bool suppressUpdate);
     /**
      * @brief secret Get the backend secret (password, token, etc.)
      * @return
@@ -47,7 +48,7 @@ public:
      * @brief setSecret Set the backend secret
      * @param token
      */
-    void setSecret(const QString token);
+    void setSecret(const QString token, bool suppressUpdate);
     /**
      * @brief accountId Get the backend account id
      * @return
@@ -59,6 +60,10 @@ public:
      */
     void setAccountId(const QString accountId) const;
     /**
+     * @brief unsetAccountId Clear the stored account id
+     */
+    void unsetAccountId();
+    /**
      * @brief avatar Get the avatar to use for logged in user
      * @return
      */
@@ -68,6 +73,10 @@ public:
      * @param avatar
      */
     void setAvatar(const QImage avatar);
+    /**
+     * @brief unsetAvatar Unset the avatar image
+     */
+    void unsetAvatar();
     /**
      * @brief hasAvatar Determine if an avatar is available
      *  in the settings
@@ -79,6 +88,10 @@ public:
      * @param displayName
      */
     void setDisplayName(const QString displayName);
+    /**
+     * @brief unsetDisplayName Clear the stored displayname
+     */
+    void unsetDisplayName();
     /**
      * @brief displayName Get the displayed name of the current user
      * @return
@@ -93,7 +106,7 @@ public:
      * @brief setHostname Set the backend hostname
      * @param jiraHostname
      */
-    void setHostname(QString jiraHostname);
+    void setHostname(QString jiraHostname, bool suppressUpdate);
     /**
      * @brief recentIssues Get any stored recent issues
      * @return
@@ -127,11 +140,21 @@ public:
      * @param state
      */
     void setNagState(QVariantMap state);
+
+    /**
+     * @brief clear Removes all settings values, thereby reverting to defaults
+     */
+    void clear();
+
 signals:
     /**
      * @brief updated Emitted whenever a settings value has changed
      */
     void updated();
+    /**
+     * @brief credentialsUpdated Emitted when one of the credentials values are updated
+     */
+    void credentialsUpdated();
 };
 
 #endif // SETTINGS_H

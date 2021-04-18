@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "totalcalculatorprivate.h"
+#include "authentication/authenticationstate.h"
 #include "settings/settings.h"
 
 class TotalCalculator : public QObject
@@ -11,6 +12,7 @@ class TotalCalculator : public QObject
     Q_OBJECT
 private:
     virtual QDate firstDate() const = 0;
+    AuthenticationState mAuthenticationState;
 protected:
     void search(QString query);
     Settings mSettings;

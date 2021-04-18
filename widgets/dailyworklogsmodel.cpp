@@ -24,6 +24,9 @@ DailyWorklogsModel::DailyWorklogsModel(QSharedPointer<JiraClient> jiraClient)
     QObject::connect(mJiraClient.data(), &JiraClient::deleteWorklogFailed,
                      this, &DailyWorklogsModel::deleteWorklogFailed);
 
+    QObject::connect(&mAuthenticationState, &AuthenticationState::stateChanged,
+                     this, &DailyWorklogsModel::authenticationStateChanged);
+
 
 
     setCurrentDate(QDate::currentDate());
@@ -130,4 +133,21 @@ void DailyWorklogsModel::deleteWorklogFinished(bool success)
 void DailyWorklogsModel::deleteWorklogFailed(int httpCode, QNetworkReply::NetworkError error, QString message)
 {
     qDebug() << __FUNCTION__ << httpCode << error << message;
+}
+
+void DailyWorklogsModel::authenticationStateChanged(AuthenticationState::State oldState, AuthenticationState::State newState, const QString message)
+{
+    Q_UNUSED(oldState);
+    Q_UNUSED(message);
+    if (newState == AuthenticationState::DEAUTHENTICATED) {
+        clear();
+    } else if (newState == AuthenticationState::AUTHENTICATED) {
+        setCurrentDate(mCurrentDate);
+    }
+}
+
+void DailyWorklogsModel::clear()
+{
+    mWorklogs.clear();
+    emit updated();
 }

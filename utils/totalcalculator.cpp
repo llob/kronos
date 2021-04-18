@@ -11,6 +11,9 @@ void TotalCalculator::search(QString query)
 
 TotalCalculator::TotalCalculator() : QObject()
 {
+    QObject::connect(&mAuthenticationState, &AuthenticationState::stateChanged,
+                     this, &TotalCalculator::update);
+
 }
 
 

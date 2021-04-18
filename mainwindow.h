@@ -52,7 +52,7 @@ private slots:
     void setCurrentDate(QDate currentDate);
     void monthlyTotalCalculatorUpdated(int seconds);
     void weeklyTotalCalculatorUpdated(int seconds);
-    void authenticationStateChanged(AuthenticationState::State oldState, AuthenticationState::State newState);
+    void authenticationStateChanged(AuthenticationState::State oldState, AuthenticationState::State newState, const QString message);
     void toggleVisbilityPushButtonClicked();
 };
 #endif // MAINWINDOW_H

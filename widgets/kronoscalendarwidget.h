@@ -7,6 +7,7 @@
 #include <jira/jiraclient.h>
 #include "settings/settings.h"
 #include "jira/jiraworklog.h"
+#include "authentication/authenticationstate.h"
 
 /**
  * @brief The KronosCalendarWidget class inherits from QCalendarWidget
@@ -23,6 +24,7 @@ private:
      *  Implemented like this for ease of per-month updates.
      */
     QMap<int, QMap<int, QMap<int, QMap<QString, PJiraWorklog>>>> mWorklogs;
+    AuthenticationState mAuthenticationState;
     Settings mSettings;
     void setupConnections();
     QMap<QString, PJiraWorklog> dailyWorklogs(QDate date) const;
@@ -33,6 +35,7 @@ private slots:
     void jiraClientIssueWorklogsFinished(QList<QSharedPointer<JiraWorklog>> worklogs);
     void calendarWidgetCurrentPageChanged(int year, int month);
     void calendarWidgetSelectionChanged();
+    void authenticationStateChanged(AuthenticationState::State oldState, AuthenticationState::State newState, const QString message);
 public:
     KronosCalendarWidget();
 public slots:
