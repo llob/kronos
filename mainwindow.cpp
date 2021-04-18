@@ -35,9 +35,6 @@ MainWindow::MainWindow(MainController *mainController, QWidget *parent)
     setupCredentials();
     setupConnections();
 
-    mWeeklyTotalCalculator.update();
-    mMonthlyTotalCalculator.update();
-
     showCredentials(mSettings.showCredentials());
 
     restoreGeometry(mSettings.windowGeometry());
