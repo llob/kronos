@@ -26,15 +26,16 @@ public:
      * @brief set Sets the settings value associated with a certain key
      * @param key The key
      * @param value The value
+     * @param suppressUpdate If set to true, no update signal is emitted
      */
-    void set(const QString key, const QVariant value);
+    void set(const QString key, const QVariant value, const bool suppressUpdate = false);
     /**
      * @brief setCredential Set a settings value which constitutes part of credentials
      * @param key The key
      * @param value The value
      * @param suppresaUpdate Whether to suppress the credentialsUpdated signal
      */
-    void setCredential(const QString key, const QVariant value, bool suppresaUpdate);
+    void setCredential(const QString key, const QVariant value, const bool suppressUpdate);
     /**
      * @brief get Retrieve the value associated with a specific key
      * @param key The key

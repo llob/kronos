@@ -30,18 +30,20 @@ void SettingsPrivate::clear(const QString key)
     mSettings->remove(key);
 }
 
-void SettingsPrivate::set(const QString key, const QVariant value)
+void SettingsPrivate::set(const QString key, const QVariant value, const bool suppressUpdate)
 {
     mMutex.lock();
     mSettings->setValue(key, value);
     mMutex.unlock();
-    emit updated();
+    if (!suppressUpdate) {
+        emit updated();
+    }
 }
 
-void SettingsPrivate::setCredential(const QString key, const QVariant value, bool suppresaUpdate)
+void SettingsPrivate::setCredential(const QString key, const QVariant value, const bool suppressUpdate)
 {
     set(key, value);
-    if (!suppresaUpdate) {
+    if (!suppressUpdate) {
         emit credentialsUpdated();
     }
 }
