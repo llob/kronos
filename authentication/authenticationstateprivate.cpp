@@ -25,6 +25,13 @@ void AuthenticationStatePrivate::update()
 
 void AuthenticationStatePrivate::settingsCredentialsUpdated()
 {
+    // JiraClient normally relies on AuthenticationState
+    // to know when it has new credentials. That won't work here,
+    // as we are the the logic behind AuthenticationState, so
+    // we update the credentials for our JiraClient manually here
+    mJiraClient.setUsername(mSettings.username());
+    mJiraClient.setToken(mSettings.secret());
+
     auto oldState = mState;
     mState = AuthenticationState::DEAUTHENTICATED;
     emit stateChanged(oldState, mState, "Credentials changed");
