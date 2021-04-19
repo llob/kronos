@@ -17,7 +17,7 @@ jobs:
         # Latest versions of these tools can be found at:
         # https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_qtcreator/qt.tools.qtcreator/
         # https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_ifw/
-        tools: 'tools_ifw,4.0,qt.tools.ifw.40 tools_qtcreator,4.14.2-0-202103191046,qt.tools.qtcreator'
+        tools: 'tools_ifw,4.1,qt.tools.ifw.41 tools_qtcreator,4.14.2-0-202103191046,qt.tools.qtcreator'
         arch: win64_mingw81
         version: '5.15.2'
     - name: Build Kronos
