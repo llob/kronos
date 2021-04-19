@@ -49,8 +49,9 @@ jobs:
       run: |
         echo %IQTA_TOOLS%
         dir %IQTA_TOOLS%
-        dir %IQTA_TOOLS%\QtInstallerFramework
-        %IQTA_TOOLS%\QtInstallerFramework\4.0\bin\binarycreator.exe -c config\config.xml -p packages ..\..\..\kronos-installer.exe
+        dir D:\a\kronos\Qt\Tools\
+        dir D:\a\kronos\Qt\Tools\QtInstallerFramework
+        D:\a\kronos\Qt\Tools\QtInstallerFramework\4.0\bin\binarycreator.exe -c config\config.xml -p packages ..\..\..\kronos-installer.exe
     - name: Save installer as artifact
       uses: actions/upload-artifact@v2
       with:
