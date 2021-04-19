@@ -37,10 +37,11 @@ jobs:
       shell: cmd
       run: |
         COPY kronos.ico packages\windows-installer\kronos\packages\dk.fork.kronos\data\
-    - name: Copy binary into installer
+    - name: Copy binary and dlls into installer
       shell: cmd
       run: |
         COPY release\kronos.exe packages\windows-installer\kronos\packages\dk.fork.kronos\data\
+        COPY deps\win32\* packages\windows-installer\kronos\packages\dk.fork.kronos\data\
     - name: Copy installer dependencies
       shell: cmd
       working-directory: packages/windows-installer/kronos/packages/dk.fork.kronos/data
