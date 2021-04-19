@@ -18,7 +18,7 @@ SOURCES +=  $$PWD/main.cpp \
             $$PWD/maincontroller.cpp \
             $$PWD/worklogdialoglistvievitemdelegate.cpp \
             $$PWD/widgets/dailyworklogs.cpp \
-            widgets/kronoscalendarwidget.cpp
+            $$PWD/widgets/kronoscalendarwidget.cpp
 
 HEADERS +=  $$PWD/mainwindow.h \
             $$PWD/worklogdialog.h \
@@ -26,7 +26,7 @@ HEADERS +=  $$PWD/mainwindow.h \
             $$PWD/maincontroller.h \
             $$PWD/worklogdialoglistvievitemdelegate.h \
             $$PWD/widgets/dailyworklogs.h \
-            widgets/kronoscalendarwidget.h
+            $$PWD/widgets/kronoscalendarwidget.h
 
 
 

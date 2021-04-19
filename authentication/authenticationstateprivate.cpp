@@ -3,8 +3,8 @@
 AuthenticationStatePrivate::AuthenticationStatePrivate()
 {
     mState = AuthenticationState::DEAUTHENTICATED;
-    QObject::connect(&mSettings, &Settings::updated,
-                     this, &AuthenticationStatePrivate::settingsUpdated);
+    QObject::connect(&mSettings, &Settings::credentialsUpdated,
+                     this, &AuthenticationStatePrivate::settingsCredentialsUpdated);
     QObject::connect(&mJiraClient, &JiraClient::myselfFinished,
                      this, &AuthenticationStatePrivate::jiraClientMyselfFinished);
     QObject::connect(&mJiraClient, &JiraClient::myselfFailed,
@@ -19,41 +19,41 @@ AuthenticationState::State AuthenticationStatePrivate::state() const
 
 void AuthenticationStatePrivate::update()
 {
+    emit stateChanged(mState, AuthenticationState::AUTHENTICATING, "Authenticating");
     mJiraClient.myself();
 }
 
-void AuthenticationStatePrivate::settingsUpdated()
+void AuthenticationStatePrivate::settingsCredentialsUpdated()
 {
-    // Check whether anything changed in the settings
-    // since we were last notified
-    bool updateState = false;
-    updateState |= mOldJiraToken != mSettings.secret();
-    updateState |= mOldJiraUsername != mSettings.username();
-    updateState |= mOldJiraHostname != mSettings.hostname();
-    if (updateState) {
-        // One or more fields changed, so we need to update
-        // our authenticated state.
-        mOldJiraHostname = mSettings.hostname();
-        mOldJiraToken = mSettings.secret();
-        mOldJiraUsername = mSettings.username();
-        update();
-    }
+    // JiraClient normally relies on AuthenticationState
+    // to know when it has new credentials. That won't work here,
+    // as we are the the logic behind AuthenticationState, so
+    // we update the credentials for our JiraClient manually here
+    mJiraClient.setUsername(mSettings.username());
+    mJiraClient.setToken(mSettings.secret());
+
+    auto oldState = mState;
+    mState = AuthenticationState::DEAUTHENTICATED;
+    emit stateChanged(oldState, mState, "Credentials changed");
+    update();
 }
 
 void AuthenticationStatePrivate::jiraClientMyselfFinished(QSharedPointer<JiraUser> myself)
 {
     auto oldState = mState;
     mState = AuthenticationState::AUTHENTICATED;
-    emit stateChanged(oldState, mState);
     mSettings.setDisplayName(myself->displayName());
     mSettings.setAccountId(myself->accountId());
     if (!myself->avatarUrls().isEmpty()) {
         auto reply = mNam.get(QNetworkRequest(QUrl(myself->avatarUrls().last())));
         QObject::connect(reply, &QNetworkReply::finished,
-                         [this, reply] {
+                         [this, reply, oldState] {
                              QByteArray bytes = reply->readAll();
                              this->mSettings.setAvatar(QImage::fromData(bytes));
+                             emit stateChanged(oldState, mState, "Successfully authenticated");
                          });
+    } else {
+        emit stateChanged(oldState, mState, "Successfully authenticated");
     }
 }
 
@@ -65,8 +65,9 @@ void AuthenticationStatePrivate::jiraClientMyselfFailed(int httpCode, QNetworkRe
     qWarning()  << "[AuthenticationStatePrivate] myself request failed with http code" << httpCode << ":" << error << message;
     auto oldState = mState;
     mState = AuthenticationState::DEAUTHENTICATED;
-    mSettings.setDisplayName("");
-    mSettings.setAccountId("");
-    mSettings.setAvatar(QImage());
-    emit stateChanged(oldState, mState);
+    mSettings.unsetDisplayName();
+    mSettings.unsetAccountId();
+    mSettings.unsetAvatar();
+
+    emit stateChanged(oldState, mState, QString("%1 %2").arg(httpCode).arg(message));
 }

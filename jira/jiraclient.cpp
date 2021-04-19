@@ -7,9 +7,9 @@
 JiraClient::JiraClient()
 {
     mNam = QSharedPointer<QNetworkAccessManager>(new QNetworkAccessManager());
-    settingsUpdated(); // Read settings
-    QObject::connect(&mSettings, &Settings::updated,
-                     this, &JiraClient::settingsUpdated);
+    settingsCredentialsUpdated(); // Read settings
+    QObject::connect(&mSettings, &Settings::credentialsUpdated,
+                     this, &JiraClient::settingsCredentialsUpdated);
 }
 
 void JiraClient::setUsername(const QString username)
@@ -134,7 +134,7 @@ void JiraClient::search(const QString query, int startAt, int maxResults)
 
 }
 
-void JiraClient::settingsUpdated()
+void JiraClient::settingsCredentialsUpdated()
 {
     setUsername(mSettings.username());
     setToken(mSettings.secret());
@@ -169,6 +169,9 @@ QNetworkReply* JiraClient::delete_request(QUrl url) {
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     req.setRawHeader("Accept", "application/json");
     req.setRawHeader("Authorization", authorization);
+#if QT_VERSION >= 0x050F00
+    req.setTransferTimeout(TRANSFER_TIMEOUT_MS);
+#endif
 
     QNetworkReply *reply = mNam->deleteResource(req);
 
@@ -182,6 +185,9 @@ QNetworkReply* JiraClient::post(QUrl url, QByteArray data) {
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     req.setRawHeader("Accept", "application/json");
     req.setRawHeader("Authorization", authorization);
+#if QT_VERSION >= 0x050F00
+    req.setTransferTimeout(TRANSFER_TIMEOUT_MS);
+#endif
 
     QNetworkReply *reply = mNam->post(req, data);
 
@@ -194,6 +200,9 @@ QNetworkReply* JiraClient::get(QUrl url) {
     req.setUrl(url);
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     req.setRawHeader("Authorization", authorization);
+#if QT_VERSION >= 0x050F00
+    req.setTransferTimeout(TRANSFER_TIMEOUT_MS);
+#endif
 
     QNetworkReply *reply = mNam->get(req);
 

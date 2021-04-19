@@ -4,6 +4,8 @@ TotalCalculatorPrivate::TotalCalculatorPrivate(QString query, QDate firstDate) :
 {
     mTotal = 0;
     mIssueWorklogRequestCount = 0;
+    QObject::connect(&mJiraClient, &JiraClient::searchFailed,
+                     this, &TotalCalculatorPrivate::jiraClientSearchFailed);
     QObject::connect(&mJiraClient, &JiraClient::searchFinished,
                      this, &TotalCalculatorPrivate::jiraClientSearchFinished);
     QObject::connect(&mJiraClient, &JiraClient::issueWorklogsFinished,
@@ -16,6 +18,7 @@ TotalCalculatorPrivate::~TotalCalculatorPrivate()
 
 void TotalCalculatorPrivate::calculate()
 {
+    qDebug() << "[TotalCalculatorPrivate] Recalculating with query" << mQuery;
     mJiraClient.search(mQuery);
 }
 
@@ -25,6 +28,15 @@ void TotalCalculatorPrivate::jiraClientSearchFinished(QList<QSharedPointer<Abstr
     foreach(QSharedPointer<AbstractIssue> issue, issues) {
         mJiraClient.issueWorklogs(issue);
     }
+}
+
+void TotalCalculatorPrivate::jiraClientSearchFailed(int httpCode, QNetworkReply::NetworkError error, QString errorMessage)
+{
+    Q_UNUSED(httpCode);
+    Q_UNUSED(error);
+    Q_UNUSED(errorMessage);
+    mTotal = 0;
+    emit updated(mTotal);
 }
 
 void TotalCalculatorPrivate::jiraClientIssueWorklogsFinished(QList<QSharedPointer<JiraWorklog> > worklogs)

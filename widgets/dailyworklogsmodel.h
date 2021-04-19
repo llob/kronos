@@ -8,6 +8,7 @@
 #include "settings/settings.h"
 #include "utils/recentissues.h"
 #include "cache/issuecache.h"
+#include "authentication/authenticationstate.h"
 
 class DailyWorklogsModel : public QObject
 {
@@ -19,6 +20,7 @@ private:
     QDate mCurrentDate;
     Settings mSettings;
     RecentIssues mRecentIssues;
+    AuthenticationState mAuthenticationState;
 public:
     DailyWorklogsModel(QSharedPointer<JiraClient> jiraClient);
     QList<QSharedPointer<JiraWorklog>> worklogs() const;
@@ -40,6 +42,9 @@ public slots:
 
     void deleteWorklogFinished(bool success);
     void deleteWorklogFailed(int httpCode, QNetworkReply::NetworkError error, QString message);
+
+    void authenticationStateChanged(AuthenticationState::State oldState, AuthenticationState::State newState, const QString message);
+    void clear();
 signals:
     void updated();
 };

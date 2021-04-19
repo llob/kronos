@@ -16,8 +16,6 @@ WorklogDialog::WorklogDialog(QWidget *parent) :
     ui->searchResultsListView->setItemDelegate(mItemDelegate);
     mSearchTimer.setSingleShot(true);
     setupConnections();
-    // Populate results list with default search results
-    search();
 }
 
 WorklogDialog::~WorklogDialog()

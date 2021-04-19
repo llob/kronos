@@ -14,7 +14,6 @@ bool JiraWorklog::fromJson(const QVariantMap json)
     // Parse the "author" object
     QVariant authorNode = json.value("author");
     if (!authorNode.canConvert<QVariantMap>()) {
-        qDebug() << "[JiraResponseWorklog] Failed to convert author to map";
         return false;
     }
     QVariantMap author = authorNode.toMap();

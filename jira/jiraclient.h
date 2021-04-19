@@ -14,6 +14,9 @@
 #include "settings/settings.h"
 #include "cache/issuecache.h"
 
+#define TRANSFER_TIMEOUT_MS 5000
+
+
 class JiraClient : public QObject
 {
     Q_OBJECT
@@ -47,6 +50,7 @@ public:
     void issueWorklogs(QSharedPointer<AbstractIssue> issue);
     void search(const QString query, int startAt = 0, int maxResults = 20);
     QNetworkReply *delete_request(QUrl url);
+
 signals:
     void searchFinished(QList<QSharedPointer<AbstractIssue>> issues);
     void searchFailed(int httpCode, QNetworkReply::NetworkError error, QString errorMessage);
@@ -64,7 +68,7 @@ signals:
     void issueWorklogsFailed(int httpCode, QNetworkReply::NetworkError error, QString errorMessage);
 
 private slots:
-    void settingsUpdated();
+    void settingsCredentialsUpdated();
 };
 
 #endif // JIRACLIENT_H

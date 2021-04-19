@@ -24,6 +24,7 @@ SOURCES += \
     $$PWD/settings/settingsprivate.cpp \
     $$PWD/tray/trayiconcontroller.cpp \
     $$PWD/utils/colors.cpp \
+    $$PWD/utils/images.cpp \
     $$PWD/utils/monthlytotalcalculator.cpp \
     $$PWD/utils/recentissues.cpp \
     $$PWD/utils/totalcalculatorprivate.cpp \
@@ -57,6 +58,7 @@ HEADERS += \
     $$PWD/tray/trayiconcontroller.h \
     $$PWD/utils/colors.h \
     $$PWD/utils/condition.h \
+    $$PWD/utils/images.h \
     $$PWD/utils/monthlytotalcalculator.h \
     $$PWD/utils/recentissues.h \
     $$PWD/utils/totalcalculatorprivate.h \
@@ -66,4 +68,5 @@ HEADERS += \
     $$PWD/worklogdialoglistmodel.h
 
 INCLUDEPATH += $$PWD
+PRECOMPILED_HEADER += $$PWD/stable.h
 

@@ -48,7 +48,7 @@ signals:
      * @param oldState The previous authentication state
      * @param newState The new (current) authentication state
      */
-    void stateChanged(AuthenticationState::State oldState, AuthenticationState::State newState);
+    void stateChanged(AuthenticationState::State oldState, AuthenticationState::State newState, const QString message);
 };
 
 #endif // AUTHENTICATIONSTATE_H

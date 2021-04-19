@@ -11,6 +11,14 @@ void TotalCalculator::search(QString query)
 
 TotalCalculator::TotalCalculator() : QObject()
 {
+    QObject::connect(&mAuthenticationState, &AuthenticationState::stateChanged,
+        [this] (AuthenticationState::State oldState, AuthenticationState::State newState, const QString message) {
+            Q_UNUSED(oldState);
+            Q_UNUSED(message);
+            if (newState == AuthenticationState::AUTHENTICATED) {
+                this->update();
+            }
+        });
 }
 
 

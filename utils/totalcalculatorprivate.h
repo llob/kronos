@@ -30,12 +30,14 @@ private:
 public:
     explicit TotalCalculatorPrivate(QString query, QDate firstDate);
     virtual ~TotalCalculatorPrivate();
+public slots:
     void calculate();
 signals:
     void updated(int seconds);
 private slots:
     void jiraClientIssueWorklogsFinished(QList<QSharedPointer<JiraWorklog> > worklogs);
     void jiraClientSearchFinished(QList<QSharedPointer<AbstractIssue> > issues);
+    void jiraClientSearchFailed(int httpCode, QNetworkReply::NetworkError error, QString errorMessage);
 };
 
 #endif // TOTALCALCULATORPRIVATE_H
