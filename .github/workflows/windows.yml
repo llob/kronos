@@ -14,7 +14,7 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
-        tools: 'tools_ifw,4.0,qt.tools.ifw.40 tools_qtcreator,4.13.2-0,qt.tools.qtcreator'
+        tools: 'tools_ifw,4.0,qt.tools.ifw.40 tools_qtcreator,4.14.2-0-202103191046,qt.tools.qtcreator'
         arch: win64_mingw81
         version: '5.15.2'
     - name: Build Kronos
@@ -49,6 +49,8 @@ jobs:
       run: |
         echo %IQTA_TOOLS%
         dir %IQTA_TOOLS%
+        dir D:\a\kronos\
+        dir D:\a\kronos\Qt\
         dir D:\a\kronos\Qt\Tools\
         dir D:\a\kronos\Qt\Tools\QtInstallerFramework
         D:\a\kronos\Qt\Tools\QtInstallerFramework\4.0\bin\binarycreator.exe -c config\config.xml -p packages ..\..\..\kronos-installer.exe
