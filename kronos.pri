@@ -68,4 +68,5 @@ HEADERS += \
     $$PWD/worklogdialoglistmodel.h
 
 INCLUDEPATH += $$PWD
+PRECOMPILED_HEADER += $$PWD/stable.h
 
