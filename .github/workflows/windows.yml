@@ -14,6 +14,9 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
+        # Latest versions of these tools can be found at:
+        # https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_qtcreator/qt.tools.qtcreator/
+        # https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_ifw/
         tools: 'tools_ifw,4.0,qt.tools.ifw.40 tools_qtcreator,4.14.2-0-202103191046,qt.tools.qtcreator'
         arch: win64_mingw81
         version: '5.15.2'
@@ -46,14 +49,10 @@ jobs:
     - name: Generate installer
       working-directory: packages/windows-installer/kronos
       shell: cmd
+      # If the Qt Installer framework version is updated above,
+      # this path needs updating
       run: |
-        echo %IQTA_TOOLS%
-        dir %IQTA_TOOLS%
-        dir D:\a\kronos\
-        dir D:\a\kronos\Qt\
-        dir D:\a\kronos\Qt\Tools\
-        dir D:\a\kronos\Qt\Tools\QtInstallerFramework
-        D:\a\kronos\Qt\Tools\QtInstallerFramework\4.0\bin\binarycreator.exe -c config\config.xml -p packages ..\..\..\kronos-installer.exe
+        D:\a\kronos\Qt\Tools\QtInstallerFramework\4.1\bin\binarycreator.exe -c config\config.xml -p packages ..\..\..\kronos-installer.exe
     - name: Save installer as artifact
       uses: actions/upload-artifact@v2
       with:
