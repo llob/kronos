@@ -30,6 +30,7 @@ private:
     QMap<QString, PJiraWorklog> dailyWorklogs(QDate date) const;
     void setDailyWorklogs(QDate date, QMap<QString, PJiraWorklog> worklogs);
     void clearMonthlyWorklogData(const QDate date);
+    void setupCurrentDateButton();
 private slots:
     void jiraClientSearchFinished(QList<QSharedPointer<AbstractIssue>> issues);
     void jiraClientIssueWorklogsFinished(QList<QSharedPointer<JiraWorklog>> worklogs);

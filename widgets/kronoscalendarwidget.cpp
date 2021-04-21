@@ -62,7 +62,7 @@ void KronosCalendarWidget::authenticationStateChanged(AuthenticationState::State
     }
 }
 
-KronosCalendarWidget::KronosCalendarWidget()
+KronosCalendarWidget::KronosCalendarWidget() : QCalendarWidget()
 {
 
     QString ss = "#qt_calendar_prevmonth {"
@@ -77,12 +77,46 @@ KronosCalendarWidget::KronosCalendarWidget()
                  "}"
                  "QCalendarWidget QWidget#qt_calendar_navigationbar {"
                  "  background-color: rgb(255, 67, 101);"
+                 "}"
+                 "#qt_calendar_calendarview"
+                 "{"
+                 "  selection-background-color: rgb(183, 173, 153);"
+                 "  selection-color: rgb(3, 3, 1);"
+                 "}"
+                 "#kronos_calendar_today_button"
+                 "{"
+                 "  background-color: rgb(255, 255, 255);"
+                 "  background: white;"
+                 "  color: rgb(0, 217, 192);"
                  "}";
     setStyleSheet(ss);
     setupConnections();
-
+    setupCurrentDateButton();
     setSelectedDate(QDate::currentDate());
     updateWorklogData(selectedDate());
+}
+
+void KronosCalendarWidget::setupCurrentDateButton()
+{
+    // Get layout from navigation bar in QCalendarWidget
+    QHBoxLayout *l = qobject_cast<QHBoxLayout*>(this->findChild<QWidget*>("qt_calendar_navigationbar")->layout());
+    // Find an existing button to copy its height
+    auto buttonHeight = this->findChild<QWidget*>("qt_calendar_prevmonth")->height();
+
+    // Create and style button
+    auto button = new QPushButton("Today");
+    button->setFlat(true);
+    button->setObjectName("kronos_calendar_today_button");
+    button->setMinimumHeight(buttonHeight);
+    QObject::connect(button, &QPushButton::clicked,
+        [this] {
+            this->showToday();
+            this->setSelectedDate(QDate::currentDate());
+        });
+
+    // Add it to the layout, right after
+    // previous month button
+    l->insertWidget(1, button);
 }
 
 void KronosCalendarWidget::setupConnections()
