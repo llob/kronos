@@ -330,6 +330,53 @@
        </item>
        <item>
         <widget class="QScrollArea" name="scrollArea">
+         <property name="styleSheet">
+          <string notr="true">    QScrollArea {
+        border: none;
+		margin: 0px 0px 0px 0px;
+		padding: 0px 0px 0px 0px;
+
+    }
+
+    QScrollBar {
+		background: rgb(255, 255, 255);
+        border-radius: 10px;
+    }
+
+    QScrollBar:horizontal {
+        height: 13px;
+    }
+
+    QScrollBar:vertical {
+        width: 20px;
+		margin: 5px;
+    }
+
+    QScrollBar::handle {
+        background: rgb(183, 173, 153);
+        border-radius: 5px;
+    }
+
+    QScrollBar::handle:horizontal {
+        height: 25px;
+        min-width: 10px;
+    }
+
+    QScrollBar::handle:vertical {
+        width: 15px;
+        min-height: 10px;
+    }
+
+    QScrollBar::add-line {
+        border: none;
+        background: none;
+    }
+
+    QScrollBar::sub-line {
+        border: none;
+        background: none;
+    }</string>
+         </property>
          <property name="verticalScrollBarPolicy">
           <enum>Qt::ScrollBarAlwaysOn</enum>
          </property>
@@ -341,8 +388,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>411</width>
-            <height>490</height>
+            <width>410</width>
+            <height>492</height>
            </rect>
           </property>
          </widget>
