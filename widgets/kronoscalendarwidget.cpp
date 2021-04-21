@@ -1,6 +1,7 @@
 #include "kronoscalendarwidget.h"
 #include <QPainter>
 #include <QHBoxLayout>
+#include <QPushButton>
 #include "utils/colors.h"
 #include "jira/jirautils.h"
 
