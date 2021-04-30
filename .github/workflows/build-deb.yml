@@ -1,0 +1,25 @@
+name: Create a Debian package from the Kronos binary
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install qt
+      run: sudo apt-get install qt5-default libqt5svg5 libqt5svg5-dev debhelper devscripts build-essential
+    - name: Build kronos and create .deb file
+      run: sudo debuild -uc -us && mv ../kronos_1.0_amd64.deb .
+    - name: Save resulting package as an artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: kronos_1.0_amd64.deb
+        path: kronos_1.0_amd64.deb
+

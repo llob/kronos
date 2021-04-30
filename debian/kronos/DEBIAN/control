@@ -1,0 +1,13 @@
+Package: kronos
+Version: 1.0
+Architecture: amd64
+Maintainer: Soeren Boll Overgaard <soren@overgaard.org>
+Installed-Size: 506
+Depends: libc6 (>= 2.14), libgcc-s1 (>= 3.0), libqt5core5a (>= 5.12.2), libqt5gui5 (>= 5.3.0) | libqt5gui5-gles (>= 5.3.0), libqt5network5 (>= 5.0.2), libqt5svg5 (>= 5.6.0~beta), libqt5widgets5 (>= 5.3.0), libstdc++6 (>= 4.1.1)
+Section: misc
+Priority: optional
+Description: Easy to use and fast desktop frontend for logging hours in Jira
+  Friendly and fast frontend for logging hours in Jira. Notable features include:
+  - Rapid time logging via calendar-style blocks
+  - Fast issue search end reuse of recently used issues
+  - A happy color scheme to brighten your day
