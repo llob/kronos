@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-mauals/copyright-format/1.0/
+Upstream-Name: kronos
+Upstream-Contact: Soeren Boll Overgaard <soren@overgaard.org>
+Source: https://github.com/llob/kronos
+
+Files: *
+Copyright: 2020-2021 Soeren Boll Overgaard <soren@overgaard.org>
+License: GPL-3

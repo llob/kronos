@@ -1,0 +1,13 @@
+Package: kronos-dbgsym
+Package-Type: ddeb
+Source: kronos
+Version: 1.0
+Auto-Built-Package: debug-symbols
+Architecture: amd64
+Maintainer: Soeren Boll Overgaard <soren@overgaard.org>
+Installed-Size: 7235
+Depends: kronos (= 1.0)
+Section: debug
+Priority: optional
+Description: debug symbols for kronos
+Build-Ids: aef9a24b3acf34e87e1f9851a35446adce0b0ebc
