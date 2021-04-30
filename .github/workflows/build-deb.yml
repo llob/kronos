@@ -1,4 +1,4 @@
-name: Create a snap from the Kronos binary
+name: Create a Debian package from the Kronos binary
 
 on:
   push:
