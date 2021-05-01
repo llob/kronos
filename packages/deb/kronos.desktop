@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Exec=/opt/kronos/bin/kronos
+Name=Kronos
+Icon=/opt/kronos/resources/logo.png

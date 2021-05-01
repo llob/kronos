@@ -1,0 +1,2 @@
+resources/logo/logo.png opt/kronos/resources/
+packages/deb/kronos.desktop usr/share/applications/
