@@ -59,3 +59,9 @@ packages/windows-installer/kronos/packages/dk.fork.kronos/data/kronos.exe
 
 debug.log
 
+# Debian stuff
+debian/files
+debian/kronos
+debian/kronos.substvars
+debian/.debhelper
+kronos

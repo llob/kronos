@@ -12,6 +12,6 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Easy to use and fast desktop frontend for logging work in Jira
  Friendly and fast frontend for logging hours in Jira. Notable features 
  include:
- - Rapid time logging via calendar-style blocks
- - Fast issue search end reuse of recently used issues
- - A happy color scheme to brighten your day
+  - Rapid time logging via calendar-style blocks
+  - Fast issue search end reuse of recently used issues
+  - A happy color scheme to brighten your day
