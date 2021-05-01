@@ -56,3 +56,6 @@ tests/test-executables
 
 # Executable copied during installer generation
 packages/windows-installer/kronos/packages/dk.fork.kronos/data/kronos.exe
+
+debug.log
+
