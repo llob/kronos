@@ -9,8 +9,42 @@
 #include "worklogdialog.h"
 #include "deleteconfirmationdialog.h"
 
+class DailyWorklogs;
+
+class RegistrationRect : public QObject {
+
+    friend DailyWorklogs;
+
+public:
+    enum State {
+        DEFAULT,
+        MOUSE_OVER
+    };
+private:
+    DailyWorklogs *mDailyWorklogs;
+    QSharedPointer<JiraWorklog> mWorklog;
+    DailyWorklogsModel *mModel;
+    State mState;
+    QRect mCloseButtonRect;
+    QPoint startedPos() const;
+    QPoint endedPos() const;
+    QRect rect() const;
+    QRect closeButtonRect() const;
+    void draw(QPaintEvent *event, QPoint topLeft, QPoint bottomRight, QString text, bool drawDeleteButton);
+public:
+    RegistrationRect(QSharedPointer<JiraWorklog> worklog, DailyWorklogsModel *model, DailyWorklogs *dailyWorklogs);
+    void paintEvent(QPaintEvent *event) ;
+    void mousePressEvent(QMouseEvent *event) ;
+    void mouseReleaseEvent(QMouseEvent *event) ;
+    void mouseMoveEvent(QMouseEvent *event) ;
+};
+
+typedef QSharedPointer<RegistrationRect> PRegistrationRect;
+
 class DailyWorklogs : public QWidget
 {
+    friend RegistrationRect;
+
     Q_OBJECT
 private:
     void drawTimes(QPaintEvent *event);
@@ -19,22 +53,22 @@ private:
     QPoint mRegistrationInProgressStartPos;
     QTime mRegistrationInProgressStartTime;
     QTime mRegistrationInProgressEndTime;
+    QSharedPointer<RegistrationRect> mRegistrationInProgressRect;
     QPoint mCurrentMousePos;
     QDate mDate;
     DailyWorklogsModel *mModel;
     WorklogDialog *mRegistrationDialog;
     DeleteConfirmationDialog *mDeleteConfirmationDialog;
-    bool mWorking;
-
     QTime timeFromPos(QPoint pos);
     QPoint posFromTime(QTime time);
+    QList<QSharedPointer<RegistrationRect>> mRegistrationRects;
 
     int pixelsPerHour();
     void drawRegistrations(QPaintEvent *event);
-    void drawRegistrationRect(QPaintEvent *event, QPoint topLeft, QPoint bottomRight, QString text);
+    //void drawRegistrationRect(QPaintEvent *event, QPoint topLeft, QPoint bottomRight, QString text, bool drawDeleteButton);
     QSharedPointer<JiraWorklog> worklogFromPos(QPoint pos);
     QTime round(const QTime time);
-    void drawWorkingOverlay(QPaintEvent *event);
+
     /**
      * @brief lastWorklogEndTimeBefore Get the end time of the last worklog
      *  which has endtime before the specified time
@@ -49,11 +83,11 @@ private:
      * @return Start time of located worklog or 00:00:00 if no matching worklogs were found
      */
     QTime firstWorklogStartTimeAfter(QTime time);
+    void showDeleteConfirmationDialog(PJiraWorklog worklog);
 public:
     explicit DailyWorklogs(DailyWorklogsModel *model, QDate date, QWidget *parent = nullptr);
     void setCurrentDate(const QDate date);
     QDate currentDate() const;
-    void setWorking(bool working);
 
 protected:
     void paintEvent(QPaintEvent *event) override;

@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QSharedPointer>
 #include "jira/jiraworklog.h"
+#include "cache/issuecache.h"
 
 namespace Ui {
 class DeleteConfirmationDialog;
@@ -21,6 +22,7 @@ public:
 private:
     Ui::DeleteConfirmationDialog *ui;
     QSharedPointer<JiraWorklog> mWorklog;
+    IssueCache mIssueCache;
 };
 
 #endif // DELETECONFIRMATIONDIALOG_H
