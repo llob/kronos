@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QPixmap>
+#include <QRegExp>
 #include "ui_mainwindow.h"
 #include "widgets/dailyworklogs.h"
 #include "settings/settings.h"
@@ -69,6 +70,7 @@ void MainWindow::setupCredentials()
     ui->jiraUsernameLineEdit->setText(mSettings.username());
     ui->jiraTokenLineEdit->setText(mSettings.secret());
     ui->jiraHostnameLineEdit->setText(mSettings.hostname());
+    ui->jiraHostnameLineEdit->setValidator(new JiraHostnameValidator());
     if (mSettings.hasAvatar()) {
         this->setAvatar(mSettings.avatar());
     }
@@ -231,4 +233,19 @@ void MainWindow::setupDailyRegistrations()
         ui->scrollArea);
     ui->scrollArea->setWidget(mDailyWorklogs);
     ui->scrollArea->ensureVisible(0, 300);
+}
+
+
+QValidator::State JiraHostnameValidator::validate(QString &hostname, int &) const
+{
+    // Technically, this does not match the only
+    // the list of valid hostnames, but it is good
+    // enough, and users do weird things in their local
+    // DNS setups, so we don't want to get in way of that
+    QRegExp re("^[\\w\\.\\-]{0,255}$");
+    if (re.exactMatch(hostname)) {
+        return QValidator::Acceptable;
+    } else {
+        return QValidator::Invalid;
+    }
 }

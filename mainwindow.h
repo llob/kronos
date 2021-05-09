@@ -18,6 +18,16 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+/**
+ * @brief The JiraHostnameValidator class helps validate
+ *  that Jira hostnames entered are valid. Users appear to
+ *  want to enter URLs
+ */
+class JiraHostnameValidator : public QValidator {
+public:
+    State validate(QString &, int &) const override;
+};
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -48,6 +58,7 @@ private:
     void setAvatar(QPixmap pixmap);
     void showCredentials(bool visible);
     void updateVisibilityPushButtonIcon();
+
 private slots:
     void setCurrentDate(QDate currentDate);
     void monthlyTotalCalculatorUpdated(int seconds);
