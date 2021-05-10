@@ -19,7 +19,7 @@ DailyWorklogs::DailyWorklogs(DailyWorklogsModel *model, QDate date, QWidget *par
     setMouseTracking(true);
     mRegistrationDialog = new WorklogDialog(this);
     mDeleteConfirmationDialog = new DeleteConfirmationDialog(this);
-    mRegistrationInProgressRect = PRegistrationRect(new RegistrationRect(nullptr, mModel, this));
+    mRegistrationInProgressRect = PRegistrationRect(new WorklogRect(nullptr, mModel, this));
 
     QObject::connect(this, &DailyWorklogs::worklogAdded,
                      mModel, &DailyWorklogsModel::addWorklog);
@@ -55,43 +55,6 @@ QDate DailyWorklogs::currentDate() const
 int DailyWorklogs::pixelsPerHour() {
     return height()/24;
 }
-/*
-void DailyWorklogs::drawRegistrationRect(QPaintEvent *event,
-                                         QPoint topLeft,
-                                         QPoint bottomRight,
-                                         QString text, bool drawDeleteButton) {
-    Q_UNUSED(event);
-    QPainter painter(this);
-    QRect rect(topLeft, bottomRight);
-    QPainterPath path;
-    path.addRoundedRect(rect, 10, 10);
-    QPen pen(Colors::khakiWeb(), 1);
-    painter.setPen(pen);
-    painter.setOpacity(1.0);
-    painter.fillPath(path, Colors::radicalRed());
-    painter.drawPath(path);
-
-    painter.setPen(Colors::ivory());
-    painter.setOpacity(1.0);
-    painter.drawText(rect.adjusted(5, 5, -5, -5), Qt::AlignLeft|Qt::AlignTop, text);
-
-    // Draw the delete button
-    if (drawDeleteButton) {
-        qDebug() << "Drawing delete button";
-        int crossWidth = 6;
-        int crossOffsetX = -8; // Offset from upper right corner of rect
-        int crossOffsetY = 4;
-        painter.drawLine(bottomRight.x() + crossOffsetX,
-                         topLeft.y() + crossOffsetY,
-                         bottomRight.x()-crossWidth + crossOffsetX,
-                         topLeft.y()+crossWidth + crossOffsetY);
-        painter.drawLine(bottomRight.x() + crossOffsetX,
-                         topLeft.y()+crossWidth + crossOffsetY,
-                         bottomRight.x()-crossWidth + crossOffsetX,
-                         topLeft.y() + crossOffsetY);
-    }
-}
-*/
 
 QTime DailyWorklogs::round(const QTime time) {
     int pastRounding = time.minute() % 15;
@@ -207,7 +170,7 @@ void DailyWorklogs::drawTimes(QPaintEvent *event) {
 
 void DailyWorklogs::drawRegistrations(QPaintEvent *event)
 {
-    foreach (QSharedPointer<RegistrationRect> registrationRect, mRegistrationRects)
+    foreach (QSharedPointer<WorklogRect> registrationRect, mRegistrationRects)
     {
         registrationRect->paintEvent(event);
     }
@@ -284,13 +247,13 @@ void DailyWorklogs::modelUpdated()
     mRegistrationRects.clear();
     foreach (PJiraWorklog worklog, mModel->worklogs())
     {
-        PRegistrationRect rect(new RegistrationRect(worklog, mModel, this));
+        PRegistrationRect rect(new WorklogRect(worklog, mModel, this));
         mRegistrationRects.append(rect);
     }
     repaint();
 }
 
-QPoint RegistrationRect::startedPos() const
+QPoint WorklogRect::startedPos() const
 {
     if (mWorklog.isNull())
     {
@@ -304,7 +267,7 @@ QPoint RegistrationRect::startedPos() const
     return pos;
 }
 
-QPoint RegistrationRect::endedPos() const
+QPoint WorklogRect::endedPos() const
 {
     if (mWorklog.isNull())
     {
@@ -320,17 +283,17 @@ QPoint RegistrationRect::endedPos() const
 
 }
 
-QRect RegistrationRect::rect() const
+QRect WorklogRect::rect() const
 {
     return QRect(startedPos(), endedPos());
 }
 
-QRect RegistrationRect::closeButtonRect() const
+QRect WorklogRect::closeButtonRect() const
 {
     return mCloseButtonRect;
 }
 
-void RegistrationRect::draw(QPaintEvent *event, QPoint topLeft, QPoint bottomRight, QString text, bool drawDeleteButton)
+void WorklogRect::draw(QPaintEvent *event, QPoint topLeft, QPoint bottomRight, QString text, bool drawDeleteButton)
 {
     Q_UNUSED(event);
     QPainter painter(mDailyWorklogs);
@@ -349,7 +312,6 @@ void RegistrationRect::draw(QPaintEvent *event, QPoint topLeft, QPoint bottomRig
 
     // Draw the delete button
     if (drawDeleteButton) {
-        qDebug() << "Drawing delete button";
         int crossWidth = 6;
         int crossOffsetX = -8; // Offset from upper right corner of rect
         int crossOffsetY = 4;
@@ -372,22 +334,15 @@ void RegistrationRect::draw(QPaintEvent *event, QPoint topLeft, QPoint bottomRig
     }
 }
 
-RegistrationRect::RegistrationRect(QSharedPointer<JiraWorklog> worklog, DailyWorklogsModel *model, DailyWorklogs *dailyWorklogs) : mState(DEFAULT)
+WorklogRect::WorklogRect(QSharedPointer<JiraWorklog> worklog, DailyWorklogsModel *model, DailyWorklogs *dailyWorklogs) : mState(DEFAULT)
 {
     mWorklog = worklog;
     mModel = model;
     mDailyWorklogs = dailyWorklogs;
 }
 
-void RegistrationRect::paintEvent(QPaintEvent *event)
+void WorklogRect::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(event);/*
-    QPainter painter(mDailyWorklogs);
-
-    QDateTime started = mWorklog->started();
-    QDateTime ended = started.addSecs(mWorklog->timeSpentSeconds());
-    QPoint startedPos = mDailyWorklogs->posFromTime(started.time());
-    startedPos.setX(50);*/
     QString issueStr;
     if (!mWorklog.isNull()) {
         QSharedPointer<AbstractIssue> issue = mModel->issueById(mWorklog->issueId());
@@ -395,46 +350,39 @@ void RegistrationRect::paintEvent(QPaintEvent *event)
             qWarning() << "Failed to retrieve issue with id" << mWorklog->issueId();
             return;
         }
-        issue->toString();
+        issueStr = issue->toString();
     }
 
-    //QPoint endedPos = mDailyWorklogs->posFromTime(ended.time());
-    //endedPos.setX(width() - 10);
     bool drawCloseButton = mState == MOUSE_OVER;
     draw(event, startedPos(), endedPos(), issueStr, drawCloseButton);
 }
 
-void RegistrationRect::mousePressEvent(QMouseEvent *event)
+void WorklogRect::mousePressEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
 }
 
-void RegistrationRect::mouseReleaseEvent(QMouseEvent *event)
+void WorklogRect::mouseReleaseEvent(QMouseEvent *event)
 {
-    Q_UNUSED(event);
     if (mCloseButtonRect.contains(event->pos()))
     {
         mDailyWorklogs->showDeleteConfirmationDialog(mWorklog);
     }
 }
 
-void RegistrationRect::mouseMoveEvent(QMouseEvent *event)
+void WorklogRect::mouseMoveEvent(QMouseEvent *event)
 {
-    QPoint mousePos = event->pos(); // DailyWorklogs coordinates
+    QPoint mousePos = event->pos(); // DailyWorklogs coordinate system
     auto oldState = mState;
     if (rect().contains(mousePos)) {
-        qDebug() << "Mouse over";
         mState = MOUSE_OVER;
         if (mCloseButtonRect.contains(mousePos))
         {
-            qDebug() << "Custom cursor";
             mDailyWorklogs->setCursor(Qt::PointingHandCursor);
         } else {
-            qDebug() << "Default cursor";
             mDailyWorklogs->setCursor(QCursor());
         }
     } else {
-        qDebug() << "DEFAULT";
         mState = DEFAULT;
     }
 

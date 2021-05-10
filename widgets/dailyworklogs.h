@@ -11,7 +11,11 @@
 
 class DailyWorklogs;
 
-class RegistrationRect : public QObject {
+/**
+ * @brief The WorklogRect class represents a single rectangle
+ *  which in turn represents a worklog
+ */
+class WorklogRect : public QObject {
 
     friend DailyWorklogs;
 
@@ -32,18 +36,18 @@ private:
     QRect closeButtonRect() const;
     void draw(QPaintEvent *event, QPoint topLeft, QPoint bottomRight, QString text, bool drawDeleteButton);
 public:
-    RegistrationRect(QSharedPointer<JiraWorklog> worklog, DailyWorklogsModel *model, DailyWorklogs *dailyWorklogs);
+    WorklogRect(QSharedPointer<JiraWorklog> worklog, DailyWorklogsModel *model, DailyWorklogs *dailyWorklogs);
     void paintEvent(QPaintEvent *event) ;
     void mousePressEvent(QMouseEvent *event) ;
     void mouseReleaseEvent(QMouseEvent *event) ;
     void mouseMoveEvent(QMouseEvent *event) ;
 };
 
-typedef QSharedPointer<RegistrationRect> PRegistrationRect;
+typedef QSharedPointer<WorklogRect> PRegistrationRect;
 
 class DailyWorklogs : public QWidget
 {
-    friend RegistrationRect;
+    friend WorklogRect;
 
     Q_OBJECT
 private:
@@ -53,7 +57,7 @@ private:
     QPoint mRegistrationInProgressStartPos;
     QTime mRegistrationInProgressStartTime;
     QTime mRegistrationInProgressEndTime;
-    QSharedPointer<RegistrationRect> mRegistrationInProgressRect;
+    QSharedPointer<WorklogRect> mRegistrationInProgressRect;
     QPoint mCurrentMousePos;
     QDate mDate;
     DailyWorklogsModel *mModel;
@@ -61,11 +65,10 @@ private:
     DeleteConfirmationDialog *mDeleteConfirmationDialog;
     QTime timeFromPos(QPoint pos);
     QPoint posFromTime(QTime time);
-    QList<QSharedPointer<RegistrationRect>> mRegistrationRects;
+    QList<QSharedPointer<WorklogRect>> mRegistrationRects;
 
     int pixelsPerHour();
     void drawRegistrations(QPaintEvent *event);
-    //void drawRegistrationRect(QPaintEvent *event, QPoint topLeft, QPoint bottomRight, QString text, bool drawDeleteButton);
     QSharedPointer<JiraWorklog> worklogFromPos(QPoint pos);
     QTime round(const QTime time);
 
