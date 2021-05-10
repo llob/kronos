@@ -201,14 +201,7 @@ void DailyWorklogs::showDeleteConfirmationDialog(PJiraWorklog worklog)
 
 void DailyWorklogs::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::RightButton) {
-        auto worklog = worklogFromPos(event->pos());
-        if (worklog) {
-            // Clicked in a worklog, so handle that
-            PJiraWorklog worklog = worklogFromPos(event->pos());
-            showDeleteConfirmationDialog(worklog);
-        }
-    } else if (event->button() == Qt::LeftButton) {
+    if (event->button() == Qt::LeftButton) {
         if (mRegistrationInProgressStartPos.isNull()) {
             foreach (PRegistrationRect rect, mRegistrationRects) {
                 rect->mouseReleaseEvent(event);
