@@ -164,7 +164,7 @@ void KronosCalendarWidget::paintCell(QPainter *painter, const QRect &rect, const
 {
     QMap<QString, PJiraWorklog> dw = dailyWorklogs(date);
     int dailySeconds = 0;
-    foreach (PJiraWorklog worklog, dw.values()) {
+    foreach (PJiraWorklog worklog, dw) {
         dailySeconds += worklog->timeSpentSeconds();
     }
     float dailyHours = dailySeconds / 3600.0;
