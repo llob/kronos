@@ -12,7 +12,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install qt
-      run: sudo apt update && sudo apt install build-essential libgl1-mesa-dev qt6-base-dev
+      run: sudo apt update
+    - run: sudo apt install build-essential libgl1-mesa-dev qt6-base-dev
+    - run: sudo qtchooser -install qt6 $(which qmake6)
     - name: Run qmake for Kronos
       run: qmake
     - name: Build Kronos
