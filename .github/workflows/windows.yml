@@ -28,22 +28,22 @@ jobs:
       shell: cmd
       run: |
         call "D:\a\kronos\Qt\6.7.2\mingw_64\bin\qtenv2.bat"
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat amd64"
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         cd
         where qmake6
         where qmake
         where make
-        qmake6 --version
-        qmake6 -makefile kronos.pro
-        make
+        D:\a\kronos\Qt\6.7.2\mingw_64\bin\qmake6 --version
+        D:\a\kronos\Qt\6.7.2\mingw_64\bin\qmake6 -makefile kronos.pro
+        C:\mingw64\bin\make
     - name: Build unit tests
       shell: cmd
       working-directory: tests
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        qmake6 --version
-        qmake6 -makefile kronos-tests.pro
-        make
+        D:\a\kronos\Qt\6.7.2\mingw_64\bin\qmake6.exe --version
+        D:\a\kronos\Qt\6.7.2\mingw_64\bin\qmake6.exe -makefile kronos-tests.pro
+        C:\mingw64\bin\make.exe
     - name: Copy icon into installer
       shell: cmd
       run: |
