@@ -18,11 +18,11 @@ jobs:
         # https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_qtcreator/qt.tools.qtcreator/
         # https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_ifw/
         tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
-        arch: win64_mingw81
+        arch: win64_mingw
         version: '6.7.*'
         install-deps: 'true'
         setup-python: 'false'
-        modules: 'qtcharts qtwebengine'
+        modules: 'qtgraphs qtcharts qtwebview qt5compat'
         archives: 'qtbase qtsvg'
     - name: Build Kronos
       shell: cmd
