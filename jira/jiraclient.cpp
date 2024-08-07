@@ -40,9 +40,11 @@ QString JiraClient::jqlDate(QDate date) {
     return date.toString("yyyy-MM-dd");
 }
 
+// ATATT3xFfGF0bh47W6QBlgSTi3buOuCeBkusH0fToRkFyu3obQsD5gMGVf4sgv58cNmJ56x1c_JVtemr7
+
 void JiraClient::myself()
 {
-    QUrl u = url("/rest/api/latest/myself");
+    QUrl u = url("/rest/api/2/myself");
     auto reply = get(u);
     QObject::connect(reply, &QNetworkReply::finished,
                      [this, reply] {

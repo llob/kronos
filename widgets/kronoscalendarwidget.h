@@ -48,7 +48,7 @@ public slots:
      */
     void updateWorklogData(QDate d);
 protected:
-    void paintCell(QPainter *painter, const QRect &rect, const QDate &date) const override;
+    void paintCell(QPainter *painter, const QRect &rect, const QDate &date) const;
 };
 
 #endif // KRONOSCALENDARWIDGET_H

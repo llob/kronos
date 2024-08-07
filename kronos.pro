@@ -1,4 +1,4 @@
-QT       += core widgets svg
+QT       += core widgets svg svgwidgets core5compat
 
 CONFIG += c++11
 
