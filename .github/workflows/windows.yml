@@ -28,14 +28,14 @@ jobs:
       shell: cmd
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        qmake
+        qmake6 kronos.pro
         make
     - name: Build unit tests
       shell: cmd
       working-directory: tests
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        qmake kronos-tests.pro
+        qmake6 kronos-tests.pro
         make
     - name: Copy icon into installer
       shell: cmd
