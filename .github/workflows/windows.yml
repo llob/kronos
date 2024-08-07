@@ -38,8 +38,9 @@ jobs:
         where qmake6
         where qmake
         where make
-        D:\a\kronos\Qt\6.7.2\mingw_64\bin\qmake6 --version
-        D:\a\kronos\Qt\6.7.2\mingw_64\bin\qmake6 -makefile kronos.pro
+        D:\a\kronos\Qt\6.7.2\mingw_64\bin\qmake6.exe --version
+        D:\a\kronos\Qt\6.7.2\mingw_64\bin\qmake6.exe -makefile D:\a\kronos\kronos\kronos.pro
+        dir
         C:\mingw64\bin\make
     - name: Build unit tests
       shell: cmd
