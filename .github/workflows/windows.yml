@@ -33,6 +33,7 @@ jobs:
         cd
         cd D:\a\kronos\kronos\
         cd
+        dir
         where qmake6
         where qmake
         where make
