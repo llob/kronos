@@ -35,7 +35,8 @@ jobs:
       working-directory: tests
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        qmake6 kronos-tests.pro
+        qmake6 --version
+        qmake6 -makefile kronos-tests.pro
         make
     - name: Copy icon into installer
       shell: cmd
