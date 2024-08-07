@@ -15,7 +15,7 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QDialog>
-#include <QGraphicsSvgItem>
+//#include <QGraphicsSvgItem>
 #include <QImage>
 #include <QItemSelection>
 #include <QItemSelectionModel>

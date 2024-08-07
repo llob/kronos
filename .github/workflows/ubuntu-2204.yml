@@ -1,0 +1,24 @@
+name: Kronos for Latest Ubuntu
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install qt
+      run: sudo apt update
+    - run: sudo apt install build-essential libgl1-mesa-dev qt6-base-dev libqt6core5compat6-dev libqt6svg6 libqt6svg6-dev libqt6svgwidgets6
+    - run: sudo qtchooser -install qt6 $(which qmake6)
+    - name: Run qmake for Kronos
+      run: qmake6
+    - name: Build Kronos
+      run: make -j8
+    - name: Build unit tests
+      run: cd tests && qmake6 kronos-tests.pro && make -j8
+

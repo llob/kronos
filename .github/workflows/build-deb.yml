@@ -9,12 +9,15 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v2
     - name: Install qt
-      run: sudo apt-get install qt5-default libqt5svg5 libqt5svg5-dev debhelper devscripts build-essential
+      run: sudo apt update
+    - run: sudo apt install debhelper devscripts build-essential libgl1-mesa-dev qt6-base-dev libqt6core5compat6-dev libqt6svg6 libqt6svg6-dev libqt6svgwidgets6
+    - run: sudo qtchooser -install qt6 $(which qmake6)
+    - run: sudo rm /usr/bin/qmake && sudo ln -s /usr/bin/qmake6 /usr/bin/qmake
     - name: Build kronos and create .deb file
       run: sudo debuild -uc -us && mv ../kronos_1.0_amd64.deb .
     - name: Save resulting package as an artifact

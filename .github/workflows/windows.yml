@@ -12,27 +12,49 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install Qt
-      uses: jurplel/install-qt-action@v2
+      uses: jurplel/install-qt-action@v4
       with:
         # Latest versions of these tools can be found at:
         # https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_qtcreator/qt.tools.qtcreator/
         # https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_ifw/
-        tools: 'tools_ifw,4.1,qt.tools.ifw.41 tools_qtcreator,4.14.2-0-202103191046,qt.tools.qtcreator'
-        arch: win64_mingw81
-        version: '5.15.2'
-    - name: Build Kronos
+        tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
+        arch: win64_mingw
+        version: '6.7.*'
+        install-deps: 'true'
+        setup-python: 'false'
+        modules: 'qtgraphs qtcharts qtwebview qt5compat'
+        archives: 'qtbase qtsvg'
+    - name: Debugging funk
       shell: cmd
       run: |
+        D:\a\kronos\Qt\6.7.2\mingw_64\bin\qtenv2.bat
+        D:\a\kronos\Qt\6.7.2\mingw_64\bin\qmake6.exe --help
+    - name: Build Kronos
+      shell: cmd
+      working-directory: D:\a\kronos\kronos
+      run: |
+        call "D:\a\kronos\Qt\6.7.2\mingw_64\bin\qtenv2.bat"
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        qmake
-        make
+        cd
+        cd D:\a\kronos\kronos\
+        cd
+        dir
+        dir D:\a\kronos\Qt\6.7.2\mingw_64\bin\
+        where qmake6
+        where qmake
+        where make
+        D:\a\kronos\Qt\6.7.2\mingw_64\bin\qmake6.exe --version
+        D:\a\kronos\Qt\6.7.2\mingw_64\bin\qmake6.exe -makefile D:\a\kronos\kronos\kronos.pro
+        dir
+        C:\mingw64\bin\make
     - name: Build unit tests
       shell: cmd
       working-directory: tests
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        qmake kronos-tests.pro
-        make
+        D:\a\kronos\Qt\6.7.2\mingw_64\bin\qmake6.exe --version
+        D:\a\kronos\Qt\6.7.2\mingw_64\bin\qmake6.exe -makefile kronos-tests.pro
+        C:\mingw64\bin\make.exe
     - name: Copy icon into installer
       shell: cmd
       run: |
