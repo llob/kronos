@@ -28,7 +28,7 @@ jobs:
       shell: cmd
       run: |
         call "D:\a\kronos\Qt\6.7.2\mingw_64\bin\qtenv2.bat"
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat"
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat amd64"
         cd
         where qmake6
         where qmake
