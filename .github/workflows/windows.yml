@@ -28,6 +28,7 @@ jobs:
       shell: cmd
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        foobar
         qmake6 --version
         qmake6 -makefile kronos.pro
         make
