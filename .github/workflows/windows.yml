@@ -34,6 +34,7 @@ jobs:
         cd D:\a\kronos\kronos\
         cd
         dir
+        dir D:\a\kronos\Qt\6.7.2\mingw_64\bin\
         where qmake6
         where qmake
         where make
