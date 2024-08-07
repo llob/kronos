@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install qt
       run: sudo apt update
-    - run: sudo apt install build-essential libgl1-mesa-dev qt6-base-dev libqt6core5compat6-dev libqt6svg6 libqt6svg6-dev libqt6svgwidgets6
+    - run: sudo apt install debhelper devscripts build-essential libgl1-mesa-dev qt6-base-dev libqt6core5compat6-dev libqt6svg6 libqt6svg6-dev libqt6svgwidgets6
     - run: sudo qtchooser -install qt6 $(which qmake6)
     - name: Build kronos and create .deb file
       run: sudo debuild -uc -us && mv ../kronos_1.0_amd64.deb .
