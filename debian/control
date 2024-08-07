@@ -2,8 +2,8 @@ Source: kronos
 Maintainer: Soeren Boll Overgaard <soren@overgaard.org>
 Section: misc
 Priority: optional
-Standards-Version: 4.5.0
-Build-Depends: debhelper (>= 9), libgl1-mesa-dev,qt6-base-dev,libqt6core5compat6-dev,libqt6svg6,libqt6svg6-dev,libqt6svgwidgets6
+Standards-Version: 4.7.0
+Build-Depends: debhelper (>= 13), libgl1-mesa-dev,qt6-base-dev,libqt6core5compat6-dev,libqt6svg6,libqt6svg6-dev,libqt6svgwidgets6
 Vcs-Browser: https://github.com/llob/kronos
 
 Package: kronos
